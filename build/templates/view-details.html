@@ -1,0 +1,67 @@
+<div id="view_details" class="view-wrapper">
+  <aside class="projects-sidebar">
+    <h2 class="sidebar-title">Projects</h2>
+    <a href="" class="button sidebar-button">Add New Project</a>
+    <ul class="no-bullet sidebar-nav" role="menu">
+      <li>
+        <a href="" role="menuitem">Vestavia 2224</a>
+      </li>
+      <li>
+        <a href="" role="menuitem">Rocky Ridge (Lot 3)</a>
+      </li>
+      <li>
+        <a href="" role="menuitem">Some Other Project</a>
+      </li>
+    </ul>
+  </aside>
+  <section class="project-view-pane grid-block wrap">
+    <div class="medium-7 grid-block details-list">
+      <dl class="dl-horizontal dt-right">
+        <dt>Address</dt>
+        <dd>{{data.address}}</dd>
+        <dt>Client</dt>
+        <dd>Tanner, John
+          <dl class="dl-horizontal dt-left">
+            <dt>Phone</dt>
+            <dd>(205) 555-5555</dd>
+            <dt>Email</dt>
+            <dd class="dd-email"><a href="">me@email.com</a></dd>
+          </dl>
+        </dd>
+        <dt>Date Created</dt>
+        <dd>{{data.dateCreated | date:'MM/dd/yyyy'}}</dd>
+        <dt>Status</dt>
+        <dd>{{data.status}} <span class="warning badge"></span></dd>
+        <dt>Employees</dt>
+        <dd>Tino, Alberto</dd>
+        <dt>Vendor</dt>
+        <dd>Benjamin Moore
+          <dl class="dl-horizontal dt-left">
+            <dt>Address</dt>
+            <dd>1200 Homewood Ave, Homewood, AL 35210</dd>
+            <dt>Phone</dt>
+            <dd>(205) 555-5555</dd>
+          </dl>
+        </dd>
+      </dl>
+    </div>
+    <div class="medium-5 grid-block notes-section">
+      <h3 class="notes-heading">Notes</h3>
+      <a href="" class="add-note-link">Add Note</a>
+      <article class="note-wrapper">
+        <div class="avatar note-avatar"></div>
+        <div class="note-text">
+          <span class="note-author">Armando Castre </span><small class="note-date">01/01/2016 @ 7:15am</small>
+          <p class="note-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea optio ullam, veniam natus odio omnis quia quod perspiciatis earum esse cupiditate dolores vero culpa recusandae.</p>
+        </div>
+      </article>
+      <article class="note-wrapper">
+        <div class="avatar note-avatar"></div>
+        <div class="note-text">
+          <span class="note-author">Armando Castre </span><small class="note-date">11/02/2015 @ 9:12am</small>
+          <p class="note-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea optio ullam, veniam natus odio omnis quia quod perspiciatis earum esse cupiditate dolores vero culpa recusandae. Sit amet, consectetur adipisicing elit. Ea optio ullam, veniam natus odio omnis quia quod perspiciatis earum esse cupiditate dolores vero culpa recusandae</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>

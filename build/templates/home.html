@@ -1,0 +1,50 @@
+<div class="title-bar">
+  <div class="header-nav">
+    <div class="title">
+      <a href="" zf-open="nav_primary" class="header-nav-icon">
+        <div ng-include="'assets/images/icon-menu-dark.svg'"></div>
+      </a>
+       {{headingText}}
+    </div>
+  </div>
+  <div class="header-brand-profile">
+    <div class="header-logo">
+      <div ng-include="'assets/images/ccs-logo-mock.svg'"></div>
+    </div>
+    <div class="avatar header-avatar" title="Logged in as: Armando Castre"></div>
+  </div>
+  <div class="header-search-icon show-for-small-only">
+    <a href="" zf-open="search">
+      <div ng-include="'assets/images/icon-search.svg'"></div>
+    </a>
+  </div>
+</div>
+
+<div class="main-container">
+  <section class="projects-card-wrapper grid-block small-up-1 medium-up-4">
+    <div class="grid-content" ng-repeat="project in projects">
+      <article class="card">
+        <div class="card-divider">
+          <h3 class="card-title"><a href="#" ui-sref="project({id: project.$id})">{{project.name}}</a></h3>
+          <a href="#" role="button" class="warning badge" title="Status: {{project.status}}">
+            <zf-popup id="status_popup" class="padding">Status: {{project.status}}</zf-popup>
+          </a>
+        </div>
+        <div class="card-section">
+          <small class="card-address">{{project.address}}</small>
+          <dl class="dl-horizontal">
+            <dt>Client</dt>
+            <dd><a href="">Tanner, John</a></dd>
+            <dt>Date Created</dt>
+            <dd>{{project.dateCreated}}</dd>
+            <dt>Jobs</dt>
+            <dd>3</dd>
+          </dl>
+        </div>
+        <div class="card-footer">
+          <a href="#">View Project</a>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,1 @@
+var foundationRoutes = [{"name":"project","url":"/project/:id","controller":"ProjectViewCtrl as project","animationIn":"fadeIn, slideInUp","animationOut":"fadeOut, slideOutBottom","path":"templates/project.html"},{"name":"home","url":"/","controller":"HomeCtrl as home","animationIn":"fadeIn","animationOut":"fadeOut","path":"templates/home.html"}]; 
