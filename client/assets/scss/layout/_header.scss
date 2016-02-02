@@ -1,0 +1,38 @@
+.header-nav {
+  flex: 1 0 75%;
+  margin-top: rem-calc(3);
+}
+.header-nav-icon {
+  display: inline-block;
+  margin-right: rem-calc(20);
+  padding: 0.5rem;
+  @include breakpoint(small only) {
+    margin-left: 1.25rem;
+  }
+}
+.header-brand-profile {
+  flex: 1 0 25%;
+  text-align: right;
+  @include breakpoint(small only) {
+    display: none;
+  }
+}
+.header-logo {
+  float: left;
+  margin-top: rem-calc(7);
+}
+.avatar {
+  @include circle(rem-calc(40));
+  background: url('../images/profile-avatar.png'), no-repeat;
+  background-size: cover;
+}
+.header-avatar {
+  float: right;
+  margin-left: rem-calc(30);
+}
+.header-search-icon {
+  padding: 0.5rem;
+  @include breakpoint(small only) {
+    margin-right: 1.25rem;
+  }
+}

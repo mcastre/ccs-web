@@ -1,0 +1,9 @@
+.button {
+  background: $primary-color;
+  &:hover, &:focus {
+    background: darken($primary-color, 5%);
+  }
+}
+.sidebar-button {
+  width: 100%;
+}

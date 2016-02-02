@@ -1,0 +1,114 @@
+body {
+  background-color: $app-background;
+}
+
+// PROJECTS -- HOME
+// ------------------------------
+
+.projects-card-wrapper {
+  margin-top: 4rem;
+  @include grid-block;
+}
+
+.grid-content.has-sidebar {
+  padding: 0;
+}
+
+$sidebar-width: rem-calc(250px);
+.view-wrapper {
+  display: flex;
+  height: 100vh;
+  @include breakpoint(small only) {
+    flex-flow: column;
+  }
+}
+.projects-sidebar {
+  padding: 1rem;
+  width: auto;
+  @include breakpoint(medium) {
+    width: calc(#{$sidebar-width});
+    flex-shrink: 0; // prevent sidebar from shrinking
+  }
+}
+.project-view-pane {
+  background-color: white;
+  padding: 1rem;
+  @include breakpoint(medium) {
+    flex-grow: 1; // This makes the element grow and take all available space, not taken by the sidebar
+  }
+}
+.sidebar-title {
+  font-size: $headline-font-size;
+  color: $heading-font-color;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+.sidebar-nav li {
+  padding: 0.5rem 0;
+}
+.project-view-pane {
+  display: flex;
+  &.grid-block {
+    @include reset-block-margins;
+  }
+}
+.details-list {
+  padding: 2rem;
+  &.grid-block {
+    @include reset-block-margins;
+  }
+  .badge {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+.details-list .dl-horizontal {
+  dd {
+    @include breakpoint(medium) {
+      margin-left: 180px;
+    }
+    margin-bottom: 3rem;
+  }
+  &.dt-left dt {
+    width: rem-calc(100);
+  }
+  &.dt-left dd {
+    margin-left: rem-calc(100);
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+  }
+  &.dt-left .dd-email {
+    margin-top: 0.35rem;
+  }
+}
+.notes-section {
+  margin-top: 2rem;
+}
+.note-wrapper {
+  border-top: 1px solid $light-grey-border;
+  @include clearfix;
+  padding: 1rem;
+}
+.notes-heading {
+  font-size: $headline-font-size;
+}
+.add-note-link {
+  margin-top: 0.65rem;
+  margin-left: 1rem;
+}
+.note-avatar {
+  float: left;
+  margin-right: 0.5rem;
+}
+.note-text {
+  float: right;
+  width: calc(100% - 3rem); // 3rem width of avatar and margin-right
+  padding: 0 0.5rem;
+}
+.note-author {
+  font-weight: $heading-font-weight;
+  padding-right: 0.5rem;
+}
+.note-body {
+  margin-top: 0.5rem;
+}

@@ -1,0 +1,40 @@
+.projects-card-wrapper .card-column {
+  @include grid-size(expand);
+  @include breakpoint(medium) {
+    @include grid-block(4);
+  }
+  @include breakpoint(large) {
+    @include grid-block(3);
+  }
+}
+.card {
+  width: 100%;
+  border-radius: 0;
+  box-shadow: $base-layer-shadow;
+  overflow: auto;
+  .card-divider {
+    @include clearfix;
+    background: none;
+  }
+  .card-title {
+    float: left;
+    margin: 0;
+    font-size: $headline-font-size;
+  }
+  .badge {
+    float: right;
+  }
+  .card-section {
+    padding: 0 1rem;
+  }
+  .card-footer {
+    @include clearfix;
+    margin-top: 1rem;
+    padding: 1rem;
+    padding-top: 0;
+  }
+  .card-address {
+    display: block;    
+    margin-bottom: 1rem;
+  }
+}

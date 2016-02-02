@@ -1,0 +1,68 @@
+{
+  "projects": {
+    "one": {
+      "name": "Botanical Place",
+      "address": "245 Botanical Place, Birmingham, AL 35210",
+      "status": "In Progress",
+      "employees": [
+        "Tino",
+        "Alberto"
+      ],
+      "notes": {
+        "noteBody": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea optio ullam, veniam natus odio omnis quia quod perspiciatis earum esse cupiditate dolores vero culpa recusandae."
+      }
+    }
+  },
+  "clients": {
+    "name": "Tanner, John",
+    "properties": {
+      "phone": "(205) 555-5555",
+      "email": "me@email.com",
+      "one": true
+    }
+  },
+  "vendor": {
+    "name": "Benjamin Moore",
+    "properties": {
+      "address": "1200 Homewood Ave, Homewood, AL 35210",
+      "phone": "(205) 555-5555"
+    }
+  },
+  "jobs": {
+    "one": {
+      "job_1": {
+        "name": "Lot 1",
+        "properties": {
+          "interior": "Living Room (Eggshell Flat, 10gal)\nDining Room, Crown Molding (Eggshell Flat, 10gal)",
+          "exterior": "Shutters, Doors, Trim\nUse Beige Grey (5gal)",
+          "supplies": "Eggshell Flat (10gal)\nBeige Grey (5gal)\n2 Rollers\nSanding Sponges (box)",
+          "notes": {
+            "noteBody": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea optio ullam, veniam natus odio omnis quia quod perspiciatis earum esse cupiditate dolores vero culpa recusandae."
+          }
+        }
+      },
+      "job_2": {
+        "name": "Lot 2",
+        "properties": {
+          "interior": "Living Room (Eggshell Flat, 10gal)\nDining Room, Crown Molding (Eggshell Flat, 10gal)",
+          "exterior": "Shutters, Doors, Trim\nUse Beige Grey (5gal)",
+          "supplies": "Eggshell Flat (10gal)\nBeige Grey (5gal)\n2 Rollers\nSanding Sponges (box)",
+          "notes": {
+            "noteBody": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea optio ullam, veniam natus odio omnis quia quod perspiciatis earum esse cupiditate dolores vero culpa recusandae."
+          }
+        }
+      },
+      "job_3": {
+        "name": "Lot 5",
+        "properties": {
+          "interior": "Living Room (Eggshell Flat, 10gal)\nDining Room, Crown Molding (Eggshell Flat, 10gal)",
+          "exterior": "Shutters, Doors, Trim\nUse Beige Grey (5gal)",
+          "supplies": "Eggshell Flat (10gal)\nBeige Grey (5gal)\n2 Rollers\nSanding Sponges (box)",
+          "notes": {
+            "noteBody": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea optio ullam, veniam natus odio omnis quia quod perspiciatis earum esse cupiditate dolores vero culpa recusandae."
+          }
+        }
+      }
+    }
+  }
+}

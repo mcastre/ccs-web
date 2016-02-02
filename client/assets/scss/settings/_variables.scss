@@ -1,0 +1,32 @@
+// Color Schema
+// - - - - - - - - - - - - - - -
+
+$primary-color: #1ABC9C;
+$secondary-color: #29ACED;
+$tertiary-color: #FFCD5D;
+
+$blue-color: #039BE5;
+$purple-color: #AB47BC;
+$red-color: #EF5350;
+
+$app-background: #f8f8f8;
+
+$light-grey-border: #E0E0E0;
+$light-grey: #cccccc;
+$medium-grey: #666666;
+$dark-grey: #333333;
+
+$top-layer-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+$base-layer-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+
+// Typography
+// - - - - - - - - - - - - - - -
+
+$body-font-color: $medium-grey;
+$heading-font-color: $dark-grey;
+
+$base-font-size: 1rem; // 16px baseline
+$headline-font-size: rem-calc(20);
+$display-font-size: rem-calc(34);
+
+$heading-font-weight: $font-weight-bold;

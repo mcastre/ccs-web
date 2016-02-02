@@ -1,0 +1,42 @@
+.tabs-bar {
+  flex: 0 1 100%;
+  @include breakpoint(medium) {
+    flex: 0 1 50%;
+    margin: auto;
+  }
+  margin-top: 1rem;
+}
+.tabs-navigation {
+  @extend .no-bullet;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin: 0;
+  li {
+    display: inline;
+  }
+}
+.tab {
+  padding: 0.4rem 1.25rem;
+  border-bottom: 2px solid rgba($tertiary-color,0);
+  @include transition(border, 200ms, linear);
+  a {
+    @include transition(color, 200ms, linear);
+    color: rgba(white, 0.5);
+    &:hover, &:active {
+      text-decoration: none;
+    }
+  }
+  &:hover {
+    border-bottom: 2px solid rgba($tertiary-color,1);
+    a {
+      color: white;
+    }
+  }
+  &.active {
+    border-bottom: 2px solid rgba($tertiary-color,1);
+    a {
+      color: white;
+    }
+  }
+}

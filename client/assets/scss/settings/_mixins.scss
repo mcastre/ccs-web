@@ -1,0 +1,21 @@
+@mixin circle($size) {
+  width: $size;
+  height: $size;
+  -webkit-border-radius: 100rem;
+  border-radius: 100rem;
+}
+@mixin status-circle($color) {
+  @include circle(rem-calc(20));
+  background-color: $color;
+}
+@mixin transition($elem, $duration, $type) {
+  -webkit-transition: $elem $duration $type;
+  -moz-transition: $elem $duration $type;
+  -ms-transition: $elem $duration $type;
+  -o-transition: $elem $duration $type;
+  transition: $elem $duration $type;
+}
+@mixin reset-block-margins {
+  margin-left: 0;
+  margin-right: 0;
+}

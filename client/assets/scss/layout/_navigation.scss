@@ -1,0 +1,76 @@
+.title-bar {
+  @include clearfix;
+  position: relative;
+  padding: 0.75rem 0;
+  @include breakpoint(medium) {
+    padding: 0.75rem 1.25rem;
+  }
+  background-color: white;
+  box-shadow: $top-layer-shadow;
+  z-index: 10;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.title-bar .title {
+  font-size: $headline-font-size;
+  font-weight: $body-font-weight;
+  color: $medium-grey;
+}
+.sidenav-user-box {
+  background-color: $primary-color;
+  padding: 1rem;
+  .header-avatar {
+    float: left;
+    margin-left: 0;
+    margin-bottom: 1rem;
+  }
+}
+.sidenav-avatar-wrapper {
+  @include clearfix;
+}
+.user-name,
+.user-email {
+  color: white;
+  margin-bottom: 0;
+}
+.user-name {
+  font-weight: $font-weight-bold;
+}
+.sidenav-close {
+  float: right;
+  svg {
+    width: rem-calc(15);
+    height: rem-calc(20);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }
+}
+.sidenav-primary {
+  li {
+    padding: 0.75rem 1rem;
+  }
+}
+.title-bar.extended {
+  padding-bottom: 0;
+  background-color: none;
+  @include transition(background-color, 200ms, linear);
+  background-color: $primary-color;
+  .title, a {
+    color: white;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  &.details {
+    background-color: $primary-color;
+  }
+  &.estimates {
+    background-color: $red-color;
+  }
+  &.jobs {
+    background-color: $blue-color;
+  }
+  &.budget {
+    background-color: $purple-color;
+  }
+}
