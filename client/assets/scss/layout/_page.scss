@@ -1,7 +1,9 @@
 body {
   background-color: $app-background;
 }
-
+.vertical.grid-frame {
+  overflow: auto;
+}
 // PROJECTS -- HOME
 // ------------------------------
 
@@ -101,6 +103,9 @@ $sidebar-width-tablet: rem-calc(230px);
 }
 .notes-heading {
   font-size: $headline-font-size;
+  @include breakpoint(small only) {
+    padding-left: 4.5rem;
+  }
 }
 .add-note-link {
   margin-top: 0.65rem;

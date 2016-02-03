@@ -6852,6 +6852,9 @@ label {
 body {
   background-color: #f8f8f8; }
 
+.vertical.grid-frame {
+  overflow: auto; }
+
 .projects-card-wrapper {
   margin-top: 4rem;
   overflow: auto; }
@@ -6954,6 +6957,9 @@ body {
 
 .notes-heading {
   font-size: 1.25rem; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    .notes-heading {
+      padding-left: 4.5rem; } }
 
 .add-note-link {
   margin-top: 0.65rem;
