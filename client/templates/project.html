@@ -5,13 +5,13 @@ controller: ProjectViewCtrl as project
 animationIn: fadeIn, slideInUp
 animationOut: fadeOut, slideOutBottom
 ---
-<div class="title-bar extended {{currentTab.ccsColor}}">
+<div class="title-bar extended {{project.currentTab.ccsColor}}">
   <div class="header-nav">
     <div class="title">
       <a href="" zf-open="nav_primary" class="header-nav-icon">
         <div ng-include="'assets/images/icon-menu-light.svg'"></div>
       </a>
-      <a href="/">Projects </a>-  {{data.name}}
+      <a href="/" class="back-link">Projects </a>-  {{project.data.name}}
     </div>
   </div>
   <div class="header-brand-profile">
@@ -27,13 +27,13 @@ animationOut: fadeOut, slideOutBottom
   </div>
   <div class="tabs-bar">
     <ul class="tabs-navigation">
-      <li class="tab" ng-repeat="tab in tabs" ng-class="{active: isActiveTab(tab.url)}">
-        <a href="" ng-click="onClickTab(tab)" class="hide-for-small-only">{{tab.title}}</a>
-        <a href="" ng-click="onClickTab(tab)" class="show-for-small-only">{{tab.mobileTitle}}</a>
+      <li class="tab" ng-repeat="tab in project.tabs" ng-class="{active: project.isActiveTab(tab.url)}">
+        <a href="" ng-click="project.onClickTab(tab)" class="hide-for-small-only">{{tab.title}}</a>
+        <a href="" ng-click="project.onClickTab(tab)" class="show-for-small-only">{{tab.mobileTitle}}</a>
       </li>
     </ul>
   </div>
 </div>
 <div class="grid-content has-sidebar" id="main_view">
-  <div ng-include="currentTab.url" class="tab-container"></div>
+  <div ng-include="project.currentTab.url" class="tab-container"></div>
 </div>

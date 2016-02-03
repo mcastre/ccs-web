@@ -25,14 +25,15 @@ $sidebar-width: rem-calc(250px);
 .projects-sidebar {
   padding: 1rem;
   width: auto;
+  background-color: white;
   @include breakpoint(medium) {
     width: calc(#{$sidebar-width});
     flex-shrink: 0; // prevent sidebar from shrinking
   }
 }
 .project-view-pane {
-  background-color: white;
   padding: 1rem;
+  overflow: auto;
   @include breakpoint(medium) {
     flex-grow: 1; // This makes the element grow and take all available space, not taken by the sidebar
   }
@@ -43,8 +44,13 @@ $sidebar-width: rem-calc(250px);
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
-.sidebar-nav li {
-  padding: 0.5rem 0;
+.sidebar-nav {
+  list-style: none;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  li {
+    padding: 0;
+  }
 }
 .project-view-pane {
   display: flex;
@@ -111,4 +117,31 @@ $sidebar-width: rem-calc(250px);
 }
 .note-body {
   margin-top: 0.5rem;
+}
+.job-details-title {
+  flex: 1 100%;
+  margin-bottom: 3rem;
+}
+.job-details-list dt {
+  @include breakpoint(medium) {
+    text-align: right;
+  }
+}
+.add-job-title {
+  flex: 1 100%;
+  margin-bottom: 3rem;
+}
+.job-item {
+  display: block;
+  background: none;
+  color: rgba($secondary-color, 0.5);
+  @include transition(all, 200ms, linear);
+  border-left: 5px solid rgba($secondary-color, 0);
+  padding: 0.5rem 0 0.5rem 0.85rem;
+  &.active {
+    color: rgba($secondary-color, 1);
+    background: darken($app-background, 4%);
+    padding-left: 1.5rem;
+    border-left: 5px solid rgba($secondary-color, 1);
+  }
 }

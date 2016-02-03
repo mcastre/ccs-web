@@ -2,26 +2,19 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', function(scope, $stateParams, $firebaseObject) {
+  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'FoundationApi', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, foundationApi) {
 
     var pathId = $stateParams.id;
 
-    var project = scope;
+    var project = this;
     var firebaseURI = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
     var projectRef = new Firebase(firebaseURI);
 
-    project.data = $firebaseObject(projectRef);
-    //console.log(project.data.name);
-    project.headingText = project.data.name;
+    project.allProjects = ProjectsSvc.getProjects();
 
-    // projectRef.on('value', function(snapshot) {
-    //   project.$apply(function() {
-    //     project.data = snapshot.val();
-    //     project.headingText = project.data.name;
-    //   });
-    // }, function(err) {
-    //   console.log(err.code);
-    // });
+    project.data = $firebaseObject(projectRef);
+
+    project.headingText = project.data.name;
 
     project.tabs = [
       {
@@ -55,6 +48,24 @@
     };
     project.isActiveTab = function(tabUrl) {
       return tabUrl === project.currentTab.url;
+    };
+
+    // JOBS
+    project.jobs = JobsSvc.getJobs();
+
+    project.jobDetails = null;
+    project.theJob = { name: '', exterior: '', interior: '', supplies: '' };
+
+    project.addJob = function(isValid) {
+      if (isValid) {
+        JobsSvc.addJob(angular.copy(project.theJob));
+        project.theJob = { name: '', exterior: '', interior: '', supplies: '' };
+      }
+    };
+    project.toggle = {item: -1};
+    project.addSelected = true;
+    project.selectAddJob = function() {
+      project.addSelected = !project.addSelected;
     };
   }]);
 

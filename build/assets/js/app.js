@@ -38,11 +38,14 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('HomeCtrl', ['$scope', '$firebaseArray', function(scope, $firebaseArray) {
+  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', '$stateParams', function(scope, ProjectsSvc, JobsSvc, $stateParams) {
 
-    var home = scope;
-    var firebaseURI = 'https://ccs-web.firebaseio.com/';
-    var ref = new Firebase(firebaseURI + 'Projects');
+    var home = this;
+    home.projects = ProjectsSvc.getProjects();
+    
+    // Get Jobs
+    home.jobs = JobsSvc.getJobs();
+
     home.headingText = 'Project Dashboard';
 
     home.newProject = {
@@ -57,9 +60,6 @@
       address: '1255 Vestavia Blvd, Vestavia, AL 35216',
       status: 'Awaiting Client'
     };
-    //ref.push(home.anotherProject);    
-
-    home.projects = $firebaseArray(ref);
 
   }]);
 
@@ -69,26 +69,19 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', function(scope, $stateParams, $firebaseObject) {
+  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'FoundationApi', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, foundationApi) {
 
     var pathId = $stateParams.id;
 
-    var project = scope;
+    var project = this;
     var firebaseURI = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
     var projectRef = new Firebase(firebaseURI);
 
-    project.data = $firebaseObject(projectRef);
-    //console.log(project.data.name);
-    project.headingText = project.data.name;
+    project.allProjects = ProjectsSvc.getProjects();
 
-    // projectRef.on('value', function(snapshot) {
-    //   project.$apply(function() {
-    //     project.data = snapshot.val();
-    //     project.headingText = project.data.name;
-    //   });
-    // }, function(err) {
-    //   console.log(err.code);
-    // });
+    project.data = $firebaseObject(projectRef);
+
+    project.headingText = project.data.name;
 
     project.tabs = [
       {
@@ -123,6 +116,24 @@
     project.isActiveTab = function(tabUrl) {
       return tabUrl === project.currentTab.url;
     };
+
+    // JOBS
+    project.jobs = JobsSvc.getJobs();
+
+    project.jobDetails = null;
+    project.theJob = { name: '', exterior: '', interior: '', supplies: '' };
+
+    project.addJob = function(isValid) {
+      if (isValid) {
+        JobsSvc.addJob(angular.copy(project.theJob));
+        project.theJob = { name: '', exterior: '', interior: '', supplies: '' };
+      }
+    };
+    project.toggle = {item: -1};
+    project.addSelected = true;
+    project.selectAddJob = function() {
+      project.addSelected = !project.addSelected;
+    };
   }]);
 
 })();
@@ -131,10 +142,58 @@
   'use strict';
 
   var app = angular.module('application');
-  app.factory('ProjectsSvc', [function() {    
+  app.factory('JobsSvc', ['$stateParams', '$firebaseArray', function JobsSvc($stateParams, $firebaseArray) {
+
+    var pathId = $stateParams.id;
+
+    var firebaseURI = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
+    var projectRef = new Firebase(firebaseURI);
+    var jobsRef = projectRef.child('Jobs');
+    var jobs = $firebaseArray(jobsRef); // create new array
+
+    var getJobs = function() {
+      return jobs;
+    };
+
+    var addJob = function(job) {
+      jobs.$add(job);
+    };
+    var selectedJob = function() {
+      return {
+        name: this.name,
+        exterior: this.exterior,
+        interior: this.interior,
+        supplies: this.supplies
+      }
+    };
+    return {
+      getJobs: getJobs,
+      addJob: addJob,
+      selectedJob: selectedJob
+    }
+  }]);
+
+})();
+
+(function() {
+  'use strict';
+
+  var app = angular.module('application');
+  app.factory('ProjectsSvc', ['$stateParams', '$firebaseArray', function ProjectsSvc($stateParams, $firebaseArray) {
+
+    var pathId = $stateParams.id;
+
+    var firebaseURI = 'https://ccs-web.firebaseio.com/';
+    var ref = new Firebase(firebaseURI + 'Projects');
+
+    var projects = $firebaseArray(ref);
+
+    var getProjects = function() {
+      return projects;
+    };
 
     return {
-
+      getProjects: getProjects
     }
   }]);
 

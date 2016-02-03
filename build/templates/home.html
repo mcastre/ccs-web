@@ -4,7 +4,7 @@
       <a href="" zf-open="nav_primary" class="header-nav-icon">
         <div ng-include="'assets/images/icon-menu-dark.svg'"></div>
       </a>
-       {{headingText}}
+       {{home.headingText}}
     </div>
   </div>
   <div class="header-brand-profile">
@@ -19,10 +19,9 @@
     </a>
   </div>
 </div>
-
 <div class="main-container">
   <section class="projects-card-wrapper grid-block small-up-1 medium-up-4">
-    <div class="grid-content" ng-repeat="project in projects">
+    <div class="grid-content" ng-repeat="project in home.projects">
       <article class="card">
         <div class="card-divider">
           <h3 class="card-title"><a href="#" ui-sref="project({id: project.$id})">{{project.name}}</a></h3>
@@ -36,7 +35,7 @@
             <dt>Client</dt>
             <dd><a href="">Tanner, John</a></dd>
             <dt>Date Created</dt>
-            <dd>{{project.dateCreated}}</dd>
+            <dd>{{project.dateCreated | date: 'MM/dd/yyyy'}}</dd>
             <dt>Jobs</dt>
             <dd>3</dd>
           </dl>
