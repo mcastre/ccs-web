@@ -1,6 +1,9 @@
 .tabs-bar {
   flex: 0 1 100%;
-  @include breakpoint(medium) {
+  @include breakpoint(medium only) {
+    flex: 1 0 80%;
+  }
+  @include breakpoint(large) {
     flex: 0 1 50%;
     margin: auto;
   }
@@ -9,12 +12,9 @@
 .tabs-navigation {
   @extend .no-bullet;
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
+  flex-flow: row nowrap;
+  justify-content: space-between;
   margin: 0;
-  li {
-    display: inline;
-  }
 }
 .tab {
   padding: 0.4rem 1.25rem;
@@ -33,7 +33,7 @@
   &.active {
     border-bottom: 2px solid rgba($tertiary-color,1);
     a {
-      color: white;      
+      color: white;
     }
   }
 }

@@ -27,8 +27,8 @@ animationOut: fadeOut
   </div>
 </div>
 <div class="main-container">
-  <section class="projects-card-wrapper grid-block small-up-1 medium-up-4">
-    <div class="grid-content" ng-repeat="project in home.projects">
+  <section class="projects-card-wrapper grid-block vertical medium-horizontal medium-up-3 large-up-4">
+    <div class="grid-block" ng-repeat="project in home.projects">
       <article class="card">
         <div class="card-divider">
           <h3 class="card-title"><a href="#" ui-sref="project({id: project.$id})">{{project.name}}</a></h3>

@@ -12,7 +12,7 @@
     </form>
   </aside>
   <section class="project-view-pane grid-block wrap">
-    <div class="medium-4 grid-block details-list" ng-show="project.addSelected" ng-hide="project.jobDetails">
+    <div class="large-4 grid-block details-list" ng-show="project.addSelected" ng-hide="project.jobDetails">
       <h3 class="add-job-title">Add New Job</h3>
       <form name="addJobForm" class="add-job-form" ng-submit="project.addJob(addJobForm.$valid)" novalidate>
         <label for="job_name">Job Name</label>
@@ -32,7 +32,7 @@
 
       </form>
     </div>
-    <div class="medium-5 grid-block details-list" ng-show="project.jobDetails" ng-hide="project.addSelected">
+    <div class="large-5 grid-block details-list" ng-show="project.jobDetails" ng-hide="project.addSelected">
       <h3 class="job-details-title">{{project.jobDetails.name}}</h3>
       <dl class="dl-horizontal job-details-list">
         <dt ng-if="project.jobDetails.exterior">Exterior</dt>

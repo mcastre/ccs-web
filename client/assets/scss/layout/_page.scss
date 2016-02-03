@@ -7,7 +7,7 @@ body {
 
 .projects-card-wrapper {
   margin-top: 4rem;
-  @include grid-block;
+  overflow: auto;
 }
 
 .grid-content.has-sidebar {
@@ -15,6 +15,7 @@ body {
 }
 
 $sidebar-width: rem-calc(250px);
+$sidebar-width-tablet: rem-calc(230px);
 .view-wrapper {
   display: flex;
   height: 100vh;
@@ -26,17 +27,18 @@ $sidebar-width: rem-calc(250px);
   padding: 1rem;
   width: auto;
   background-color: white;
-  @include breakpoint(medium) {
+  flex-shrink: 0; // prevent sidebar from shrinking
+  @include breakpoint(medium only) {
+    width: calc(#{$sidebar-width-tablet});
+  }
+  @include breakpoint(large) {
     width: calc(#{$sidebar-width});
-    flex-shrink: 0; // prevent sidebar from shrinking
   }
 }
 .project-view-pane {
   padding: 1rem;
   overflow: auto;
-  @include breakpoint(medium) {
-    flex-grow: 1; // This makes the element grow and take all available space, not taken by the sidebar
-  }
+  flex-grow: 1; // This makes the element grow and take all available space, not taken by the sidebar
 }
 .sidebar-title {
   font-size: $headline-font-size;
@@ -70,7 +72,7 @@ $sidebar-width: rem-calc(250px);
 }
 .details-list .dl-horizontal {
   dd {
-    @include breakpoint(medium) {
+    @include breakpoint(large) {
       margin-left: 180px;
     }
     margin-bottom: 3rem;
@@ -79,8 +81,10 @@ $sidebar-width: rem-calc(250px);
     width: rem-calc(100);
   }
   &.dt-left dd {
-    margin-left: rem-calc(100);
-    margin-top: 0.75rem;
+    @include breakpoint(large) {
+      margin-left: rem-calc(100);
+      margin-top: 0.75rem;
+    }
     margin-bottom: 0;
   }
   &.dt-left .dd-email {
@@ -123,7 +127,7 @@ $sidebar-width: rem-calc(250px);
   margin-bottom: 3rem;
 }
 .job-details-list dt {
-  @include breakpoint(medium) {
+  @include breakpoint(large) {
     text-align: right;
   }
 }

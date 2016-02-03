@@ -6556,7 +6556,12 @@ dl dd {
       -ms-flex: 0 1 100%;
           flex: 0 1 100%;
   margin-top: 1rem; }
-  @media only screen and (min-width: 40em) {
+  @media only screen and (min-width: 40em) and (max-width: 74.9375rem) {
+    .tabs-bar {
+      -webkit-flex: 1 0 80%;
+          -ms-flex: 1 0 80%;
+              flex: 1 0 80%; } }
+  @media only screen and (min-width: 75em) {
     .tabs-bar {
       -webkit-flex: 0 1 50%;
           -ms-flex: 0 1 50%;
@@ -6567,15 +6572,13 @@ dl dd {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-flow: row wrap;
-      -ms-flex-flow: row wrap;
-          flex-flow: row wrap;
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
+  -webkit-flex-flow: row nowrap;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   margin: 0; }
-  .tabs-navigation li {
-    display: inline; }
 
 .tab {
   padding: 0.4rem 1.25rem;
@@ -6721,6 +6724,11 @@ label {
       -ms-flex: 1 0 75%;
           flex: 1 0 75%;
   margin-top: 0.1875rem; }
+  @media only screen and (min-width: 40em) and (max-width: 74.9375rem) {
+    .header-nav {
+      -webkit-flex: 1 0 50%;
+          -ms-flex: 1 0 50%;
+              flex: 1 0 50%; } }
 
 .header-nav-icon {
   display: inline-block;
@@ -6738,6 +6746,11 @@ label {
   @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
     .header-brand-profile {
       display: none; } }
+  @media only screen and (min-width: 40em) and (max-width: 74.9375rem) {
+    .header-brand-profile {
+      -webkit-flex: 1 0 50%;
+          -ms-flex: 1 0 50%;
+              flex: 1 0 50%; } }
 
 .header-logo {
   float: left;
@@ -6841,35 +6854,7 @@ body {
 
 .projects-card-wrapper {
   margin-top: 4rem;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: auto;
-  position: relative;
-  overflow: hidden;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-  -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  -webkit-flex-flow: row wrap;
-      -ms-flex-flow: row wrap;
-          flex-flow: row wrap;
-  -webkit-flex-wrap: nowrap;
-      -ms-flex-wrap: nowrap;
-          flex-wrap: nowrap;
-  -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
-  -webkit-justify-content: flex-start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-order: 0;
-      -ms-flex-order: 0;
-          order: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: -ms-autohiding-scrollbar; }
+  overflow: auto; }
 
 .grid-content.has-sidebar {
   padding: 0; }
@@ -6888,22 +6873,23 @@ body {
 .projects-sidebar {
   padding: 1rem;
   width: auto;
-  background-color: white; }
-  @media only screen and (min-width: 40em) {
+  background-color: white;
+  -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+          flex-shrink: 0; }
+  @media only screen and (min-width: 40em) and (max-width: 74.9375rem) {
     .projects-sidebar {
-      width: calc(15.625rem);
-      -webkit-flex-shrink: 0;
-          -ms-flex-negative: 0;
-              flex-shrink: 0; } }
+      width: calc(14.375rem); } }
+  @media only screen and (min-width: 75em) {
+    .projects-sidebar {
+      width: calc(15.625rem); } }
 
 .project-view-pane {
   padding: 1rem;
-  overflow: auto; }
-  @media only screen and (min-width: 40em) {
-    .project-view-pane {
-      -webkit-flex-grow: 1;
-          -ms-flex-positive: 1;
-              flex-grow: 1; } }
+  overflow: auto;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
 
 .sidebar-title {
   font-size: 1.25rem;
@@ -6937,7 +6923,7 @@ body {
 
 .details-list .dl-horizontal dd {
   margin-bottom: 3rem; }
-  @media only screen and (min-width: 40em) {
+  @media only screen and (min-width: 75em) {
     .details-list .dl-horizontal dd {
       margin-left: 180px; } }
 
@@ -6945,9 +6931,11 @@ body {
   width: 6.25rem; }
 
 .details-list .dl-horizontal.dt-left dd {
-  margin-left: 6.25rem;
-  margin-top: 0.75rem;
   margin-bottom: 0; }
+  @media only screen and (min-width: 75em) {
+    .details-list .dl-horizontal.dt-left dd {
+      margin-left: 6.25rem;
+      margin-top: 0.75rem; } }
 
 .details-list .dl-horizontal.dt-left .dd-email {
   margin-top: 0.35rem; }
@@ -6993,7 +6981,7 @@ body {
           flex: 1 100%;
   margin-bottom: 3rem; }
 
-@media only screen and (min-width: 40em) {
+@media only screen and (min-width: 75em) {
   .job-details-list dt {
     text-align: right; } }
 
