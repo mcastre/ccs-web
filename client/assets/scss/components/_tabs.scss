@@ -23,9 +23,6 @@
   a {
     @include transition(color, 200ms, linear);
     color: rgba(white, 0.5);
-    &:hover, &:active {
-      text-decoration: none;
-    }
   }
   &:hover {
     border-bottom: 2px solid rgba($tertiary-color,1);
@@ -36,7 +33,7 @@
   &.active {
     border-bottom: 2px solid rgba($tertiary-color,1);
     a {
-      color: white;
+      color: white;      
     }
   }
 }

@@ -2,11 +2,14 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('HomeCtrl', ['$scope', '$firebaseArray', function(scope, $firebaseArray) {
+  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', '$stateParams', function(scope, ProjectsSvc, JobsSvc, $stateParams) {
 
-    var home = scope;
-    var firebaseURI = 'https://ccs-web.firebaseio.com/';
-    var ref = new Firebase(firebaseURI + 'Projects');
+    var home = this;
+    home.projects = ProjectsSvc.getProjects();
+    
+    // Get Jobs
+    home.jobs = JobsSvc.getJobs();
+
     home.headingText = 'Project Dashboard';
 
     home.newProject = {
@@ -21,9 +24,6 @@
       address: '1255 Vestavia Blvd, Vestavia, AL 35216',
       status: 'Awaiting Client'
     };
-    //ref.push(home.anotherProject);    
-
-    home.projects = $firebaseArray(ref);
 
   }]);
 

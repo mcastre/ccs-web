@@ -6584,8 +6584,6 @@ dl dd {
   .tab a {
     transition: color 200ms linear;
     color: rgba(255, 255, 255, 0.5); }
-    .tab a:hover, .tab a:active {
-      text-decoration: none; }
   .tab:hover {
     border-bottom: 2px solid #ffcd5d; }
     .tab:hover a {
@@ -6697,6 +6695,27 @@ dl dd {
     display: block;
     margin-bottom: 1rem; }
 
+.add-job-form {
+  width: 100%; }
+
+input[type="text"].ng-pristine.ng-invalid, input[type="text"].ng-pristine.ng-valid,
+textarea.ng-pristine.ng-invalid,
+textarea.ng-pristine.ng-valid {
+  border: 1px solid #BBB; }
+
+input[type="text"].ng-invalid, input[type="text"].ng-touched.ng-invalid,
+textarea.ng-invalid,
+textarea.ng-touched.ng-invalid {
+  border: 1px solid #EF5350; }
+
+input[type="text"].ng-valid,
+textarea.ng-valid {
+  border: 1px solid #43AC6A; }
+
+label {
+  font-weight: 700;
+  color: #666666; }
+
 .header-nav {
   -webkit-flex: 1 0 75%;
       -ms-flex: 1 0 75%;
@@ -6806,10 +6825,8 @@ dl dd {
   background-color: none;
   transition: background-color 200ms linear;
   background-color: #1ABC9C; }
-  .title-bar.extended .title, .title-bar.extended a {
+  .title-bar.extended .title, .title-bar.extended .back-link {
     color: white; }
-  .title-bar.extended a:hover {
-    text-decoration: underline; }
   .title-bar.extended.details {
     background-color: #1ABC9C; }
   .title-bar.extended.estimates {
@@ -6870,7 +6887,8 @@ body {
 
 .projects-sidebar {
   padding: 1rem;
-  width: auto; }
+  width: auto;
+  background-color: white; }
   @media only screen and (min-width: 40em) {
     .projects-sidebar {
       width: calc(15.625rem);
@@ -6879,8 +6897,8 @@ body {
               flex-shrink: 0; } }
 
 .project-view-pane {
-  background-color: white;
-  padding: 1rem; }
+  padding: 1rem;
+  overflow: auto; }
   @media only screen and (min-width: 40em) {
     .project-view-pane {
       -webkit-flex-grow: 1;
@@ -6893,8 +6911,12 @@ body {
   margin-top: 2rem;
   margin-bottom: 1rem; }
 
-.sidebar-nav li {
-  padding: 0.5rem 0; }
+.sidebar-nav {
+  list-style: none;
+  margin-left: -1rem;
+  margin-right: -1rem; }
+  .sidebar-nav li {
+    padding: 0; }
 
 .project-view-pane {
   display: -webkit-flex;
@@ -6964,3 +6986,32 @@ body {
 
 .note-body {
   margin-top: 0.5rem; }
+
+.job-details-title {
+  -webkit-flex: 1 100%;
+      -ms-flex: 1 100%;
+          flex: 1 100%;
+  margin-bottom: 3rem; }
+
+@media only screen and (min-width: 40em) {
+  .job-details-list dt {
+    text-align: right; } }
+
+.add-job-title {
+  -webkit-flex: 1 100%;
+      -ms-flex: 1 100%;
+          flex: 1 100%;
+  margin-bottom: 3rem; }
+
+.job-item {
+  display: block;
+  background: none;
+  color: rgba(41, 172, 237, 0.5);
+  transition: all 200ms linear;
+  border-left: 5px solid rgba(41, 172, 237, 0);
+  padding: 0.5rem 0 0.5rem 0.85rem; }
+  .job-item.active {
+    color: #29aced;
+    background: #eeeeee;
+    padding-left: 1.5rem;
+    border-left: 5px solid #29aced; }

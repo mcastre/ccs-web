@@ -3,14 +3,8 @@
     <h2 class="sidebar-title">Projects</h2>
     <a href="" class="button sidebar-button">Add New Project</a>
     <ul class="no-bullet sidebar-nav" role="menu">
-      <li>
-        <a href="" role="menuitem">Vestavia 2224</a>
-      </li>
-      <li>
-        <a href="" role="menuitem">Rocky Ridge (Lot 3)</a>
-      </li>
-      <li>
-        <a href="" role="menuitem">Some Other Project</a>
+      <li ng-repeat="proj in project.allProjects">
+        <a href="" role="menuitem" ui-sref="project({id: proj.$id})">{{proj.name}}</a>
       </li>
     </ul>
   </aside>
@@ -18,7 +12,7 @@
     <div class="medium-7 grid-block details-list">
       <dl class="dl-horizontal dt-right">
         <dt>Address</dt>
-        <dd>{{data.address}}</dd>
+        <dd>{{project.data.address}}</dd>
         <dt>Client</dt>
         <dd>Tanner, John
           <dl class="dl-horizontal dt-left">
@@ -29,9 +23,9 @@
           </dl>
         </dd>
         <dt>Date Created</dt>
-        <dd>{{data.dateCreated | date:'MM/dd/yyyy'}}</dd>
+        <dd>{{project.data.dateCreated | date:'MM/dd/yyyy'}}</dd>
         <dt>Status</dt>
-        <dd>{{data.status}} <span class="warning badge"></span></dd>
+        <dd>{{project.data.status}} <span class="warning badge"></span></dd>
         <dt>Employees</dt>
         <dd>Tino, Alberto</dd>
         <dt>Vendor</dt>

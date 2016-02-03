@@ -1,0 +1,20 @@
+.add-job-form {
+  width: 100%;
+}
+
+$default-border-color: #BBB;
+
+input[type="text"],
+textarea {
+  &.ng-pristine.ng-invalid,
+  &.ng-pristine.ng-valid {
+    border: 1px solid $default-border-color;
+  }
+  &.ng-invalid,
+  &.ng-touched.ng-invalid {
+    border: 1px solid $red-color;
+  }
+  &.ng-valid {
+    border: 1px solid $success-color;
+  }
+}

@@ -1,6 +1,6 @@
 {
   "firebase": "ccs-web",
-  "public": "public",
+  "public": "build",
   "ignore": [
     "firebase.json",
     "**/.*",

@@ -55,11 +55,8 @@
   background-color: none;
   @include transition(background-color, 200ms, linear);
   background-color: $primary-color;
-  .title, a {
+  .title, .back-link {
     color: white;
-  }
-  a:hover {
-    text-decoration: underline;
   }
   &.details {
     background-color: $primary-color;
