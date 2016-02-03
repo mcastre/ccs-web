@@ -1,6 +1,9 @@
 .header-nav {
   flex: 1 0 75%;
   margin-top: rem-calc(3);
+  @include breakpoint(medium only) {
+    flex: 1 0 50%;
+  }
 }
 .header-nav-icon {
   display: inline-block;
@@ -15,6 +18,9 @@
   text-align: right;
   @include breakpoint(small only) {
     display: none;
+  }
+  @include breakpoint(medium only) {
+    flex: 1 0 50%;
   }
 }
 .header-logo {

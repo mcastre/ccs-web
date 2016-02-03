@@ -25,7 +25,7 @@
 
       <div ng-class="['ui-animation']" ui-view></div>
 
-      <zf-panel id="nav_primary" position="left">
+      <zf-panel id="nav_primary" position="left" zf-swipe-close="left">
       <div class="sidenav-user-box">
         <div class="sidenav-avatar-wrapper">
           <div class="avatar header-avatar" title="Logged in as: Armando Castre"></div>
@@ -51,7 +51,7 @@
       </nav>
     </zf-panel>
 
-    <zf-panel id="search" position="right">
+    <zf-panel id="search" position="right" zf-swipe-close="right">
       <div class="grid-content small-12">
         <a href="#" zf-close>&times;</a>
         <section class="block-list">
