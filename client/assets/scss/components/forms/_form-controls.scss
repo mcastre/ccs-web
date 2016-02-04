@@ -1,5 +1,7 @@
 .form-shrink {
-  width: auto;
+  @include breakpoint(medium) {
+    width: auto;  
+  }
 }
 select {
   color: $medium-grey;
