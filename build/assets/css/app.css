@@ -6571,6 +6571,10 @@ hr {
   background: #1ABC9C; }
   .button:hover, .button:focus {
     background: #17a689; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    .button {
+      padding: 1.25em 1.85em;
+      font-size: 1rem; } }
 
 .sidebar-button {
   width: 100%; }
@@ -6584,7 +6588,10 @@ hr {
   margin-bottom: 0; }
 
 .build-form-submit {
-  margin-left: 11rem; }
+  margin-left: 1rem; }
+  @media only screen and (min-width: 40em) {
+    .build-form-submit {
+      margin-left: 11rem; } }
 
 .form-cancel {
   margin-top: 1rem; }
@@ -6795,9 +6802,16 @@ textarea.ng-valid {
   background-color: #f3f3f3;
   border-radius: 0.25rem; }
 
+@media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+  input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="color"], textarea, select {
+    padding: 1rem; } }
+
 label {
   font-weight: 700;
   color: #666666; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    label {
+      font-size: 1rem; } }
 
 .required-label {
   display: block;

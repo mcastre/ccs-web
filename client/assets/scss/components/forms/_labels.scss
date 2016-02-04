@@ -1,10 +1,13 @@
 label {
   font-weight: $heading-font-weight;
   color: $medium-grey;
+  @include breakpoint(small only) {
+    font-size: $base-font-size;
+  }
 }
 .required-label {
   display: block;
-  padding: 0.5rem 0;  
+  padding: 0.5rem 0;
   color: $light-grey;
   @include breakpoint(medium) {
     text-align: right;

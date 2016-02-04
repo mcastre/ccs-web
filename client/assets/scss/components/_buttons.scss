@@ -3,6 +3,10 @@
   &:hover, &:focus {
     background: darken($primary-color, 5%);
   }
+  @include breakpoint(small only) {
+    padding: 1.25em 1.85em;
+    font-size: $base-font-size;
+  }
 }
 .sidebar-button {
   width: 100%;
@@ -16,7 +20,10 @@
   margin-bottom: 0;
 }
 .build-form-submit {
-  margin-left: 11rem;
+  margin-left: 1rem;
+  @include breakpoint(medium) {
+    margin-left: 11rem;
+  }
 }
 .form-cancel {
   margin-top: 1rem;
