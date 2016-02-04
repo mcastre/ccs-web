@@ -4,12 +4,16 @@ label {
 }
 .required-label {
   display: block;
-  padding: 0.5rem 0;
-  text-align: right;
+  padding: 0.5rem 0;  
   color: $light-grey;
+  @include breakpoint(medium) {
+    text-align: right;
+  }
 }
 .label-right {
-  text-align: right;
+  @include breakpoint(medium) {
+    text-align: right;
+  }
 }
 .label-soft {
   font-weight: normal;
