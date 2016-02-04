@@ -1,0 +1,105 @@
+<div id="build_details" class="view-wrapper">
+  <section class="wizard-view-pane grid-block align-center">
+    <div class="medium-8 large-6 grid-block details-list">
+      <form name="buildProject" class="form-expand" novalidate>
+        <div class="grid-block form-section">
+          <div class="small-12 medium-4 large-3 grid-content">
+            <label for="project_name" class="label-right">Name of Project <small class="required-label">required</small></label>
+          </div>
+          <div class="small-12 medium-8 large-9 grid-content">
+            <input type="text" id="project_name" name="project_name" required ng-model="wizard.build.name">
+          </div>
+        </div><!-- /.grid-block -->
+        <div class="grid-block form-section">
+          <div class="small-12 medium-4 large-3 grid-content">
+            <label for="project_address" class="label-right">Address</label>
+          </div>
+          <div class="small-12 medium-8 large-9 grid-content">
+            <input type="text" id="project_address" name="project_address" ng-model="wizard.build.address.address1" placeholder="Address">
+            <input type="text" id="project_city" name="project_city" ng-model="wizard.build.address.city" placeholder="City">
+            <div class="grid-block">
+              <div class="large-4 grid-content">
+                <input type="text" id="project_state" name="project_state" ng-model="wizard.build.address.state" placeholder="State">
+              </div>
+              <div class="large-8 grid-content">
+                <input type="text" id="project_zip" name="project_zip" ng-model="wizard.build.address.zip" placeholder="Zip Code">
+              </div>
+            </div>
+          </div>
+        </div><!-- /.grid-block -->
+        <div class="grid-block form-section">
+          <div class="small-12 medium-4 large-3 grid-content">
+            <label for="project_status" class="label-right">Current Status</label>
+          </div>
+          <div class="small-12 medium-8 large-9 grid-content">
+            <input type="radio" name="project_status1" value="In Progress" id="project_status1" ng-model="wizard.build.status"><label for="project_status1" class="label-soft">In Progress</label>
+            <input type="radio" name="project_status2" value="Awaiting Client" id="project_status2" ng-model="wizard.build.status"><label for="project_status2" class="label-soft">Awaiting Client</label>
+          </div>
+        </div><!-- /.grid-block -->
+        <div class="grid-block form-section">
+          <div class="small-12 medium-4 large-3 grid-content">
+            <label for="project_client" class="label-right">Client or Primary Contact</label>
+          </div>
+          <div class="small-12 medium-8 large-9 grid-content">
+            <select name="project_client" id="project_client" class="form-shrink" ng-model="wizard.build.selectedClient" ng-if="wizard.clients" ng-options="client.name for client in wizard.clients">
+            </select>
+            <a href="" role="button" ng-click="toggleClient = !toggleClient">Add New Client</a>
+            <div class="client-form fadeIn fadeOut" ng-show="toggleClient">
+              <ng-form name="addNewClientForm">
+                <input type="text" id="project_client" name="project_client" ng-model="wizard.newClient.name" placeholder="Name">
+                <input type="text" id="project_client_phone" name="project_client_phone" ng-model="wizard.newClient.phone" placeholder="Phone">
+                <input type="text" id="project_client_email" name="project_client_email" ng-model="wizard.newClient.email" placeholder="Email">
+                <button role="button" type="button" class="button add-client-button" ng-click="wizard.addClient()" >Add Client</button>
+                <div class="success card fadeIn fadeOut alert-box" ng-show="wizard.showAddClientAlert">
+                  <div class="card-section has-close-button">
+                    <a href="" class="close-button">&times;</a>
+                    <h5 class="alert-box-title">New Client {{wizard.newClient.name}} added.</h5>
+                  </div>
+                </div>
+              </ng-form>
+            </div>
+          </div>
+        </div><!-- /.grid-block -->
+        <div class="grid-block form-section">
+          <div class="small-12 medium-4 large-3 grid-content">
+            <label for="project_vendor" class="label-right">Vendor</label>
+          </div>
+          <div class="small-12 medium-8 large-9 grid-content">
+            <select name="project_vendor" id="project_vendor" class="form-shrink" ng-model="wizard.build.selectedVendor" ng-if="wizard.vendors" ng-options="vendor.name for vendor in wizard.vendors">
+            </select>
+            <a href="" role="button" ng-click="toggleVendor = !toggleVendor">Add New Vendor</a>
+            <div class="client-form fadeIn fadeOut" ng-show="toggleVendor">
+              <ng-form name="addNewVendorForm">
+                <div class="form-section">
+                  <input type="text" id="project_vendor" name="project_vendor" ng-model="wizard.newVendor.name" placeholder="Vendor Name">
+                  <input type="text" id="project_vendor_phone" name="project_vendor_phone" ng-model="wizard.newVendor.phone" placeholder="Phone">
+                </div>
+                <input type="text" id="project_vendor_address" name="project_vendor_address" ng-model="wizard.newVendor.address1" placeholder="Address">
+                <input type="text" id="project_vendor_city" name="project_vendor_city" ng-model="wizard.newVendor.city" placeholder="City">
+                <div class="grid-block">
+                  <div class="large-4 grid-content">
+                    <input type="text" id="project_vendor_state" name="project_vendor_state" ng-model="wizard.newVendor.state" placeholder="State">
+                  </div>
+                  <div class="large-8 grid-content">
+                    <input type="text" id="project_vendor_zip" name="project_vendor_zip" ng-model="wizard.newVendor.zip" placeholder="Zip Code">
+                  </div>
+                </div>
+
+                <button role="button" type="button" class="button add-client-button" ng-click="wizard.addVendor()" >Add Vendor</button>
+                <div class="success card fadeIn fadeOut alert-box" ng-show="wizard.showAddVendorAlert">
+                  <div class="card-section has-close-button">
+                    <a href="" class="close-button">&times;</a>
+                    <h5 class="alert-box-title">New Vendor {{wizard.newVendor.name}} added.</h5>
+                  </div>
+                </div>
+              </ng-form>
+            </div>
+          </div>
+        </div><!-- /.grid-block -->
+        <div class="grid-block">
+          <button role="button" type="button" class="button build-form-submit" ng-class="{'disabled': buildProject.$invalid}" ng-click="wizard.buildProjectDetails(buildProject.$valid)">Submit</button><span class="form-cancel"><a href="">Cancel </a></span>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>

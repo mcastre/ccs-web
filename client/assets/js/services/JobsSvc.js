@@ -14,10 +14,14 @@
     var getJobs = function() {
       return jobs;
     };
+    var getExpenses = function() {
+      return expenses;
+    };
 
     var addJob = function(job) {
       jobs.$add(job);
     };
+
     var selectedJob = function() {
       return {
         name: this.name,
@@ -28,6 +32,7 @@
     };
     return {
       getJobs: getJobs,
+      getExpenses: getExpenses,
       addJob: addJob,
       selectedJob: selectedJob
     }

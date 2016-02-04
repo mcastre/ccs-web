@@ -1,0 +1,18 @@
+.alert-box {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  .card-section.has-close-button {
+    position: relative;
+  }
+  .alert-box-title {
+    margin: 0;
+  }
+  .close-button {
+    color: rgba(255,255,255,0.5);
+    top: 0.25rem;
+    @include transition(color, 200ms, linear);
+    &:hover {
+      color: white;
+    }
+  }
+}

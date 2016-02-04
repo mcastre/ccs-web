@@ -34,7 +34,22 @@
     padding-top: 0;
   }
   .card-address {
-    display: block;    
+    display: block;
     margin-bottom: 1rem;
   }
+}
+.card-title-small {
+  float: left;
+  margin: 0;
+  margin-top: 0.75rem;
+  font-size: $base-font-size;
+}
+.card-stat {
+  width: auto;
+  float: right;
+  text-align: right;
+  margin: 0;
+}
+.card-subheader {
+  font-weight: $heading-font-weight;
 }

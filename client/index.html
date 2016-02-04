@@ -24,6 +24,7 @@
     <div class="grid-frame vertical">
 
       <div ng-class="['ui-animation']" ui-view></div>
+      <zf-notification-set id="main-notifications" position="top-right"></zf-notification-set>
 
       <zf-panel id="nav_primary" position="left" zf-swipe-close="left">
       <div class="sidenav-user-box">
@@ -42,7 +43,7 @@
             <a href="/">Home</a>
           </li>
           <li>
-            <a href="">Start New Project</a>
+            <a href="" ui-sref="new-project">Start New Project</a>
           </li>
           <li>
             <a href="">Log Out</a>

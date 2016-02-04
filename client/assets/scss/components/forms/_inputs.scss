@@ -18,3 +18,15 @@ textarea {
     border: 1px solid $success-color;
   }
 }
+.form-expand {
+  flex: 1 100%;
+}
+.form-section {
+  margin-bottom: 2rem;
+}
+.client-form {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: darken($app-background,2%);
+  border-radius: rem-calc(4);
+}

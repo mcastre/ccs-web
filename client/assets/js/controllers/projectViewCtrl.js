@@ -2,17 +2,22 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'FoundationApi', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, foundationApi) {
+  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc) {
 
     var pathId = $stateParams.id;
 
+    var firebaseURIClients = 'https://ccs-web.firebaseio.com/Clients/' + pathId;
+    var clientRef = new Firebase(firebaseURIClients);
+
     var project = this;
-    var firebaseURI = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
-    var projectRef = new Firebase(firebaseURI);
+    var firebaseURIProjects = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
+    var projectRef = new Firebase(firebaseURIProjects);
+
 
     project.allProjects = ProjectsSvc.getProjects();
 
     project.data = $firebaseObject(projectRef);
+    project.clientData = $firebaseObject(clientRef);
 
     project.headingText = project.data.name;
 
@@ -67,6 +72,8 @@
     project.selectAddJob = function() {
       project.addSelected = !project.addSelected;
     };
+    project.clients = ClientsSvc.getClients();
+
   }]);
 
 })();

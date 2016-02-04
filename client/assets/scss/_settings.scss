@@ -98,14 +98,14 @@ $body-font-family: "Open Sans", sans-serif;
 // $body-antialiased: true;
 
 // Application Colors
-// $primary-color: #1ABC9C;
-// $secondary-color: #f1f1f1;
+$primary-color: #1ABC9C;
+$secondary-color: #29ACED;
 // $alert-color: #F04124;
 // $info-color: #A0D3E8;
 // $success-color: #43AC6A;
-// $warning-color: #F08A24;
-// $dark-color: #232323;
-// $gray: #dfdfdf;
+$warning-color: #FFCD5D;
+$dark-color: #333333;
+$gray: #666666;
 // $gray-dark: darken($gray, 8);
 // $gray-light: lighten($gray, 8);
 
@@ -351,7 +351,7 @@ $body-font-family: "Open Sans", sans-serif;
 // $form-padding: 0.5rem;
 
 // Text fields
-// $input-color: #000;
+$input-color: $gray;
 // $input-color-hover: $input-color;
 // $input-color-focus: $input-color;
 // $input-background: #fff;

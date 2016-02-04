@@ -2,3 +2,15 @@ label {
   font-weight: $heading-font-weight;
   color: $medium-grey;
 }
+.required-label {
+  display: block;
+  padding: 0.5rem 0;
+  text-align: right;
+  color: $light-grey;
+}
+.label-right {
+  text-align: right;
+}
+.label-soft {
+  font-weight: normal;
+}

@@ -37,10 +37,12 @@ animationOut: fadeOut
           </a>
         </div>
         <div class="card-section">
-          <small class="card-address">{{project.address}}</small>
+          <small class="card-address">
+            {{project.address.address1}}, {{project.address.city}}, {{project.address.state}} {{project.address.zip}}
+          </small>
           <dl class="dl-horizontal">
             <dt>Client</dt>
-            <dd><a href="">Tanner, John</a></dd>
+            <dd>{{project.selectedClient.name}}</dd>
             <dt>Date Created</dt>
             <dd>{{project.dateCreated | date: 'MM/dd/yyyy'}}</dd>
             <dt>Jobs</dt>
@@ -48,7 +50,7 @@ animationOut: fadeOut
           </dl>
         </div>
         <div class="card-footer">
-          <a href="#">View Project</a>
+          <a href="#" ui-sref="project({id: project.$id})">View Project</a>
         </div>
       </article>
     </div>

@@ -12,29 +12,30 @@
     <div class="medium-7 grid-block details-list">
       <dl class="dl-horizontal dt-right">
         <dt>Address</dt>
-        <dd>{{project.data.address}}</dd>
+        <dd>
+          <p class="paragraph-normal">{{project.data.address.address1}}</p>
+          <p>{{project.data.address.city}}, {{project.data.address.state}} {{project.data.address.zip}}</p>
+        </dd>
         <dt>Client</dt>
-        <dd>Tanner, John
+        <dd>{{project.data.selectedClient.name}}
           <dl class="dl-horizontal dt-left">
             <dt>Phone</dt>
-            <dd>(205) 555-5555</dd>
+            <dd><a href="tel:{{project.data.selectedClient.phone}}">{{project.data.selectedClient.phone}}</a></dd>
             <dt>Email</dt>
-            <dd class="dd-email"><a href="">me@email.com</a></dd>
+            <dd class="dd-email"><a href="mailto:{{project.data.selectedClient.email}}">{{project.data.selectedClient.email}}</a></dd>
           </dl>
         </dd>
         <dt>Date Created</dt>
-        <dd>{{project.data.dateCreated | date:'MM/dd/yyyy'}}</dd>
+        <dd>{{project.data.dateCreated | date:"MM/dd/yyyy 'at' h:mm a"}}</dd>
         <dt>Status</dt>
-        <dd>{{project.data.status}} <span class="warning badge"></span></dd>
-        <dt>Employees</dt>
-        <dd>Tino, Alberto</dd>
+        <dd>{{project.data.status}} <span class="badge" ng-class="{'warning': project.data.status === 'In Progress'}"></span></dd>
         <dt>Vendor</dt>
-        <dd>Benjamin Moore
+        <dd>{{project.data.selectedVendor.name}}
           <dl class="dl-horizontal dt-left">
             <dt>Address</dt>
-            <dd>1200 Homewood Ave, Homewood, AL 35210</dd>
+            <dd>{{project.data.selectedVendor.address1}}, {{project.data.selectedVendor.city}}, {{project.data.selectedVendor.state}} {{project.data.selectedVendor.zip}}</dd>
             <dt>Phone</dt>
-            <dd>(205) 555-5555</dd>
+            <dd><a href="tel:{{project.data.selectedVendor.phone}}">{{project.data.selectedVendor.phone}}</a></dd>
           </dl>
         </dd>
       </dl>

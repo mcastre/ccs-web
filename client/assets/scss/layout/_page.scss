@@ -8,8 +8,10 @@ body {
 // ------------------------------
 
 .projects-card-wrapper {
-  margin-top: 4rem;
-  overflow: auto;
+  margin-top: 2rem;
+  @include breakpoint(medium) {
+    margin-top: 4rem;
+  }
 }
 
 .grid-content.has-sidebar {
@@ -153,4 +155,7 @@ $sidebar-width-tablet: rem-calc(230px);
     padding-left: 1.5rem;
     border-left: 5px solid rgba($secondary-color, 1);
   }
+}
+.expenses-list {
+  list-type: none;
 }

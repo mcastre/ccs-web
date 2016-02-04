@@ -1,4 +1,57 @@
-<div id="view_budget">
-  <h1>Budget</h1>
-  <p>Praesent id metus massa, ut blandit odio. Proin quis tortor orci. Etiam at risus et justo dignissim congue. Donec congue lacinia dui, a porttitor lectus condimentum laoreet. Nunc.</p>
+<div id="view_budget" class="view-wrapper">
+  <aside class="projects-sidebar">
+    <h2 class="sidebar-title">Projects</h2>
+    <a href="" class="button sidebar-button">Add New Project</a>
+    <ul class="no-bullet sidebar-nav" role="menu">
+      <li ng-repeat="proj in project.allProjects">
+        <a href="" role="menuitem" ui-sref="project({id: proj.$id})">{{proj.name}}</a>
+      </li>
+    </ul>
+  </aside>
+  <section class="project-view-pane grid-block wrap">
+    <div class="medium-4 grid-block details-list" ng-repeat="job in project.jobs">
+      <article class="card">
+        <div class="card-divider">
+          <span class="card-title-small">{{job.name}}</span><h3 class="card-stat">$500</h3>
+        </div>
+        <div class="card-section">
+          <p class="card-subheader">Supplies</p>
+          <ul class="expenses-list">
+            <li ng-repeat="expense in project.expenses">
+              <div class="grid-block">
+                <div class="small-12 large-7 grid-content">
+                  <p>{{expense.item}}</p>
+                </div>
+                <div class="small-12 large-5 grid-content">
+                  <p>{{expense.price}}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <form ng-submit="addExpense()">
+            <div class="grid-block">
+              <div class="small-12 large-7 grid-content">
+                <label>
+                  <input type="text" ng-model="newExpense.item" placeholder="Item Name">
+                </label>
+              </div>
+              <div class="small-12 large-5 grid-content">
+                <label>
+                  <input type="text" ng-model="newExpense.price" placeholder="Price">
+                </label>
+              </div>
+            </div>
+            <div class="grid-block">
+              <div class="grid-content">
+                <button role="button" type="submit" class="button">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <a href="#">Add Expense</a>
+        </div>
+      </article>
+    </div>
+  </section>
 </div>
