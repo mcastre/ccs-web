@@ -1,5 +1,5 @@
 <div id="view_details" class="view-wrapper">
-  <aside class="projects-sidebar">
+  <aside class="projects-sidebar hide-for-small-only">
     <h2 class="sidebar-title">Projects</h2>
     <a href="" class="button sidebar-button">Add New Project</a>
     <ul class="no-bullet sidebar-nav" role="menu">
@@ -63,4 +63,13 @@
       </article>
     </div>
   </section>
+  <aside class="projects-sidebar show-for-small-only">
+    <h2 class="sidebar-title">Projects</h2>
+    <a href="" class="button sidebar-button">Add New Project</a>
+    <ul class="no-bullet sidebar-nav" role="menu">
+      <li ng-repeat="proj in project.allProjects">
+        <a href="" role="menuitem" ui-sref="project({id: proj.$id})">{{proj.name}}</a>
+      </li>
+    </ul>
+  </aside>
 </div>

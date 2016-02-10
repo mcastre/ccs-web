@@ -22,11 +22,12 @@
 
     budget.newExpense = { item: '', price: 0 };
 
-    budget.addExpense = function(job) {            
-      BudgetSvc.addExpense(angular.copy(budget.newExpense));
+    budget.addExpense = function(name) {      
+      jobsRef.child(name).child('Budget').push(budget.newExpense).then(function(ref) {
+        var id = ref.key();
+      });
       budget.newExpense = { item: '', price: 0 };
     };
-
   }]);
 
 })();

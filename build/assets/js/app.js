@@ -58,11 +58,12 @@
 
     budget.newExpense = { item: '', price: 0 };
 
-    budget.addExpense = function(job) {            
-      BudgetSvc.addExpense(angular.copy(budget.newExpense));
+    budget.addExpense = function(name) {      
+      jobsRef.child(name).child('Budget').push(budget.newExpense).then(function(ref) {
+        var id = ref.key();
+      });
       budget.newExpense = { item: '', price: 0 };
     };
-
   }]);
 
 })();
@@ -443,23 +444,18 @@
   var app = angular.module('application');
   app.factory('ProjectsSvc', ['$stateParams', '$firebaseArray', 'FoundationApi', '$state', function ProjectsSvc($stateParams, $firebaseArray, FoundationApi, $state) {
 
-    var randomInt = Math.round(Math.random() * 999);
-    var newInt = randomInt.toString();
-    var projectId = 'project_' + newInt;
-
     var pathId = $stateParams.id;
 
     var firebaseURI = 'https://ccs-web.firebaseio.com';
     var ref = new Firebase(firebaseURI);
-    var projectRef = ref.child('Projects');
-    var newProjectRef = ref.child('Projects').child(projectId);
+    var projectRef = ref.child('Projects');    
 
     var projects = $firebaseArray(projectRef);
 
     var getProjects = function() {
       return projects;
     };
-    var addProject = function(project) {      
+    var addProject = function(project) {
       projects.$add(project).then(function(ref) {
         var id = ref.key();
         console.log('Added record with ID of: ' + id);

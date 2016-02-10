@@ -1,5 +1,8 @@
 .add-job-form {
   width: 100%;
+  @include breakpoint(small only) {
+    padding: 1rem;
+  }
 }
 
 $default-border-color: #BBB;

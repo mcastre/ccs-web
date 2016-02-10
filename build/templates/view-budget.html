@@ -1,5 +1,5 @@
 <div id="view_budget" class="view-wrapper" ng-controller="BudgetCtrl as budget">
-  <aside class="projects-sidebar">
+  <aside class="projects-sidebar hide-for-small-only">
     <h2 class="sidebar-title">Projects</h2>
     <a href="" class="button sidebar-button">Add New Project</a>
     <ul class="no-bullet sidebar-nav" role="menu">
@@ -9,26 +9,26 @@
     </ul>
   </aside>
   <section class="project-view-pane grid-block wrap">
-    <div class="medium-4 grid-block details-list" ng-repeat="job in budget.allJobs">
+    <div class="medium-4 grid-block details-list" ng-repeat="(name, job) in budget.allJobs">
       <article class="card">
         <div class="card-divider">
-          <span class="card-title-small">{{job.name}}</span><h3 class="card-stat">$500</h3>
+          <span class="card-title-small">{{job.name}}</span><h3 class="card-stat"></h3>
         </div>
         <div class="card-section">
-          <p class="card-subheader">Supplies</p>
-          <ul class="expenses-list">
-            <li ng-repeat="expense in budget.expenses">
+          <p class="card-subheader" ng-if="job.Budget">Supplies</p>
+          <ul class="no-bullet">
+            <li ng-repeat="expense in job.Budget">
               <div class="grid-block">
-                <div class="small-12 large-7 grid-content">
+                <div class="small-7 grid-content">
                   <p>{{expense.item}}</p>
                 </div>
-                <div class="small-12 large-5 grid-content">
-                  <p>{{expense.price}}</p>
+                <div class="small-5 grid-content">
+                  <p class="text-right">{{expense.price | currency}}</p>
                 </div>
               </div>
             </li>
           </ul>
-          <form ng-submit="budget.addExpense(job)" ng-show="toggleAddExpense">
+          <form ng-submit="budget.addExpense(name)" ng-show="toggleAddExpense">
             <div class="grid-block">
               <div class="small-12 large-7 grid-content">
                 <label>
@@ -57,4 +57,13 @@
       </article>
     </div>
   </section>
+  <aside class="projects-sidebar show-for-small-only">
+    <h2 class="sidebar-title">Projects</h2>
+    <a href="" class="button sidebar-button">Add New Project</a>
+    <ul class="no-bullet sidebar-nav" role="menu">
+      <li ng-repeat="proj in project.allProjects">
+        <a href="" role="menuitem" ui-sref="project({id: proj.$id})">{{proj.name}}</a>
+      </li>
+    </ul>
+  </aside>
 </div>

@@ -6714,8 +6714,8 @@ hr {
 
 .card-title-small {
   float: left;
-  margin: 0;
   margin-top: 0.75rem;
+  margin-bottom: 1rem;
   font-size: 1rem; }
 
 .card-stat {
@@ -6736,6 +6736,10 @@ hr {
 
 .popup {
   width: auto; }
+
+@media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+  .panel-bottom {
+    height: 100vh; } }
 
 .tabs-bar {
   -webkit-flex: 0 1 100%;
@@ -6791,6 +6795,9 @@ select {
 
 .add-job-form {
   width: 100%; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    .add-job-form {
+      padding: 1rem; } }
 
 input[type="text"],
 textarea {
@@ -7003,6 +7010,10 @@ body {
       -webkit-flex-flow: column;
           -ms-flex-flow: column;
               flex-flow: column; } }
+  .view-wrapper.is-multi-screen-touch {
+    overflow-x: hidden;
+    position: relative;
+    height: 100vh; }
 
 .projects-sidebar {
   padding: 1rem;
@@ -7011,6 +7022,9 @@ body {
   -webkit-flex-shrink: 0;
       -ms-flex-negative: 0;
           flex-shrink: 0; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    .projects-sidebar {
+      background: #f8f8f8; } }
   @media only screen and (min-width: 40em) and (max-width: 74.9375rem) {
     .projects-sidebar {
       width: calc(14.375rem); } }
@@ -7038,6 +7052,9 @@ body {
   margin-right: -1rem; }
   .sidebar-nav li {
     padding: 0; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    .sidebar-nav {
+      margin-top: 2rem; } }
 
 .project-view-pane {
   display: -webkit-flex;
@@ -7047,14 +7064,21 @@ body {
     margin-left: 0;
     margin-right: 0; }
 
-.details-list {
-  padding: 2rem; }
-  .details-list.grid-block {
-    margin-left: 0;
-    margin-right: 0; }
-  .details-list .badge {
-    width: 1rem;
-    height: 1rem; }
+@media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+  .details-list {
+    padding-top: 1rem; } }
+
+@media only screen and (min-width: 40em) {
+  .details-list {
+    padding: 2rem; } }
+
+.details-list.grid-block {
+  margin-left: 0;
+  margin-right: 0; }
+
+.details-list .badge {
+  width: 1rem;
+  height: 1rem; }
 
 .details-list .dl-horizontal dd {
   margin-bottom: 3rem; }
@@ -7122,16 +7146,23 @@ body {
       -ms-flex: 1 100%;
           flex: 1 100%;
   margin-bottom: 3rem; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    .job-details-title {
+      padding-left: 1.875rem; } }
 
 @media only screen and (min-width: 75em) {
   .job-details-list dt {
     text-align: right; } }
 
 .add-job-title {
-  -webkit-flex: 1 100%;
-      -ms-flex: 1 100%;
-          flex: 1 100%;
-  margin-bottom: 3rem; }
+  padding-left: 1.25rem; }
+  @media only screen and (min-width: 40em) {
+    .add-job-title {
+      padding-left: 0;
+      -webkit-flex: 1 100%;
+          -ms-flex: 1 100%;
+              flex: 1 100%;
+      margin-bottom: 3rem; } }
 
 .job-item {
   display: block;
@@ -7140,14 +7171,67 @@ body {
   transition: all 200ms linear;
   border-left: 5px solid rgba(41, 172, 237, 0);
   padding: 0.5rem 0 0.5rem 0.85rem; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    .job-item {
+      background: white; }
+      li .job-item {
+        border-top: 1px solid #E0E0E0; }
+      li:last-child .job-item {
+        border-bottom: 1px solid #E0E0E0; } }
   .job-item.active {
     color: #29aced;
     background: #eeeeee;
     padding-left: 1.5rem;
     border-left: 5px solid #29aced; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    .job-item {
+      position: relative;
+      color: #29ACED; }
+      .job-item:after {
+        content: '';
+        position: absolute;
+        top: 0.875rem;
+        right: 0.625rem;
+        width: 1.25rem;
+        height: 1.25rem;
+        background: url("../images/icon-arrow.svg") no-repeat; } }
 
 .expenses-list {
   list-type: none; }
+
+@media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+  .touch-next-screen {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    z-index: 1; }
+  .touch-initial-screen {
+    height: 100vh;
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    position: relative;
+    z-index: 10;
+    transition: all 200ms linear;
+    opacity: 1; }
+    .touch-initial-screen.screen-inactive {
+      opacity: 0;
+      -webkit-transform: translateX(-100%);
+              transform: translateX(-100%);
+      height: 0; }
+  .touch-back-link {
+    position: absolute;
+    top: 0.9375rem;
+    left: 0;
+    cursor: pointer; }
+    .touch-back-link svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-top: 0.5rem;
+      -webkit-transform: scale(-1);
+              transform: scale(-1); } }
 
 .wizard-view-pane {
   margin-top: 2rem; }

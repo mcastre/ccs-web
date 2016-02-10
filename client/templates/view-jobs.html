@@ -1,16 +1,17 @@
-<div id="view_jobs" class="view-wrapper" ng-controller="JobsCtrl as job">
-  <aside class="projects-sidebar">
-    <h2 class="sidebar-title">Jobs</h2>
-    <a href="" class="button sidebar-button" ng-click="job.selectAddJob()">Add Job</a>
-    <p ng-if="job.allJobs">Or select an existing job from the list below.</p>    
+<div id="view_jobs" class="view-wrapper is-multi-screen-touch" ng-controller="JobsCtrl as job">
+  <aside class="projects-sidebar touch-initial-screen" ng-class="{'screen-inactive': job.jobDetails || toggleAdd}">
+    <h2 class="sidebar-title hide-for-small-only">Jobs</h2>
+    <a href="" class="button sidebar-button hide-for-small-only" ng-click="job.selectAddJob()">Add Job</a>
+    <a href="" class="button sidebar-button show-for-small-only" zf-open="add_job_panel_touch">Add Job</a>
+    <p ng-if="job.allJobs" class="hide-for-small-only">Or select an existing job from the list below.</p>
     <ul class="sidebar-nav" role="menu">
       <li ng-repeat="theJob in job.allJobs">
         <a href="" class="job-item" ng-click="$parent.job.jobDetails = theJob; job.toggle.item = $index" ng-class="{'active': job.toggle.item == $index}">{{theJob.name}}</a>
       </li>
     </ul>
   </aside>
-  <section class="project-view-pane grid-block wrap">
-    <div class="large-4 grid-block details-list" ng-show="job.addSelected" ng-hide="job.jobDetails">
+  <section class="project-view-pane grid-block wrap touch-next-screen" ng-class="{'screen-active': job.jobDetails, 'screen-inactive': !job.jobDetails}">
+    <div class="large-4 grid-block details-list touch-next-screen hide-for-small-only" ng-show="job.addSelected" ng-hide="job.jobDetails">
       <h3 class="add-job-title">Add New Job</h3>
       <form name="addJobForm" class="add-job-form" ng-submit="job.addJob(addJobForm.$valid)" novalidate>
         <label for="job_name">Job Name</label>
@@ -28,7 +29,7 @@
       </form>
     </div>
     <div class="large-5 grid-block details-list" ng-show="job.jobDetails" ng-hide="job.addSelected">
-      <h3 class="job-details-title">{{job.jobDetails.name}}</h3>
+      <h3 class="job-details-title"><div ng-if="job.jobDetails" class="touch-back-link show-for-small-only" ng-include="'assets/images/icon-arrow.svg'" ng-click="job.jobDetails = !job.jobDetails"></div>{{job.jobDetails.name}}</h3>
       <dl class="dl-horizontal job-details-list">
         <dt ng-if="job.jobDetails.exterior">Exterior</dt>
         <dd ng-if="job.jobDetails.exterior">{{job.jobDetails.exterior}}</dd>
@@ -39,4 +40,24 @@
       </dl>
     </div>
   </section>
+  <div class="large-4 grid-block details-list show-for-small-only">
+    <div zf-panel position="bottom" id="add_job_panel_touch" zf-swipe-close="down">
+      <a href="" zf-close class="close-button">&times;</a>
+      <h3 class="add-job-title">Add New Job</h3>
+      <form name="addJobForm" class="add-job-form" ng-submit="job.addJob(addJobForm.$valid)" novalidate>
+        <label for="job_name">Job Name</label>
+        <input type="text" id="job_name" name="job_name" ng-model="job.theJob.name" placeholder="Required" required>
+        <p ng-show="addJobForm.job_name.$invalid && !addJobForm.job_name.$pristine"></p>
+
+        <label for="job_exterior">Exterior</label>
+        <textarea id="job_exterior" ng-model="job.theJob.exterior"></textarea>
+
+        <label for="job_interior">Interior</label>
+        <textarea id="job_interior" ng-model="job.theJob.interior"></textarea>
+
+        <button role="button" type="submit" class="button" ng-disabled="addJobForm.$invalid" ng-class="{'disabled': addJobForm.$invalid}">Submit</button>
+
+      </form>
+    </div>
+  </div>
 </div>
