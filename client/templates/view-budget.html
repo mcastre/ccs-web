@@ -1,4 +1,4 @@
-<div id="view_budget" class="view-wrapper">
+<div id="view_budget" class="view-wrapper" ng-controller="BudgetCtrl as budget">
   <aside class="projects-sidebar">
     <h2 class="sidebar-title">Projects</h2>
     <a href="" class="button sidebar-button">Add New Project</a>
@@ -9,7 +9,7 @@
     </ul>
   </aside>
   <section class="project-view-pane grid-block wrap">
-    <div class="medium-4 grid-block details-list" ng-repeat="job in project.jobs">
+    <div class="medium-4 grid-block details-list" ng-repeat="job in budget.allJobs">
       <article class="card">
         <div class="card-divider">
           <span class="card-title-small">{{job.name}}</span><h3 class="card-stat">$500</h3>
@@ -17,7 +17,7 @@
         <div class="card-section">
           <p class="card-subheader">Supplies</p>
           <ul class="expenses-list">
-            <li ng-repeat="expense in project.expenses">
+            <li ng-repeat="expense in budget.expenses">
               <div class="grid-block">
                 <div class="small-12 large-7 grid-content">
                   <p>{{expense.item}}</p>
@@ -28,16 +28,16 @@
               </div>
             </li>
           </ul>
-          <form ng-submit="addExpense()">
+          <form ng-submit="budget.addExpense(job)" ng-show="toggleAddExpense">
             <div class="grid-block">
               <div class="small-12 large-7 grid-content">
                 <label>
-                  <input type="text" ng-model="newExpense.item" placeholder="Item Name">
+                  <input type="text" ng-model="budget.newExpense.item" placeholder="Item Name">
                 </label>
               </div>
               <div class="small-12 large-5 grid-content">
                 <label>
-                  <input type="text" ng-model="newExpense.price" placeholder="Price">
+                  <input type="text" ng-model="budget.newExpense.price" placeholder="Price">
                 </label>
               </div>
             </div>
@@ -49,7 +49,10 @@
           </form>
         </div>
         <div class="card-footer">
-          <a href="#">Add Expense</a>
+          <a href="" ng-click="toggleAddExpense = !toggleAddExpense">
+            <span ng-if="!toggleAddExpense">Add Expense</span>
+            <span ng-if="toggleAddExpense">Finished Adding</span>
+          </a>
         </div>
       </article>
     </div>

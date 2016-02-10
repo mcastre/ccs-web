@@ -55,23 +55,20 @@
       return tabUrl === project.currentTab.url;
     };
 
-    // JOBS
-    project.jobs = JobsSvc.getJobs();
 
-    project.jobDetails = null;
-    project.theJob = { name: '', exterior: '', interior: '', supplies: '' };
+    // NOTES
+    // ===================================================
 
-    project.addJob = function(isValid) {
-      if (isValid) {
-        JobsSvc.addJob(angular.copy(project.theJob));
-        project.theJob = { name: '', exterior: '', interior: '', supplies: '' };
-      }
+    project.notes = ProjectsSvc.getNotes();
+
+    project.newNote = {
+      dateCreated: Date.now()
     };
-    project.toggle = {item: -1};
-    project.addSelected = true;
-    project.selectAddJob = function() {
-      project.addSelected = !project.addSelected;
+    project.addNewNote = function() {
+      ProjectsSvc.addNote(angular.copy(project.newNote));
+      project.newNote = {};
     };
+    
     project.clients = ClientsSvc.getClients();
 
   }]);

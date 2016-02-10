@@ -1,46 +1,41 @@
-<div id="view_jobs" class="view-wrapper">
+<div id="view_jobs" class="view-wrapper" ng-controller="JobsCtrl as job">
   <aside class="projects-sidebar">
     <h2 class="sidebar-title">Jobs</h2>
-    <a href="" class="button sidebar-button" ng-click="project.selectAddJob()">Add Job</a>
-    <p>Or select an existing job from the list below.</p>
-    <form action="#">
-      <ul class="sidebar-nav" role="menu">
-        <li ng-repeat="job in project.jobs">
-          <a href="" class="job-item" ng-click="$parent.project.jobDetails = job; project.toggle.item = $index" ng-class="{'active': project.toggle.item == $index}">{{job.name}}</a>
-        </li>
-      </ul>
-    </form>
+    <a href="" class="button sidebar-button" ng-click="job.selectAddJob()">Add Job</a>
+    <p ng-if="job.allJobs">Or select an existing job from the list below.</p>    
+    <ul class="sidebar-nav" role="menu">
+      <li ng-repeat="theJob in job.allJobs">
+        <a href="" class="job-item" ng-click="$parent.job.jobDetails = theJob; job.toggle.item = $index" ng-class="{'active': job.toggle.item == $index}">{{theJob.name}}</a>
+      </li>
+    </ul>
   </aside>
   <section class="project-view-pane grid-block wrap">
-    <div class="large-4 grid-block details-list" ng-show="project.addSelected" ng-hide="project.jobDetails">
+    <div class="large-4 grid-block details-list" ng-show="job.addSelected" ng-hide="job.jobDetails">
       <h3 class="add-job-title">Add New Job</h3>
-      <form name="addJobForm" class="add-job-form" ng-submit="project.addJob(addJobForm.$valid)" novalidate>
+      <form name="addJobForm" class="add-job-form" ng-submit="job.addJob(addJobForm.$valid)" novalidate>
         <label for="job_name">Job Name</label>
-        <input type="text" id="job_name" name="job_name" ng-model="project.theJob.name" placeholder="Required" required>
+        <input type="text" id="job_name" name="job_name" ng-model="job.theJob.name" placeholder="Required" required>
         <p ng-show="addJobForm.job_name.$invalid && !addJobForm.job_name.$pristine"></p>
 
         <label for="job_exterior">Exterior</label>
-        <textarea id="job_exterior" ng-model="project.theJob.exterior"></textarea>
+        <textarea id="job_exterior" ng-model="job.theJob.exterior"></textarea>
 
         <label for="job_interior">Interior</label>
-        <textarea id="job_interior" ng-model="project.theJob.interior"></textarea>
-
-        <label for="job_supplies">Supplies</label>
-        <textarea id="job_supplies" ng-model="project.theJob.supplies"></textarea>
+        <textarea id="job_interior" ng-model="job.theJob.interior"></textarea>
 
         <button role="button" type="submit" class="button" ng-disabled="addJobForm.$invalid" ng-class="{'disabled': addJobForm.$invalid}">Submit</button>
 
       </form>
     </div>
-    <div class="large-5 grid-block details-list" ng-show="project.jobDetails" ng-hide="project.addSelected">
-      <h3 class="job-details-title">{{project.jobDetails.name}}</h3>
+    <div class="large-5 grid-block details-list" ng-show="job.jobDetails" ng-hide="job.addSelected">
+      <h3 class="job-details-title">{{job.jobDetails.name}}</h3>
       <dl class="dl-horizontal job-details-list">
-        <dt ng-if="project.jobDetails.exterior">Exterior</dt>
-        <dd ng-if="project.jobDetails.exterior">{{project.jobDetails.exterior}}</dd>
-        <dt ng-if="project.jobDetails.interior">Interior</dt>
-        <dd ng-if="project.jobDetails.interior">{{project.jobDetails.interior}}</dd>
-        <dt ng-if="project.jobDetails.supplies">Supplies</dt>
-        <dd ng-if="project.jobDetails.supplies">{{project.jobDetails.supplies}}</dd>
+        <dt ng-if="job.jobDetails.exterior">Exterior</dt>
+        <dd ng-if="job.jobDetails.exterior">{{job.jobDetails.exterior}}</dd>
+        <dt ng-if="job.jobDetails.interior">Interior</dt>
+        <dd ng-if="job.jobDetails.interior">{{job.jobDetails.interior}}</dd>
+        <dt ng-if="job.jobDetails.supplies">Supplies</dt>
+        <dd ng-if="job.jobDetails.supplies">{{job.jobDetails.supplies}}</dd>
       </dl>
     </div>
   </section>

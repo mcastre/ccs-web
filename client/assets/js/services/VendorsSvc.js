@@ -4,9 +4,8 @@
   var app = angular.module('application');
   app.factory('VendorsSvc', ['$firebaseArray', function VendorsSvc($firebaseArray) {
 
-    var firebaseURI = 'https://ccs-web.firebaseio.com/Vendors';
-    var ref = new Firebase(firebaseURI);
-    var vendors = $firebaseArray(ref); // create new array
+    var vendorsRef = new Firebase('https://ccs-web.firebaseio.com/Vendors');
+    var vendors = $firebaseArray(vendorsRef); // create new array
 
     var getVendors = function() {
       return vendors;

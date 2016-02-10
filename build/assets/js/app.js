@@ -38,15 +38,66 @@
   'use strict';
 
   var app = angular.module('application');
+  app.controller('BudgetCtrl', ['$scope', '$stateParams', '$firebaseArray', 'ProjectsSvc', 'JobsSvc', 'BudgetSvc', function(scope, $stateParams, $firebaseArray, ProjectsSvc, JobsSvc, BudgetSvc) {
+
+    var budget = this;
+    var pathId = $stateParams.id;
+
+    // JOBS
+
+    var projectRef = new Firebase('https://ccs-web.firebaseio.com/Projects/' + pathId + '/Jobs');
+    var jobsRef = new Firebase('https://ccs-web.firebaseio.com/Jobs');
+
+    budget.allJobs = {};
+    projectRef.on('child_added', function(snap) {
+      var jobId = snap.key();
+      jobsRef.child(jobId).on('value', function(snap) {
+        budget.allJobs[jobId] = snap.val();
+      })
+    });
+
+    budget.newExpense = { item: '', price: 0 };
+
+    budget.addExpense = function(job) {            
+      BudgetSvc.addExpense(angular.copy(budget.newExpense));
+      budget.newExpense = { item: '', price: 0 };
+    };
+
+  }]);
+
+})();
+
+(function() {
+  'use strict';
+
+  var app = angular.module('application');
+  app.controller('EstimatesCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc) {
+
+    var estimates = this;
+
+    // JOBS
+    estimates.allJobs = JobsSvc.getJobs();
+
+    estimates.jobDetails = null;
+
+    estimates.toggle = {item: -1};
+
+
+  }]);
+
+})();
+
+(function() {
+  'use strict';
+
+  var app = angular.module('application');
   app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams) {
 
     var home = this;
+    var pathId = $stateParams.id;
 
     //Get Projects
     home.projects = ProjectsSvc.getProjects();
-
-    // Get Jobs
-    home.jobs = JobsSvc.getJobs();
 
     // Get Clients
     home.clients = ClientsSvc.getClients();
@@ -74,6 +125,48 @@
   'use strict';
 
   var app = angular.module('application');
+  app.controller('JobsCtrl', ['$scope', '$stateParams', '$firebaseObject', '$firebaseArray', 'ProjectsSvc', 'JobsSvc', function(scope, $stateParams, $firebaseObject, $firebaseArray, ProjectsSvc, JobsSvc) {
+
+    var jobs = this;
+    var pathId = $stateParams.id;
+
+    // JOBS
+    var projectRef = new Firebase('https://ccs-web.firebaseio.com/Projects/' + pathId + '/Jobs');
+    var jobsRef = new Firebase('https://ccs-web.firebaseio.com/Jobs');
+
+    jobs.allJobs = {};
+    projectRef.on('child_added', function(snap) {
+      var jobId = snap.key();
+      jobsRef.child(jobId).on('value', function(snap) {
+        jobs.allJobs[jobId] = snap.val();
+      })
+    });
+
+
+
+    jobs.jobDetails = null;
+    jobs.theJob = { name: '', exterior: '', interior: '' };
+
+    jobs.addJob = function(isValid) {
+      if (isValid) {
+        JobsSvc.addJob(angular.copy(jobs.theJob));
+        jobs.theJob = { name: '', exterior: '', interior: '' };
+      }
+    };
+    jobs.toggle = {item: -1};
+    jobs.addSelected = true;
+    jobs.selectAddJob = function() {
+      jobs.addSelected = !jobs.addSelected;
+    };
+
+  }]);
+
+})();
+
+(function() {
+  'use strict';
+
+  var app = angular.module('application');
   app.controller('NewProjectCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'VendorsSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, VendorsSvc) {
 
     var pathId = $stateParams.id;
@@ -90,6 +183,8 @@
 
 
     wizard.allProjects = ProjectsSvc.getProjects();
+    wizard.clients = ClientsSvc.getClients();
+    wizard.vendors = VendorsSvc.getVendors();
 
     wizard.data = $firebaseObject(projectRef);
 
@@ -112,22 +207,6 @@
       return tabUrl === wizard.currentTab.url;
     };
 
-    // PROJECT BUILD MAIN FORM  ------------------------------------
-    // =============================================================
-
-    // ngModel Form Objects
-    wizard.build = {
-      dateCreated: Date.now()
-    };
-
-    wizard.buildProjectDetails = function(isValid) {
-      if (isValid) {
-        console.log('here');
-        ProjectsSvc.addProject(wizard.build);
-        wizard.build = {};
-      }
-    };
-
     // ADD CLIENT NG-FORM  -----------------------------------------
     // =============================================================
 
@@ -135,7 +214,8 @@
     wizard.showAddClientAlert = false;
 
     wizard.addClient = function() {
-      ClientsSvc.addClient(wizard.newClient);
+      console.log(wizard.newClient);
+      ClientsSvc.addClient(angular.copy(wizard.newClient));
       wizard.newClient = {};
       wizard.showAddClientAlert = true;
     };
@@ -147,30 +227,27 @@
     wizard.showAddVendorAlert = false;
 
     wizard.addVendor = function() {
-      VendorsSvc.addVendor(wizard.newVendor);
+      VendorsSvc.addVendor(angular.copy(wizard.newVendor));
       wizard.newVendor = {};
       wizard.showAddVendorAlert = true;
     };
 
-    // JOBS
-    wizard.jobs = JobsSvc.getJobs();
+    // PROJECT BUILD MAIN FORM  ------------------------------------
+    // =============================================================
 
-    wizard.jobDetails = null;
-    wizard.theJob = { name: '', exterior: '', interior: '', supplies: '' };
+    // ngModel Form Objects
 
-    wizard.addJob = function(isValid) {
+    wizard.build = {
+      dateCreated: Date.now()
+    };
+
+    wizard.buildProjectDetails = function(isValid) {
       if (isValid) {
-        JobsSvc.addJob(angular.copy(wizard.theJob));
-        wizard.theJob = { name: '', exterior: '', interior: '', supplies: '' };
+        ProjectsSvc.addProject(angular.copy(wizard.build));
+        wizard.build = {};
       }
     };
-    wizard.toggle = {item: -1};
-    wizard.addSelected = true;
-    wizard.selectAddJob = function() {
-      wizard.addSelected = !wizard.addSelected;
-    };
-    wizard.clients = ClientsSvc.getClients();
-    wizard.vendors = VendorsSvc.getVendors();
+
 
   }]);
 
@@ -233,23 +310,20 @@
       return tabUrl === project.currentTab.url;
     };
 
-    // JOBS
-    project.jobs = JobsSvc.getJobs();
 
-    project.jobDetails = null;
-    project.theJob = { name: '', exterior: '', interior: '', supplies: '' };
+    // NOTES
+    // ===================================================
 
-    project.addJob = function(isValid) {
-      if (isValid) {
-        JobsSvc.addJob(angular.copy(project.theJob));
-        project.theJob = { name: '', exterior: '', interior: '', supplies: '' };
-      }
+    project.notes = ProjectsSvc.getNotes();
+
+    project.newNote = {
+      dateCreated: Date.now()
     };
-    project.toggle = {item: -1};
-    project.addSelected = true;
-    project.selectAddJob = function() {
-      project.addSelected = !project.addSelected;
+    project.addNewNote = function() {
+      ProjectsSvc.addNote(angular.copy(project.newNote));
+      project.newNote = {};
     };
+    
     project.clients = ClientsSvc.getClients();
 
   }]);
@@ -260,11 +334,44 @@
   'use strict';
 
   var app = angular.module('application');
+  app.factory('BudgetSvc', ['$firebaseArray', '$stateParams', function BudgetSvc($firebaseArray, $stateParams) {
+
+    var pathId = $stateParams.id;
+
+    var firebaseURI = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
+    var jobsRef = new Firebase(firebaseURI);
+
+    var budgetRef = new Firebase('https://ccs-web.firebaseio.com/Jobs');
+
+    var budgets = $firebaseArray(budgetRef); // create new array
+
+    var getBudgets = function() {
+      return budgets;
+    };
+    var addExpense = function(job) {
+      budgets.$add(job).then(function(ref) {
+        var jobId = ref.key();
+        budgets[jobId].id = jobId;
+        budgets.$save(jobId);
+      })
+    };
+
+    return {
+      getBudgets: getBudgets,
+      addExpense: addExpense
+    }
+  }]);
+
+})();
+
+(function() {
+  'use strict';
+
+  var app = angular.module('application');
   app.factory('ClientsSvc', ['$firebaseArray', function ClientsSvc($firebaseArray) {
 
-    var firebaseURI = 'https://ccs-web.firebaseio.com/Clients';
-    var ref = new Firebase(firebaseURI);
-    var clients = $firebaseArray(ref); // create new array
+    var clientsRef = new Firebase('https://ccs-web.firebaseio.com/Clients');
+    var clients = $firebaseArray(clientsRef); // create new array
 
     var getClients = function() {
       return clients;
@@ -285,39 +392,46 @@
   'use strict';
 
   var app = angular.module('application');
-  app.factory('JobsSvc', ['$stateParams', '$firebaseArray', function JobsSvc($stateParams, $firebaseArray) {
+  app.factory('JobsSvc', ['$stateParams', '$firebaseArray', 'FoundationApi', function JobsSvc($stateParams, $firebaseArray, FoundationApi) {
+
+    var randomInt = Math.round(Math.random() * 999);
+    var newInt = randomInt.toString();
+    var jobId = 'job_' + newInt;
 
     var pathId = $stateParams.id;
 
-    var firebaseURI = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
-    var projectRef = new Firebase(firebaseURI);
-    var jobsRef = projectRef.child('Jobs');
+    var projectRef = new Firebase('https://ccs-web.firebaseio.com/Projects/' + pathId );
+    var jobsRef = new Firebase('https://ccs-web.firebaseio.com/Jobs');
     var jobs = $firebaseArray(jobsRef); // create new array
 
     var getJobs = function() {
-      return jobs;
-    };
-    var getExpenses = function() {
-      return expenses;
+      return jobs
     };
 
     var addJob = function(job) {
-      jobs.$add(job);
+      var root = new Firebase('https://ccs-web.firebaseio.com/');
+      var id = root.child('Jobs').push();
+      id.set(job, function(err) {
+        if (!err) {
+          var name = id.key();
+          root.child('/Projects/' + pathId + '/Jobs/' + name).set(true);
+          FoundationApi.publish('main-notifications', {
+            autoclose: 6000,
+            title: 'Success! ',
+            content: job.name + ' has been created',
+            color: 'success'
+          });
+          id.once('value', function(snapshot) {
+            var data = snapshot.exportVal();
+            console.log(data);
+          })
+        }
+      });
     };
 
-    var selectedJob = function() {
-      return {
-        name: this.name,
-        exterior: this.exterior,
-        interior: this.interior,
-        supplies: this.supplies
-      }
-    };
     return {
       getJobs: getJobs,
-      getExpenses: getExpenses,
-      addJob: addJob,
-      selectedJob: selectedJob
+      addJob: addJob
     }
   }]);
 
@@ -329,21 +443,26 @@
   var app = angular.module('application');
   app.factory('ProjectsSvc', ['$stateParams', '$firebaseArray', 'FoundationApi', '$state', function ProjectsSvc($stateParams, $firebaseArray, FoundationApi, $state) {
 
+    var randomInt = Math.round(Math.random() * 999);
+    var newInt = randomInt.toString();
+    var projectId = 'project_' + newInt;
+
     var pathId = $stateParams.id;
 
     var firebaseURI = 'https://ccs-web.firebaseio.com';
     var ref = new Firebase(firebaseURI);
     var projectRef = ref.child('Projects');
+    var newProjectRef = ref.child('Projects').child(projectId);
 
     var projects = $firebaseArray(projectRef);
 
     var getProjects = function() {
       return projects;
     };
-    var addProject = function(project) {
+    var addProject = function(project) {      
       projects.$add(project).then(function(ref) {
         var id = ref.key();
-        console.log('Added record with ID of: ' + id);        
+        console.log('Added record with ID of: ' + id);
         $state.go('project', {'id': id});
       });
       FoundationApi.publish('main-notifications', {
@@ -354,9 +473,25 @@
       });
     };
 
+    // NOTES REF
+
+    var firebaseURINotes = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
+    var notesRef = new Firebase(firebaseURINotes);
+    var newNotesRef = notesRef.child('Notes');
+    var notes = $firebaseArray(newNotesRef);
+
+    var getNotes = function() {
+      return notes;
+    };
+    var addNote = function(note) {
+      newNotesRef.push(note);
+    };
+
     return {
       getProjects: getProjects,
-      addProject: addProject
+      addProject: addProject,
+      getNotes: getNotes,
+      addNote: addNote
     }
   }]);
 
@@ -368,9 +503,8 @@
   var app = angular.module('application');
   app.factory('VendorsSvc', ['$firebaseArray', function VendorsSvc($firebaseArray) {
 
-    var firebaseURI = 'https://ccs-web.firebaseio.com/Vendors';
-    var ref = new Firebase(firebaseURI);
-    var vendors = $firebaseArray(ref); // create new array
+    var vendorsRef = new Firebase('https://ccs-web.firebaseio.com/Vendors');
+    var vendors = $firebaseArray(vendorsRef); // create new array
 
     var getVendors = function() {
       return vendors;

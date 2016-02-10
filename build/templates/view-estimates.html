@@ -1,4 +1,15 @@
-<div id="view_estimates">
-  <h1>Estimates</h1>
-  <p>Praesent id metus massa, ut blandit odio. Proin quis tortor orci. Etiam at risus et justo dignissim congue. Donec congue lacinia dui, a porttitor lectus condimentum laoreet. Nunc.</p>
+<div id="view_estimates" class="view-wrapper" ng-controller="EstimatesCtrl as estimates">
+  <aside class="projects-sidebar">
+    <h2 class="sidebar-title">Jobs</h2>
+    <ul class="sidebar-nav" role="menu">
+      <li ng-repeat="job in estimates.allJobs">
+        <a href="" class="job-item" ng-click="$parent.estimates.jobDetails = job; estimates.toggle.item = $index" ng-class="{'active': estimates.toggle.item == $index}">{{job.name}}</a>
+      </li>
+    </ul>
+  </aside>
+  <section class="project-view-pane grid-block wrap">
+    <div class="large-5 grid-block details-list" ng-show="estimates.jobDetails">
+      <h3 class="job-details-title">Estimates</h3>
+    </div>
+  </section>
 </div>

@@ -17,6 +17,10 @@ textarea {
   &.ng-valid {
     border: 1px solid $success-color;
   }
+  font-weight: normal;
+}
+textarea {
+  min-height: rem-calc(100);
 }
 .form-expand {
   flex: 1 100%;
@@ -30,8 +34,6 @@ textarea {
   background-color: darken($app-background,2%);
   border-radius: rem-calc(4);
 }
-input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="color"], textarea, select {
-  @include breakpoint(small only) {
-    padding: 1rem;
-  }
+.add-note-form {
+  width: 100%;
 }

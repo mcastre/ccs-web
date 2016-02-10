@@ -16,8 +16,8 @@
           <p class="paragraph-normal">{{project.data.address.address1}}</p>
           <p>{{project.data.address.city}}, {{project.data.address.state}} {{project.data.address.zip}}</p>
         </dd>
-        <dt>Client</dt>
-        <dd>{{project.data.selectedClient.name}}
+        <dt ng-if="project.data.selectedClient.name">Client</dt>
+        <dd ng-if="project.data.selectedClient.name">{{project.data.selectedClient.name}}
           <dl class="dl-horizontal dt-left">
             <dt>Phone</dt>
             <dd><a href="tel:{{project.data.selectedClient.phone}}">{{project.data.selectedClient.phone}}</a></dd>
@@ -29,8 +29,8 @@
         <dd>{{project.data.dateCreated | date:"MM/dd/yyyy 'at' h:mm a"}}</dd>
         <dt>Status</dt>
         <dd>{{project.data.status}} <span class="badge" ng-class="{'warning': project.data.status === 'In Progress'}"></span></dd>
-        <dt>Vendor</dt>
-        <dd>{{project.data.selectedVendor.name}}
+        <dt ng-if="project.data.selectedVendor.name">Vendor</dt>
+        <dd ng-if="project.data.selectedVendor.name">{{project.data.selectedVendor.name}}
           <dl class="dl-horizontal dt-left">
             <dt>Address</dt>
             <dd>{{project.data.selectedVendor.address1}}, {{project.data.selectedVendor.city}}, {{project.data.selectedVendor.state}} {{project.data.selectedVendor.zip}}</dd>
@@ -42,19 +42,23 @@
     </div>
     <div class="medium-5 grid-block notes-section">
       <h3 class="notes-heading">Notes</h3>
-      <a href="" class="add-note-link">Add Note</a>
-      <article class="note-wrapper">
-        <div class="avatar note-avatar"></div>
-        <div class="note-text">
-          <span class="note-author">Armando Castre </span><small class="note-date">01/01/2016 @ 7:15am</small>
-          <p class="note-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea optio ullam, veniam natus odio omnis quia quod perspiciatis earum esse cupiditate dolores vero culpa recusandae.</p>
+      <a href="" class="add-note-link" ng-click="toggleNoteForm = !toggleNoteForm">Add Note</a>
+      <form name="newNote" class="add-note-form fadeIn fadeOut" ng-show="toggleNoteForm" ng-submit="project.addNewNote()">
+        <div class="note-wrapper">
+          <div class="avatar note-avatar"></div>
+          <div class="note-text">
+            <label> New Note
+              <textarea name="note_body" id="note_body" ng-model="project.newNote.noteBody" placeholder="Enter a new Note"></textarea>
+            </label>
+            <button role="button" type="submit" class="button">Add Note</button>
+          </div>
         </div>
-      </article>
-      <article class="note-wrapper">
+      </form>
+      <article class="note-wrapper" ng-repeat="note in project.notes">
         <div class="avatar note-avatar"></div>
         <div class="note-text">
-          <span class="note-author">Armando Castre </span><small class="note-date">11/02/2015 @ 9:12am</small>
-          <p class="note-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea optio ullam, veniam natus odio omnis quia quod perspiciatis earum esse cupiditate dolores vero culpa recusandae. Sit amet, consectetur adipisicing elit. Ea optio ullam, veniam natus odio omnis quia quod perspiciatis earum esse cupiditate dolores vero culpa recusandae</p>
+          <span class="note-author">Armando Castre </span><small class="note-date">{{note.dateCreated | date:"MM/dd/yyyy 'at' h:mm a"}}</small>
+          <p class="note-body">{{note.noteBody}}</p>
         </div>
       </article>
     </div>

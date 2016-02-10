@@ -18,6 +18,8 @@
 
 
     wizard.allProjects = ProjectsSvc.getProjects();
+    wizard.clients = ClientsSvc.getClients();
+    wizard.vendors = VendorsSvc.getVendors();
 
     wizard.data = $firebaseObject(projectRef);
 
@@ -40,22 +42,6 @@
       return tabUrl === wizard.currentTab.url;
     };
 
-    // PROJECT BUILD MAIN FORM  ------------------------------------
-    // =============================================================
-
-    // ngModel Form Objects
-    wizard.build = {
-      dateCreated: Date.now()
-    };
-
-    wizard.buildProjectDetails = function(isValid) {
-      if (isValid) {
-        console.log('here');
-        ProjectsSvc.addProject(wizard.build);
-        wizard.build = {};
-      }
-    };
-
     // ADD CLIENT NG-FORM  -----------------------------------------
     // =============================================================
 
@@ -63,7 +49,8 @@
     wizard.showAddClientAlert = false;
 
     wizard.addClient = function() {
-      ClientsSvc.addClient(wizard.newClient);
+      console.log(wizard.newClient);
+      ClientsSvc.addClient(angular.copy(wizard.newClient));
       wizard.newClient = {};
       wizard.showAddClientAlert = true;
     };
@@ -75,30 +62,27 @@
     wizard.showAddVendorAlert = false;
 
     wizard.addVendor = function() {
-      VendorsSvc.addVendor(wizard.newVendor);
+      VendorsSvc.addVendor(angular.copy(wizard.newVendor));
       wizard.newVendor = {};
       wizard.showAddVendorAlert = true;
     };
 
-    // JOBS
-    wizard.jobs = JobsSvc.getJobs();
+    // PROJECT BUILD MAIN FORM  ------------------------------------
+    // =============================================================
 
-    wizard.jobDetails = null;
-    wizard.theJob = { name: '', exterior: '', interior: '', supplies: '' };
+    // ngModel Form Objects
 
-    wizard.addJob = function(isValid) {
+    wizard.build = {
+      dateCreated: Date.now()
+    };
+
+    wizard.buildProjectDetails = function(isValid) {
       if (isValid) {
-        JobsSvc.addJob(angular.copy(wizard.theJob));
-        wizard.theJob = { name: '', exterior: '', interior: '', supplies: '' };
+        ProjectsSvc.addProject(angular.copy(wizard.build));
+        wizard.build = {};
       }
     };
-    wizard.toggle = {item: -1};
-    wizard.addSelected = true;
-    wizard.selectAddJob = function() {
-      wizard.addSelected = !wizard.addSelected;
-    };
-    wizard.clients = ClientsSvc.getClients();
-    wizard.vendors = VendorsSvc.getVendors();
+
 
   }]);
 

@@ -8,6 +8,14 @@
     font-size: $base-font-size;
   }
 }
+.start-project-button {
+  display: none;
+  @include breakpoint(large) {
+    display: inline-block;
+  }
+  margin: 0;
+  margin-left: 2rem;
+}
 .sidebar-button {
   width: 100%;
 }
@@ -21,10 +29,16 @@
 }
 .build-form-submit {
   margin-left: 1rem;
+  width: 100%;
   @include breakpoint(medium) {
+    width: auto;
     margin-left: 11rem;
   }
 }
 .form-cancel {
   margin-top: 1rem;
+  @include breakpoint(small only) {
+    width: 100%;
+    text-align: center;
+  }
 }

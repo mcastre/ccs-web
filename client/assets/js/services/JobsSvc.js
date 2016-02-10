@@ -2,39 +2,46 @@
   'use strict';
 
   var app = angular.module('application');
-  app.factory('JobsSvc', ['$stateParams', '$firebaseArray', function JobsSvc($stateParams, $firebaseArray) {
+  app.factory('JobsSvc', ['$stateParams', '$firebaseArray', 'FoundationApi', function JobsSvc($stateParams, $firebaseArray, FoundationApi) {
+
+    var randomInt = Math.round(Math.random() * 999);
+    var newInt = randomInt.toString();
+    var jobId = 'job_' + newInt;
 
     var pathId = $stateParams.id;
 
-    var firebaseURI = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
-    var projectRef = new Firebase(firebaseURI);
-    var jobsRef = projectRef.child('Jobs');
+    var projectRef = new Firebase('https://ccs-web.firebaseio.com/Projects/' + pathId );
+    var jobsRef = new Firebase('https://ccs-web.firebaseio.com/Jobs');
     var jobs = $firebaseArray(jobsRef); // create new array
 
     var getJobs = function() {
-      return jobs;
-    };
-    var getExpenses = function() {
-      return expenses;
+      return jobs
     };
 
     var addJob = function(job) {
-      jobs.$add(job);
+      var root = new Firebase('https://ccs-web.firebaseio.com/');
+      var id = root.child('Jobs').push();
+      id.set(job, function(err) {
+        if (!err) {
+          var name = id.key();
+          root.child('/Projects/' + pathId + '/Jobs/' + name).set(true);
+          FoundationApi.publish('main-notifications', {
+            autoclose: 6000,
+            title: 'Success! ',
+            content: job.name + ' has been created',
+            color: 'success'
+          });
+          id.once('value', function(snapshot) {
+            var data = snapshot.exportVal();
+            console.log(data);
+          })
+        }
+      });
     };
 
-    var selectedJob = function() {
-      return {
-        name: this.name,
-        exterior: this.exterior,
-        interior: this.interior,
-        supplies: this.supplies
-      }
-    };
     return {
       getJobs: getJobs,
-      getExpenses: getExpenses,
-      addJob: addJob,
-      selectedJob: selectedJob
+      addJob: addJob
     }
   }]);
 

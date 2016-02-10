@@ -22,7 +22,6 @@ $sidebar-width: rem-calc(250px);
 $sidebar-width-tablet: rem-calc(230px);
 .view-wrapper {
   display: flex;
-  height: 100vh;
   @include breakpoint(small only) {
     flex-flow: column;
   }
@@ -37,6 +36,7 @@ $sidebar-width-tablet: rem-calc(230px);
   }
   @include breakpoint(large) {
     width: calc(#{$sidebar-width});
+    height: 100vh;
   }
 }
 .project-view-pane {
@@ -99,6 +99,7 @@ $sidebar-width-tablet: rem-calc(230px);
   margin-top: 2rem;
 }
 .note-wrapper {
+  flex: $flex-expand;
   border-top: 1px solid $light-grey-border;
   @include clearfix;
   padding: 1rem;
@@ -128,9 +129,10 @@ $sidebar-width-tablet: rem-calc(230px);
 }
 .note-body {
   margin-top: 0.5rem;
+  margin-bottom: 0;
 }
 .job-details-title {
-  flex: 1 100%;
+  flex: $flex-expand;
   margin-bottom: 3rem;
 }
 .job-details-list dt {
@@ -139,7 +141,7 @@ $sidebar-width-tablet: rem-calc(230px);
   }
 }
 .add-job-title {
-  flex: 1 100%;
+  flex: $flex-expand;
   margin-bottom: 3rem;
 }
 .job-item {

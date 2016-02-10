@@ -5,12 +5,10 @@
   app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams) {
 
     var home = this;
+    var pathId = $stateParams.id;
 
     //Get Projects
     home.projects = ProjectsSvc.getProjects();
-
-    // Get Jobs
-    home.jobs = JobsSvc.getJobs();
 
     // Get Clients
     home.clients = ClientsSvc.getClients();

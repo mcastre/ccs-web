@@ -6576,6 +6576,14 @@ hr {
       padding: 1.25em 1.85em;
       font-size: 1rem; } }
 
+.start-project-button {
+  display: none;
+  margin: 0;
+  margin-left: 2rem; }
+  @media only screen and (min-width: 75em) {
+    .start-project-button {
+      display: inline-block; } }
+
 .sidebar-button {
   width: 100%; }
 
@@ -6588,64 +6596,19 @@ hr {
   margin-bottom: 0; }
 
 .build-form-submit {
-  margin-left: 1rem; }
+  margin-left: 1rem;
+  width: 100%; }
   @media only screen and (min-width: 40em) {
     .build-form-submit {
+      width: auto;
       margin-left: 11rem; } }
 
 .form-cancel {
   margin-top: 1rem; }
-
-.notification p {
-  color: white; }
-
-.popup {
-  width: auto; }
-
-.tabs-bar {
-  -webkit-flex: 0 1 100%;
-      -ms-flex: 0 1 100%;
-          flex: 0 1 100%;
-  margin-top: 1rem; }
-  @media only screen and (min-width: 40em) and (max-width: 74.9375rem) {
-    .tabs-bar {
-      -webkit-flex: 1 0 80%;
-          -ms-flex: 1 0 80%;
-              flex: 1 0 80%; } }
-  @media only screen and (min-width: 75em) {
-    .tabs-bar {
-      -webkit-flex: 0 1 50%;
-          -ms-flex: 0 1 50%;
-              flex: 0 1 50%;
-      margin: auto; } }
-
-.tabs-navigation {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-flow: row nowrap;
-      -ms-flex-flow: row nowrap;
-          flex-flow: row nowrap;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  margin: 0; }
-
-.tab {
-  padding: 0.4rem 1.25rem;
-  border-bottom: 2px solid rgba(255, 205, 93, 0);
-  transition: border 200ms linear; }
-  .tab a {
-    transition: color 200ms linear;
-    color: rgba(255, 255, 255, 0.5); }
-  .tab:hover {
-    border-bottom: 2px solid #ffcd5d; }
-    .tab:hover a {
-      color: white; }
-  .tab.active {
-    border-bottom: 2px solid #ffcd5d; }
-    .tab.active a {
-      color: white; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    .form-cancel {
+      width: 100%;
+      text-align: center; } }
 
 .projects-card-wrapper .card-column {
   -webkit-flex: 1 1 auto;
@@ -6764,6 +6727,61 @@ hr {
 .card-subheader {
   font-weight: 700; }
 
+.card-list {
+  list-style: none;
+  margin-left: 0; }
+
+.notification p {
+  color: white; }
+
+.popup {
+  width: auto; }
+
+.tabs-bar {
+  -webkit-flex: 0 1 100%;
+      -ms-flex: 0 1 100%;
+          flex: 0 1 100%;
+  margin-top: 1rem; }
+  @media only screen and (min-width: 40em) and (max-width: 74.9375rem) {
+    .tabs-bar {
+      -webkit-flex: 1 0 80%;
+          -ms-flex: 1 0 80%;
+              flex: 1 0 80%; } }
+  @media only screen and (min-width: 75em) {
+    .tabs-bar {
+      -webkit-flex: 0 1 50%;
+          -ms-flex: 0 1 50%;
+              flex: 0 1 50%;
+      margin: auto; } }
+
+.tabs-navigation {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0; }
+
+.tab {
+  padding: 0.4rem 1.25rem;
+  border-bottom: 2px solid rgba(255, 205, 93, 0);
+  transition: border 200ms linear; }
+  .tab a {
+    transition: color 200ms linear;
+    color: rgba(255, 255, 255, 0.5); }
+  .tab:hover {
+    border-bottom: 2px solid #ffcd5d; }
+    .tab:hover a {
+      color: white; }
+  .tab.active {
+    border-bottom: 2px solid #ffcd5d; }
+    .tab.active a {
+      color: white; }
+
 @media only screen and (min-width: 40em) {
   .form-shrink {
     width: auto; } }
@@ -6774,19 +6792,23 @@ select {
 .add-job-form {
   width: 100%; }
 
-input[type="text"].ng-pristine.ng-invalid, input[type="text"].ng-pristine.ng-valid,
-textarea.ng-pristine.ng-invalid,
-textarea.ng-pristine.ng-valid {
-  border: 1px solid #BBB; }
+input[type="text"],
+textarea {
+  font-weight: normal; }
+  input[type="text"].ng-pristine.ng-invalid, input[type="text"].ng-pristine.ng-valid,
+  textarea.ng-pristine.ng-invalid,
+  textarea.ng-pristine.ng-valid {
+    border: 1px solid #BBB; }
+  input[type="text"].ng-invalid, input[type="text"].ng-touched.ng-invalid,
+  textarea.ng-invalid,
+  textarea.ng-touched.ng-invalid {
+    border: 1px solid #EF5350; }
+  input[type="text"].ng-valid,
+  textarea.ng-valid {
+    border: 1px solid #43AC6A; }
 
-input[type="text"].ng-invalid, input[type="text"].ng-touched.ng-invalid,
-textarea.ng-invalid,
-textarea.ng-touched.ng-invalid {
-  border: 1px solid #EF5350; }
-
-input[type="text"].ng-valid,
-textarea.ng-valid {
-  border: 1px solid #43AC6A; }
+textarea {
+  min-height: 6.25rem; }
 
 .form-expand {
   -webkit-flex: 1 100%;
@@ -6802,9 +6824,8 @@ textarea.ng-valid {
   background-color: #f3f3f3;
   border-radius: 0.25rem; }
 
-@media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
-  input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="color"], textarea, select {
-    padding: 1rem; } }
+.add-note-form {
+  width: 100%; }
 
 label {
   font-weight: 700;
@@ -6976,8 +6997,7 @@ body {
 .view-wrapper {
   display: -webkit-flex;
   display: -ms-flexbox;
-  display: flex;
-  height: 100vh; }
+  display: flex; }
   @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
     .view-wrapper {
       -webkit-flex-flow: column;
@@ -6996,7 +7016,8 @@ body {
       width: calc(14.375rem); } }
   @media only screen and (min-width: 75em) {
     .projects-sidebar {
-      width: calc(15.625rem); } }
+      width: calc(15.625rem);
+      height: 100vh; } }
 
 .project-view-pane {
   padding: 1rem;
@@ -7058,6 +7079,9 @@ body {
   margin-top: 2rem; }
 
 .note-wrapper {
+  -webkit-flex: 1 100%;
+      -ms-flex: 1 100%;
+          flex: 1 100%;
   border-top: 1px solid #E0E0E0;
   padding: 1rem; }
   .note-wrapper:before, .note-wrapper:after {
@@ -7090,7 +7114,8 @@ body {
   padding-right: 0.5rem; }
 
 .note-body {
-  margin-top: 0.5rem; }
+  margin-top: 0.5rem;
+  margin-bottom: 0; }
 
 .job-details-title {
   -webkit-flex: 1 100%;
