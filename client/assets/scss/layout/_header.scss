@@ -10,7 +10,8 @@
   margin-right: rem-calc(20);
   padding: 0.5rem;
   @include breakpoint(small only) {
-    margin-left: 1.25rem;
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
   }
 }
 .header-brand-profile {

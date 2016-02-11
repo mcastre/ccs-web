@@ -6739,7 +6739,8 @@ hr {
 
 @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
   .panel-bottom {
-    height: 100vh; } }
+    height: 100vh;
+    overflow: auto; } }
 
 .tabs-bar {
   -webkit-flex: 0 1 100%;
@@ -6873,7 +6874,8 @@ label {
   padding: 0.5rem; }
   @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
     .header-nav-icon {
-      margin-left: 1.25rem; } }
+      margin-left: 0.75rem;
+      margin-right: 0.75rem; } }
 
 .header-brand-profile {
   -webkit-flex: 1 0 25%;
@@ -6935,6 +6937,13 @@ label {
   font-size: 1.25rem;
   font-weight: 400;
   color: #666666; }
+  @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+    .title-bar .title {
+      display: inline-block;
+      max-width: 18.75rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; } }
 
 .sidenav-user-box {
   background-color: #1ABC9C;

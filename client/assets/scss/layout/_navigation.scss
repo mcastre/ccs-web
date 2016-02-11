@@ -15,6 +15,13 @@
   font-size: $headline-font-size;
   font-weight: $body-font-weight;
   color: $medium-grey;
+  @include breakpoint(small only) {
+    display: inline-block;
+    max-width: rem-calc(300);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 .sidenav-user-box {
   background-color: $primary-color;
