@@ -7080,6 +7080,11 @@ body {
   width: 1rem;
   height: 1rem; }
 
+@media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+  .details-list .form-expand {
+    padding: 0 1rem;
+    overflow: auto; } }
+
 .details-list .dl-horizontal dd {
   margin-bottom: 3rem; }
   @media only screen and (min-width: 75em) {
@@ -7234,4 +7239,5 @@ body {
               transform: scale(-1); } }
 
 .wizard-view-pane {
-  margin-top: 2rem; }
+  margin-top: 2rem;
+  overflow: auto !important; }

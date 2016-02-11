@@ -89,6 +89,12 @@ $sidebar-width-tablet: rem-calc(230px);
     width: 1rem;
     height: 1rem;
   }
+  .form-expand {
+    @include breakpoint(small only) {
+      padding: 0 1rem;
+      overflow: auto;
+    }
+  }
 }
 .details-list .dl-horizontal {
   dd {
