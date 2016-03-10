@@ -1,8 +1,11 @@
 .form-shrink {
   @include breakpoint(medium) {
-    width: auto;  
+    width: auto;
   }
 }
 select {
   color: $medium-grey;
+}
+.switch {
+  float: right;
 }

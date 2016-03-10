@@ -15,16 +15,16 @@
     var jobs = $firebaseArray(jobsRef); // create new array
 
     var getJobs = function() {
-      return jobs
+      return jobs;
     };
 
-    var addJob = function(job) {
+    var addJob = function(job, projId) {
       var root = new Firebase('https://ccs-web.firebaseio.com/');
       var id = root.child('Jobs').push();
       id.set(job, function(err) {
         if (!err) {
           var name = id.key();
-          root.child('/Projects/' + pathId + '/Jobs/' + name).set(true);
+          root.child('Projects/' + projId + '/Jobs/' + name).set(true);
           FoundationApi.publish('main-notifications', {
             autoclose: 6000,
             title: 'Success! ',

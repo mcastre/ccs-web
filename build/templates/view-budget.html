@@ -9,33 +9,51 @@
     </ul>
   </aside>
   <section class="project-view-pane grid-block wrap">
-    <div class="small-12 medium-4 grid-block details-list" ng-repeat="(name, job) in budget.allJobs">
+    <div class="small-12 medium-6 grid-block details-list" ng-repeat="(name, job) in budget.allJobs">
       <article class="card">
         <div class="card-divider">
           <span class="card-title-small">{{job.name}}</span><h3 class="card-stat"></h3>
         </div>
         <div class="card-section">
-          <p class="card-subheader" ng-if="job.Budget">Supplies</p>
+          <div class="grid-block" ng-if="job.Budget">
+            <div class="large-3 grid-content">
+              <p class="card-col-header"># Invoice</p>
+            </div>
+            <div class="large-6 grid-content">
+              <p class="card-col-header">Item Name</p>
+            </div>
+            <div class="large-3 grid-content">
+              <p class="card-col-header align-right">Price</p>
+            </div>
+          </div>
           <ul class="no-bullet">
             <li ng-repeat="expense in job.Budget">
               <div class="grid-block">
-                <div class="small-7 grid-content">
+                <div class="large-3 grid-content">
+                  <p>#{{expense.ticketNum}}</p>
+                </div>
+                <div class="large-6 grid-content">
                   <p>{{expense.item}}</p>
                 </div>
-                <div class="small-5 grid-content">
+                <div class="large-3 grid-content">
                   <p class="text-right">{{expense.price | currency}}</p>
                 </div>
               </div>
-            </li>
+            </li>            
           </ul>
           <form ng-submit="budget.addExpense(name)" ng-show="toggleAddExpense">
             <div class="grid-block">
-              <div class="small-12 large-7 grid-content">
+              <div class="small-12 large-3 grid-content">
+                <label>
+                  <input type="text" ng-model="budget.newExpense.ticketNum" placeholder="# Ticket">
+                </label>
+              </div>
+              <div class="small-12 large-6 grid-content">
                 <label>
                   <input type="text" ng-model="budget.newExpense.item" placeholder="Item Name">
                 </label>
               </div>
-              <div class="small-12 large-5 grid-content">
+              <div class="small-12 large-3 grid-content">
                 <label>
                   <input type="text" ng-model="budget.newExpense.price" placeholder="Price">
                 </label>

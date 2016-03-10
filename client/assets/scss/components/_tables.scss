@@ -1,0 +1,60 @@
+table {
+  width: 100%;
+  background: white;
+  //box-shadow: $base-layer-shadow;
+  caption {
+    background: white;
+    padding: 1rem;
+    font-size: $headline-font-size;
+    text-align: left;
+  }
+}
+thead {
+  th {
+    position: relative;
+    padding: 1rem;
+    text-align: right;
+    font-weight: normal;
+    color: rgba($medium-grey, 0.7);
+    font-size: rem-calc(14);
+  }
+  th:first-child {
+    text-align: left;
+  }
+}
+tbody {
+  tr {
+    border-top: 1px solid darken($app-background, 3%);
+    @include transition(background, 100ms, linear);
+    &:hover {
+      background: darken($app-background, 3%);
+    }
+  }
+  td {
+    padding: 0.625rem 1rem;
+    color: $medium-grey;
+  }
+}
+tfoot {
+  border-top: 1px solid darken($app-background, 3%);
+  td {
+    padding: 0.625rem 1rem;
+  }
+}
+.estimates-table {
+  margin-bottom: 2rem;
+  input:checked~.switch-paddle {
+    visibility: visible;
+  }
+  input+.switch-paddle {
+    visibility: hidden;
+  }
+  &.edit-active {
+    input+.switch-paddle {
+      visibility: visible;
+    }
+  }
+}
+.hide-form-button {
+  padding-left: 1rem;
+}

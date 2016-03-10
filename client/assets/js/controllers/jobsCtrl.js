@@ -16,7 +16,7 @@
       var jobId = snap.key();
       jobsRef.child(jobId).on('value', function(snap) {
         jobs.allJobs[jobId] = snap.val();
-      })
+      });
     });
 
 
@@ -26,7 +26,7 @@
 
     jobs.addJob = function(isValid) {
       if (isValid) {
-        JobsSvc.addJob(angular.copy(jobs.theJob));
+        JobsSvc.addJob(angular.copy(jobs.theJob), pathId);
         jobs.theJob = { name: '', exterior: '', interior: '' };
       }
     };

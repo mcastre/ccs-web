@@ -13,6 +13,11 @@ animationOut: fadeOut
       </a>
        {{home.headingText}}
        <a href="" class="button start-project-button" ui-sref="new-project">Start New Project</a>
+       <ng-form class="header-search-bar">
+         <label>
+           <input type="text" ng-model="search.query" placeholder="Search...">
+         </label>
+       </ng-form>
     </div>
   </div>
   <div class="header-brand-profile">
@@ -29,12 +34,11 @@ animationOut: fadeOut
 </div>
 <div class="main-container">
   <section class="projects-card-wrapper grid-block vertical medium-horizontal medium-up-3 large-up-4">
-    <div class="grid-block" ng-repeat="project in home.projects">
+    <div class="grid-block" ng-repeat="project in home.projects | filter:search.query">
       <article class="card">
         <div class="card-divider">
           <h3 class="card-title"><a href="#" ui-sref="project({id: project.$id})">{{project.name}}</a></h3>
-          <a href="#" role="button" class="warning badge" title="Status: {{project.status}}">
-            <zf-popup id="status_popup" class="padding">Status: {{project.status}}</zf-popup>
+          <a href="#" role="button" class="badge" title="Status: {{project.status}}" ng-class="{'': project.status === 'In Progress', 'alert': project.status === 'Awaiting Client'}">
           </a>
         </div>
         <div class="card-section">
@@ -46,7 +50,7 @@ animationOut: fadeOut
             <dd ng-if="project.selectedClient.name">{{project.selectedClient.name}}</dd>
             <dt>Date Created</dt>
             <dd>{{project.dateCreated | date: 'MM/dd/yyyy'}}</dd>
-            
+
           </dl>
         </div>
         <div class="card-footer">

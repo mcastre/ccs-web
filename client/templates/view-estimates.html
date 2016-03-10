@@ -1,15 +1,38 @@
-<div id="view_estimates" class="view-wrapper" ng-controller="EstimatesCtrl as estimates">
-  <aside class="projects-sidebar">
-    <h2 class="sidebar-title">Jobs</h2>
+<div id="view_estimates" class="view-wrapper is-multi-screen-touch" ng-controller="EstimatesCtrl as estimates">
+  <aside class="projects-sidebar touch-initial-screen" ng-class="{'screen-inactive': estimates.jobDetails}">
+    <h2 class="sidebar-title">Estimates</h2>
+    <p>Select an existing job from the list below to add an Estimate to it.</p>
     <ul class="sidebar-nav" role="menu">
-      <li ng-repeat="job in estimates.allJobs">
-        <a href="" class="job-item" ng-click="$parent.estimates.jobDetails = job; estimates.toggle.item = $index" ng-class="{'active': estimates.toggle.item == $index}">{{job.name}}</a>
+      <li ng-repeat="(name, job) in estimates.allJobs">
+        <a href="" class="job-item" ng-click="$parent.estimates.jobDetails = job; estimates.jobsToggle.item = $index; estimates.getId(name)" ng-class="{'active': estimates.jobsToggle.item == $index}">{{job.name}}</a>
       </li>
     </ul>
   </aside>
-  <section class="project-view-pane grid-block wrap">
-    <div class="large-5 grid-block details-list" ng-show="estimates.jobDetails">
-      <h3 class="job-details-title">Estimates</h3>
+  <section class="project-view-pane grid-block wrap touch-next-screen" ng-class="{'screen-active': estimates.jobDetails, 'screen-inactive': !estimates.jobDetails}">
+    <div class="small-12 grid-block details-list" ng-show="estimates.jobDetails" ng-hide="estimates.addSelected">
+      <h3 class="job-details-title show-for-small-only"><div ng-if="estimates.jobDetails" class="touch-back-link show-for-small-only" ng-include="'assets/images/icon-arrow.svg'" ng-click="estimates.jobDetails = !estimates.jobDetails"></div>{{estimates.jobDetails.name}}</h3>
+      <div class="small-12 grid-block" ng-if="estimates.jobDetails">
+        <div class="grid-container button-group-wrapper">
+          <ul class="tabs">
+            <li ng-repeat="tab in estimates.tabs" ng-class="{'active': estimates.isActiveTab(tab.url)}" ng-click="estimates.onClickTab(tab)">
+              <a href="">{{tab.title}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="large-12 grid-block" ng-if="estimates.jobDetails">
+        <div ng-include="estimates.currentTab" class="expand-element"></div>        
+        <button class="button" ng-click="estimates.addEstimate(estimates.jobIdForEstimate)" ng-if="!estimates.getEstimate.Interior || !estimates.getEstimate.Exterior">Add Estimate</button>
+        <button class="button" ng-click="estimates.saveEstimate()" ng-if="estimates.getEstimate.Interior || estimates.getEstimate.Exterior">Save Estimate</button>
+      </div>
     </div>
   </section>
 </div>
+<script type="text/ng-template" id="interior.html">
+  <estimates-table rows="estimates.rows" columns="estimates.cols" selected-elements="estimates.project.Interior" table-title="estimates.jobDetails.name" ng-if="!estimates.getEstimate.Interior"></estimates-table>
+  <estimates-table rows="estimates.rows" columns="estimates.cols" selected-elements="estimates.getEstimate.Interior" table-title="estimates.jobDetails.name" ng-if="estimates.getEstimate.Interior"></estimates-table>
+</script>
+<script type="text/ng-template" id="exterior.html">
+  <estimates-table rows="estimates.exteriorSections" columns="estimates.exteriorSides" selected-elements="estimates.project.Exterior" table-title="estimates.jobDetails.name" ng-if="!estimates.getEstimate.Exterior"></estimates-table>
+  <estimates-table rows="estimates.exteriorSections" columns="estimates.exteriorSides" selected-elements="estimates.getEstimate.Exterior" table-title="estimates.jobDetails.name" ng-if="estimates.getEstimate.Exterior"></estimates-table>
+</script>

@@ -3,7 +3,6 @@
 }
 @include breakpoint(small only) {
   .panel-bottom {
-    height: 100vh;
-    overflow: auto;
+    height: 100vh;    
   }
 }

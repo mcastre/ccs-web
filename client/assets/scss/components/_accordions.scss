@@ -1,0 +1,58 @@
+.accordion {
+  border: 0;
+}
+.accordion-title {
+  position: relative;
+  background: white;
+  color: rgba($medium-grey, 0.7);
+  font-size: rem-calc(14);
+  &:hover, &:focus {
+    background: white;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    top: rem-calc(15);
+    right: rem-calc(30);
+    width: rem-calc(8);
+    height: rem-calc(13);
+    background: url('../images/icon-arrow.svg') no-repeat;
+    @include transition(all, 200ms, linear);
+    transform: rotate(90deg);
+  }
+}
+.is-active > .accordion-title {
+  background: white;
+  color: rgba($medium-grey, 0.7);
+  &:after {
+    transform: rotate(-90deg);
+  }
+}
+.accordion-content {
+  background: white;
+}
+.accordion-item {
+  border-top: 1px solid darken($app-background, 3%);
+}
+.accordion-item.is-active {
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid darken($app-background, 3%);
+}
+.touch-switch-list {
+  @extend .no-bullet;
+}
+.switch-list-row {
+  display: flex;
+  padding: 0.625rem 0;
+  margin-right: -1rem;
+  border-bottom: 1px solid darken($app-background, 3%);
+}
+.switch-title {
+  flex: 1 0 70%;
+  color: $medium-grey;
+  padding-top: rem-calc(5);
+}
+.switch-wrapper {
+  flex: 0 1 30%;
+  padding-right: 1rem;
+}

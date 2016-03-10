@@ -4,6 +4,9 @@ body {
 .vertical.grid-frame {
   overflow: auto;
 }
+.expand-element {
+  width: 100%;
+}
 // PROJECTS -- HOME
 // ------------------------------
 
@@ -41,6 +44,9 @@ $sidebar-width-tablet: rem-calc(230px);
   }
   @include breakpoint(medium only) {
     width: calc(#{$sidebar-width-tablet});
+  }
+  @include breakpoint(medium) {
+    height: 100vh;
   }
   @include breakpoint(large) {
     width: calc(#{$sidebar-width});

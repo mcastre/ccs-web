@@ -15,9 +15,9 @@
     .run(run)
   ;
 
-  config.$inject = ['$urlRouterProvider', '$locationProvider'];
+  config.$inject = ['$urlRouterProvider', '$locationProvider', '$stateProvider'];
 
-  function config($urlProvider, $locationProvider) {
+  function config($urlProvider, $locationProvider, $stateProvider) {
     $urlProvider.otherwise('/');
 
     $locationProvider.html5Mode({
@@ -26,6 +26,16 @@
     });
 
     $locationProvider.hashPrefix('!');
+
+    $stateProvider.state('project', {
+      url: '/project/:id',
+      templateUrl: 'templates/project.html',
+      controller: 'ProjectViewCtrl as project',
+      animation: {
+        enter: 'fadeIn, slideInUp',
+        leave: 'fadeOut, slideOutBottom'
+      }
+    })
   }
 
   function run() {
@@ -58,12 +68,13 @@
 
     budget.newExpense = { item: '', price: 0 };
 
-    budget.addExpense = function(name) {      
+    budget.addExpense = function(name) {
       jobsRef.child(name).child('Budget').push(budget.newExpense).then(function(ref) {
         var id = ref.key();
       });
       budget.newExpense = { item: '', price: 0 };
     };
+
   }]);
 
 })();
@@ -72,18 +83,87 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('EstimatesCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc) {
+  app.controller('EstimatesCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'RoomsSvc', 'FoundationApi', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, RoomsSvc, FoundationApi) {
 
     var estimates = this;
 
     // JOBS
-    estimates.allJobs = JobsSvc.getJobs();
+    // ==================
+
+    var pathId = $stateParams.id;
+
+    var projectRef = new Firebase('https://ccs-web.firebaseio.com/Projects/' + pathId + '/Jobs');
+    var jobsRef = new Firebase('https://ccs-web.firebaseio.com/Jobs');
+
+    estimates.allJobs = {};
+    projectRef.on('child_added', function(snap) {
+      var jobId = snap.key();
+      jobsRef.child(jobId).on('value', function(snap) {
+        estimates.allJobs[jobId] = snap.val();
+      })
+    });
 
     estimates.jobDetails = null;
 
-    estimates.toggle = {item: -1};
+    estimates.jobsToggle = {item: -1};
 
+    // TABS
+    // ==================
 
+    estimates.tabs = [
+      {
+        title: 'Interior',
+        url: 'interior.html'
+      },
+      {
+        title: 'Exterior',
+        url: 'exterior.html'
+      }
+    ];
+    estimates.currentTab = 'interior.html';
+    estimates.onClickTab = function(tab) {
+      estimates.currentTab = tab.url;
+    };
+    estimates.isActiveTab = function(tabUrl) {
+      return tabUrl == estimates.currentTab;
+    };
+
+    // ESTIMATES
+    // ==================
+
+    estimates.project = {
+      Interior: {},
+      Exterior: {}
+    };
+
+    estimates.cols = RoomsSvc.getColumns();
+    estimates.rows = RoomsSvc.getRows();
+
+    estimates.exteriorSides = RoomsSvc.getExteriorSides();
+    estimates.exteriorSections = RoomsSvc.getExteriorSections();
+
+    estimates.getId = function(id) {
+      estimates.jobIdForEstimate = id;
+      var estimateRef = jobsRef.child(id).child('Estimate');
+      estimates.getEstimate = $firebaseObject(estimateRef);
+    };
+
+    estimates.addEstimate = function(name) {
+      jobsRef.child(name).child('Estimate').set(estimates.project, function() {
+        console.log('Set.');
+      });
+    };
+    estimates.saveEstimate = function() {
+      estimates.getEstimate.$save().then(function() {
+        FoundationApi.publish('main-notifications', {
+          autoclose: 8000,
+          content: 'Estimate has been saved.',
+          color: 'success'
+        });
+      }).catch(function(err) {
+        console.log('Error: ', err);
+      });
+    }
   }]);
 
 })();
@@ -96,6 +176,9 @@
 
     var home = this;
     var pathId = $stateParams.id;
+    home.search = {
+      query: ''
+    };
 
     //Get Projects
     home.projects = ProjectsSvc.getProjects();
@@ -140,7 +223,7 @@
       var jobId = snap.key();
       jobsRef.child(jobId).on('value', function(snap) {
         jobs.allJobs[jobId] = snap.val();
-      })
+      });
     });
 
 
@@ -150,7 +233,7 @@
 
     jobs.addJob = function(isValid) {
       if (isValid) {
-        JobsSvc.addJob(angular.copy(jobs.theJob));
+        JobsSvc.addJob(angular.copy(jobs.theJob), pathId);
         jobs.theJob = { name: '', exterior: '', interior: '' };
       }
     };
@@ -270,12 +353,23 @@
     var projectRef = new Firebase(firebaseURIProjects);
 
 
+
     project.allProjects = ProjectsSvc.getProjects();
 
     project.data = $firebaseObject(projectRef);
     project.clientData = $firebaseObject(clientRef);
 
     project.headingText = project.data.name;
+
+    project.isEditModeAddress = false;
+    project.isEditModeStatus = false;
+
+    project.toggleEditAddress = function() {
+      project.isEditModeAddress = !project.isEditModeAddress;
+    };
+    project.toggleEditStatus = function() {
+      project.isEditModeStatus = !project.isEditModeStatus;
+    };
 
     project.tabs = [
       {
@@ -311,25 +405,72 @@
       return tabUrl === project.currentTab.url;
     };
 
+    // UPDATE
+    // ==================================================
+
+    project.updateAddress = function(newVal, child) {
+      projectRef.child(child).update(newVal);
+      project.isEditModeAddress = false;
+    };
+    project.updateStatus = function(newVal, child) {
+      projectRef.child(child).set(newVal);
+      project.isEditModeStatus = false;
+    };
+
 
     // NOTES
     // ===================================================
 
-    project.notes = ProjectsSvc.getNotes();
+    var projectNotesRef = new Firebase('https://ccs-web.firebaseio.com/Projects/' + pathId + '/Notes');
+    var notesRef = new Firebase('https://ccs-web.firebaseio.com/Notes');
+
+    project.notes = {};
+
+    projectNotesRef.on('child_added', function(snap) {
+      var notesId = snap.key();
+      notesRef.child(notesId).on('value', function(snap) {
+        project.notes[notesId] = snap.val();
+      });
+    });
 
     project.newNote = {
       dateCreated: Date.now()
     };
     project.addNewNote = function() {
-      ProjectsSvc.addNote(angular.copy(project.newNote));
+      ProjectsSvc.addNote(angular.copy(project.newNote), pathId);
       project.newNote = {};
     };
-    
+
     project.clients = ClientsSvc.getClients();
 
   }]);
 
 })();
+
+var app = angular.module('application');
+app.directive('estimatesTable', ['RoomsSvc', function(RoomsSvc) {
+  return {
+    restrict: 'E',
+    scope: {
+      rows: '=',
+      columns: '=',
+      selectedElements: '=',
+      tableTitle: '='
+    },
+    templateUrl: 'templates/estimates-table.html',
+    link: function(scope, elem, attrs) {
+      RoomsSvc.buildRooms(scope.rows, scope.columns);
+      scope.roomToggle = false;
+      scope.addRoomToggle = function() {
+        scope.roomToggle = !scope.roomToggle;
+      };
+      scope.addRoom = function(room) {
+        scope.rows.push({ 'name': room.name, 'id': scope.rows.length});
+        RoomsSvc.buildRooms(scope.rows, scope.columns);
+      };
+    }
+  }
+}]);
 
 (function() {
   'use strict';
@@ -406,16 +547,16 @@
     var jobs = $firebaseArray(jobsRef); // create new array
 
     var getJobs = function() {
-      return jobs
+      return jobs;
     };
 
-    var addJob = function(job) {
+    var addJob = function(job, projId) {
       var root = new Firebase('https://ccs-web.firebaseio.com/');
       var id = root.child('Jobs').push();
       id.set(job, function(err) {
         if (!err) {
           var name = id.key();
-          root.child('/Projects/' + pathId + '/Jobs/' + name).set(true);
+          root.child('Projects/' + projId + '/Jobs/' + name).set(true);
           FoundationApi.publish('main-notifications', {
             autoclose: 6000,
             title: 'Success! ',
@@ -448,7 +589,7 @@
 
     var firebaseURI = 'https://ccs-web.firebaseio.com';
     var ref = new Firebase(firebaseURI);
-    var projectRef = ref.child('Projects');    
+    var projectRef = ref.child('Projects');
 
     var projects = $firebaseArray(projectRef);
 
@@ -458,6 +599,7 @@
     var addProject = function(project) {
       projects.$add(project).then(function(ref) {
         var id = ref.key();
+        project.id = id;
         console.log('Added record with ID of: ' + id);
         $state.go('project', {'id': id});
       });
@@ -471,16 +613,25 @@
 
     // NOTES REF
 
-    var firebaseURINotes = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
-    var notesRef = new Firebase(firebaseURINotes);
-    var newNotesRef = notesRef.child('Notes');
-    var notes = $firebaseArray(newNotesRef);
+    var notesRef = ref.child('Notes');
+    var notes = $firebaseArray(notesRef);
 
     var getNotes = function() {
       return notes;
     };
-    var addNote = function(note) {
-      newNotesRef.push(note);
+
+    var addNote = function(project, projId) {
+      var root = new Firebase('https://ccs-web.firebaseio.com/');
+      var id = root.child('Notes').push();
+      id.set(project, function(err) {
+        if (!err) {
+          var name = id.key();
+          root.child('Projects/' + projId + '/Notes/' + name).set(true);
+          id.once('value', function(snapshot) {
+            var data = snapshot.exportVal();
+          })
+        }
+      });
     };
 
     return {
@@ -490,6 +641,119 @@
       addNote: addNote
     }
   }]);
+
+})();
+
+(function() {
+  'use strict';
+
+  var app = angular.module('application');
+  app.factory('RoomsSvc', function RoomsSvc() {
+
+  function buildRooms(rows, cols) {    
+    angular.forEach(rows, function(row) {
+      row.elements = [];
+      angular.forEach(cols, function(col) {
+        row.elements.push({name: col, isSelected: false});
+      });
+    });
+  };
+  var cols = [
+   "Walls",
+   "Ceiling",
+   "Doors",
+   "Crown",
+   "Windows",
+   "Cabinets",
+   "Other"
+ ];
+ var rows = [
+    {
+      "id": 0,
+      "name": "Foyer",
+      "isSelected": false
+    },
+    {
+      "id": 1,
+      "name": "Living",
+      "isSelected": false
+    },
+    {
+      "id": 2,
+      "name": "Dining",
+      "isSelected": false
+    },
+    {
+      "id": 3,
+      "name": "Hallway",
+      "isSelected": false
+    },
+    {
+      "id": 4,
+      "name": "Bedroom",
+      "isSelected": false
+    },
+    {
+      "id": 5,
+      "name": "Bathroom",
+      "isSelected": false
+    }
+  ];
+  var exteriorSides = [
+    "Side 1",
+    "Side 2",
+    "Side 3",
+    "Side 4",
+    "Other"
+  ];
+  var exteriorSections = [
+    {
+      "id": 6,
+      "name": "Siding",
+      "isSelected": false
+    },
+    {
+      "id": 7,
+      "name": "Windows",
+      "isSelected": false
+    },
+    {
+      "id": 8,
+      "name": "Trim",
+      "isSelected": false
+    },
+    {
+      "id": 9,
+      "name": "Doors",
+      "isSelected": false
+    },
+    {
+      "id": 10,
+      "name": "Other",
+      "isSelected": false
+    }
+ ];
+
+  var getColumns = function() {
+    return cols;
+  };
+  var getRows = function() {
+    return rows;
+  };
+  var getExteriorSides = function() {
+    return exteriorSides;
+  };
+  var getExteriorSections = function() {
+    return exteriorSections;
+  };
+  return {
+    getColumns: getColumns,
+    getRows: getRows,
+    getExteriorSides: getExteriorSides,
+    getExteriorSections: getExteriorSections,
+    buildRooms: buildRooms
+  }
+  });
 
 })();
 

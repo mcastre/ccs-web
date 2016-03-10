@@ -40,3 +40,13 @@ hr {
   width: 100%;
   margin: 1rem 0 1.1875rem;
 }
+.show-for-sr, .show-on-focus {
+  @extend %show-for-sr;
+}
+.card-col-header {
+  font-size: rem-calc(14);
+  color: rgba($medium-grey, 0.7);
+}
+.align-right {
+  text-align: right;
+}

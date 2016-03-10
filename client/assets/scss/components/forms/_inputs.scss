@@ -40,3 +40,17 @@ textarea {
 .add-note-form {
   width: 100%;
 }
+.header-search-bar {
+  display: none;
+  @include breakpoint(medium) {
+    display: inline-block;
+    width: rem-calc(300);
+    margin-left: 2rem;
+  }
+  label {
+    margin: 0;
+  }
+  label > input[type="text"] {
+    margin: 0;
+  }
+}

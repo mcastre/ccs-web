@@ -19,3 +19,10 @@
   margin-left: 0;
   margin-right: 0;
 }
+%show-for-sr {
+  position: absolute!important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+}

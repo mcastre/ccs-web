@@ -15,9 +15,9 @@
     .run(run)
   ;
 
-  config.$inject = ['$urlRouterProvider', '$locationProvider'];
+  config.$inject = ['$urlRouterProvider', '$locationProvider', '$stateProvider'];
 
-  function config($urlProvider, $locationProvider) {
+  function config($urlProvider, $locationProvider, $stateProvider) {
     $urlProvider.otherwise('/');
 
     $locationProvider.html5Mode({
@@ -26,6 +26,16 @@
     });
 
     $locationProvider.hashPrefix('!');
+
+    $stateProvider.state('project', {
+      url: '/project/:id',
+      templateUrl: 'templates/project.html',
+      controller: 'ProjectViewCtrl as project',
+      animation: {
+        enter: 'fadeIn, slideInUp',
+        leave: 'fadeOut, slideOutBottom'
+      }
+    })
   }
 
   function run() {

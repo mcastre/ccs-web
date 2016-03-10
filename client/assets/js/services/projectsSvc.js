@@ -8,7 +8,7 @@
 
     var firebaseURI = 'https://ccs-web.firebaseio.com';
     var ref = new Firebase(firebaseURI);
-    var projectRef = ref.child('Projects');    
+    var projectRef = ref.child('Projects');
 
     var projects = $firebaseArray(projectRef);
 
@@ -18,6 +18,7 @@
     var addProject = function(project) {
       projects.$add(project).then(function(ref) {
         var id = ref.key();
+        project.id = id;
         console.log('Added record with ID of: ' + id);
         $state.go('project', {'id': id});
       });
@@ -31,16 +32,25 @@
 
     // NOTES REF
 
-    var firebaseURINotes = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
-    var notesRef = new Firebase(firebaseURINotes);
-    var newNotesRef = notesRef.child('Notes');
-    var notes = $firebaseArray(newNotesRef);
+    var notesRef = ref.child('Notes');
+    var notes = $firebaseArray(notesRef);
 
     var getNotes = function() {
       return notes;
     };
-    var addNote = function(note) {
-      newNotesRef.push(note);
+
+    var addNote = function(project, projId) {
+      var root = new Firebase('https://ccs-web.firebaseio.com/');
+      var id = root.child('Notes').push();
+      id.set(project, function(err) {
+        if (!err) {
+          var name = id.key();
+          root.child('Projects/' + projId + '/Notes/' + name).set(true);
+          id.once('value', function(snapshot) {
+            var data = snapshot.exportVal();
+          })
+        }
+      });
     };
 
     return {

@@ -22,12 +22,13 @@
 
     budget.newExpense = { item: '', price: 0 };
 
-    budget.addExpense = function(name) {      
+    budget.addExpense = function(name) {
       jobsRef.child(name).child('Budget').push(budget.newExpense).then(function(ref) {
         var id = ref.key();
       });
       budget.newExpense = { item: '', price: 0 };
     };
+
   }]);
 
 })();

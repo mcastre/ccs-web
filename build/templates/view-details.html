@@ -12,9 +12,26 @@
     <div class="medium-7 grid-block details-list">
       <dl class="dl-horizontal dt-right">
         <dt>Address</dt>
-        <dd>
+        <dd ng-if="!project.isEditModeAddress">
           <p class="paragraph-normal">{{project.data.address.address1}}</p>
-          <p>{{project.data.address.city}}, {{project.data.address.state}} {{project.data.address.zip}}</p>
+          <p class="paragraph-normal">{{project.data.address.city}}, {{project.data.address.state}} {{project.data.address.zip}}</p>
+          <a href="" ng-click="project.toggleEditAddress()" class="edit-toggle-btn"><span ng-include="'assets/images/icon-edit.svg'" class="edit-icon"></span> Edit</a>
+        </dd>
+        <dd ng-if="project.isEditModeAddress">
+          <ng-form>
+            <label for="project_address" class="show-for-sr">Address</label>
+            <input type="text" id="project_address" name="project_address" ng-model="project.data.address.address1" placeholder="Address">
+            <input type="text" id="project_city" name="project_city" ng-model="project.data.address.city" placeholder="City">
+            <div class="grid-block">
+              <div class="large-4 grid-content">
+                <input type="text" id="project_state" name="project_state" ng-model="project.data.address.state" placeholder="State">
+              </div>
+              <div class="large-8 grid-content">
+                <input type="text" id="project_zip" name="project_zip" ng-model="project.data.address.zip" placeholder="Zip Code">
+              </div>
+            </div>
+            <button role="button" type="button" class="button" ng-click="project.updateAddress(project.data.address, 'address')">Update Address</button>
+          </ng-form>
         </dd>
         <dt ng-if="project.data.selectedClient.name">Client</dt>
         <dd ng-if="project.data.selectedClient.name">{{project.data.selectedClient.name}}
@@ -28,7 +45,20 @@
         <dt>Date Created</dt>
         <dd>{{project.data.dateCreated | date:"MM/dd/yyyy 'at' h:mm a"}}</dd>
         <dt>Status</dt>
-        <dd>{{project.data.status}} <span class="badge" ng-class="{'warning': project.data.status === 'In Progress'}"></span></dd>
+        <dd ng-if="!project.isEditModeStatus">{{project.data.status}} <span class="badge" ng-class="{'': project.data.status === 'In Progress', 'alert': project.data.status === 'Awaiting Client'}"></span>
+          <a href="" ng-click="project.toggleEditStatus()" class="edit-toggle-btn"><span ng-include="'assets/images/icon-edit.svg'" class="edit-icon"></span> Edit</a>
+        </dd>
+        <dd ng-if="project.isEditModeStatus">
+          <ng-form>
+            <input type="radio" name="project_status1" value="In Progress" id="project_status1" ng-model="project.data.status"><label for="project_status1" class="label-soft">In Progress</label>
+            <input type="radio" name="project_status2" value="Awaiting Client" id="project_status2" ng-model="project.data.status"><label for="project_status2" class="label-soft">Awaiting Client</label>
+            <div class="grid-block">
+              <div class="large-8 grid-content">
+                <button role="button" type="button" class="button update-button" ng-click="project.updateStatus(project.data.status, 'status')">Update Status</button>
+              </div>
+            </div>
+          </ng-form>
+        </dd>
         <dt ng-if="project.data.selectedVendor.name">Vendor</dt>
         <dd ng-if="project.data.selectedVendor.name">{{project.data.selectedVendor.name}}
           <dl class="dl-horizontal dt-left">

@@ -6,6 +6,9 @@
 
     var home = this;
     var pathId = $stateParams.id;
+    home.search = {
+      query: ''
+    };
 
     //Get Projects
     home.projects = ProjectsSvc.getProjects();
