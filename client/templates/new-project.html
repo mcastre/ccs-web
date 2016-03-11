@@ -18,12 +18,12 @@ animationOut: fadeOut, slideOutBottom
     <div class="header-logo">
       <div ng-include="'assets/images/ccs-logo-mock.svg'"></div>
     </div>
-    <div class="avatar header-avatar" title="Logged in as: Armando Castre"></div>
-  </div>
-  <div class="header-search-icon show-for-small-only">
-    <a href="" zf-open="search">
-      <div ng-include="'assets/images/icon-search.svg'"></div>
-    </a>
+    <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isAdmin">
+      <img src="" ng-src="{{home.authData.password.profileImageURL}}" alt="User profile avatar">
+    </div>
+    <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isUser">
+      <img src="assets/images/profile-avatar.png" alt="User profile avatar">
+    </div>
   </div>
   <div class="tabs-bar">
     <ul class="tabs-navigation">

@@ -10,6 +10,10 @@
   z-index: 10;
   flex-direction: row;
   flex-wrap: wrap;
+  @include transition(background-color, 200ms, linear);
+  &.mobile-active {
+    background-color: rgba(black, 0.1);
+  }
 }
 .title-bar .title {
   font-size: $headline-font-size;
@@ -17,10 +21,14 @@
   color: $medium-grey;
   @include breakpoint(small only) {
     display: inline-block;
-    max-width: rem-calc(300);
+    max-width: rem-calc(350);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    &.mobile-search {
+      width: 80%;
+      overflow: visible;
+    }
   }
 }
 .sidenav-user-box {

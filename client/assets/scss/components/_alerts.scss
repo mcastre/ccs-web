@@ -16,3 +16,15 @@
     }
   }
 }
+.callout {
+  margin: 1rem 0;
+  padding: 1rem;
+  color: white;
+  border-radius: rem-calc(3);
+  &.callout-error {
+    background: rgba($red-color, 0.4);
+  }
+  &.callout-text.callout-text-error {
+    color: $red-color;
+  }
+}

@@ -1,12 +1,17 @@
-<div class="title-bar">
+<div class="title-bar" ng-class="{'mobile-active': home.mobileSearch}">
   <div class="header-nav">
-    <div class="title">
-      <a href="" zf-open="nav_primary" class="header-nav-icon">
-        <div ng-include="'assets/images/icon-menu-dark.svg'"></div>
-      </a>
-       {{home.headingText}}
-       <a href="" class="button start-project-button" ui-sref="new-project">Start New Project</a>
-       <ng-form class="header-search-bar">
+    <div class="title" ng-class="{'mobile-search': home.mobileSearch}">
+      <div class="project-title-wrapper" ng-if="!home.mobileSearch">
+        <a href="" zf-open="nav_primary" class="header-nav-icon">
+          <div ng-include="'assets/images/icon-menu-dark.svg'"></div>
+        </a>
+         {{home.headingText}}
+         <a href="" class="button start-project-button" ui-sref="new-project">Start New Project</a>
+         <label class="desktop-search">
+           <input type="text" ng-model="search.query" placeholder="Search...">
+         </label>
+       </div>
+       <ng-form name="search" class="header-search-bar fadeIn" ng-show="home.mobileSearch">
          <label>
            <input type="text" ng-model="search.query" placeholder="Search...">
          </label>
@@ -17,11 +22,17 @@
     <div class="header-logo">
       <div ng-include="'assets/images/ccs-logo-mock.svg'"></div>
     </div>
-    <div class="avatar header-avatar" title="Logged in as: Armando Castre"></div>
+    <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isAdmin">
+      <img src="" ng-src="{{home.authData.password.profileImageURL}}" alt="User profile avatar">
+    </div>
+    <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isUser">
+      <img src="assets/images/profile-avatar.png" alt="User profile avatar">
+    </div>
   </div>
   <div class="header-search-icon show-for-small-only">
-    <a href="" zf-open="search">
-      <div ng-include="'assets/images/icon-search.svg'"></div>
+    <a href="" ng-click="home.toggleMobileSearch()">
+      <div ng-include="'assets/images/icon-search.svg'" ng-if="!home.mobileSearch"></div>
+      <a href="" class="close-button" ng-click="home.toggleMobileSearch()" ng-if="home.mobileSearch">&times;</a>
     </a>
   </div>
 </div>
@@ -43,7 +54,6 @@
             <dd ng-if="project.selectedClient.name">{{project.selectedClient.name}}</dd>
             <dt>Date Created</dt>
             <dd>{{project.dateCreated | date: 'MM/dd/yyyy'}}</dd>
-
           </dl>
         </div>
         <div class="card-footer">
@@ -53,3 +63,33 @@
     </div>
   </section>
 </div>
+<zf-panel id="nav_primary" position="left" zf-swipe-close="left">
+  <div class="sidenav-user-box">
+    <div class="sidenav-avatar-wrapper">
+      <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isAdmin">
+        <img src="" ng-src="{{home.authData.password.profileImageURL}}" alt="User profile avatar">
+      </div>
+      <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isUser">
+        <img src="assets/images/profile-avatar.png" alt="User profile avatar">
+      </div>
+      <a href="#" zf-close class="sidenav-close">
+        <div ng-include="'assets/images/icon-arrow-white.svg'"></div>
+      </a>
+    </div>
+    <p class="user-name">{{home.authData.password.name}}</p>
+    <p class="user-email">{{home.authData.password.email}}</p>
+  </div>
+  <nav class="sidenav-primary">
+    <ul class="no-bullet">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="" ui-sref="new-project">Start New Project</a>
+      </li>
+      <li>
+        <a href="" ng-click="home.logout()">Log Out</a>
+      </li>
+    </ul>
+  </nav>
+</zf-panel>

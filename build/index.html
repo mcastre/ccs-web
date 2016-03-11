@@ -28,74 +28,8 @@
     <div class="grid-frame vertical">
 
       <div ng-class="['ui-animation']" ui-view></div>
-      <zf-notification-set id="main-notifications" position="top-right"></zf-notification-set>
+      <zf-notification-set id="main-notifications" position="top-right"></zf-notification-set>      
 
-      <zf-panel id="nav_primary" position="left" zf-swipe-close="left">
-      <div class="sidenav-user-box">
-        <div class="sidenav-avatar-wrapper">
-          <div class="avatar header-avatar" title="Logged in as: Armando Castre"></div>
-          <a href="#" zf-close class="sidenav-close">
-            <div ng-include="'assets/images/icon-arrow-white.svg'"></div>
-          </a>
-        </div>
-        <p class="user-name">Armando Castre</p>
-        <p class="user-email">armando@castre.net</p>
-      </div>
-      <nav class="sidenav-primary">
-        <ul class="no-bullet">
-          <li>
-            <a href="/">Home</a>
-          </li>
-          <li>
-            <a href="" ui-sref="new-project">Start New Project</a>
-          </li>
-          <li>
-            <a href="">Log Out</a>
-          </li>
-        </ul>
-      </nav>
-    </zf-panel>
-
-    <zf-panel id="search" position="right" zf-swipe-close="right">
-      <div class="grid-content small-12">
-        <a href="#" zf-close>&times;</a>
-        <section class="block-list">
-          <header>Activity</header>
-          <ul>
-            <li class="with-chevron">
-              <a href="#">
-                <img src="http://placehold.it/50x50">
-                <span class="block-list-label">Jarvis moved a file</span>
-              </a>
-            </li>
-            <li class="with-chevron">
-              <a href="#">
-                <img src="http://placehold.it/50x50">
-                <span class="block-list-label">Jarvis moved a file</span>
-              </a>
-            </li>
-            <li class="with-chevron">
-              <a href="#">
-                <img src="http://placehold.it/50x50">
-                <span class="block-list-label">Jarvis moved a file</span>
-              </a>
-            </li>
-            <li class="with-chevron">
-              <a href="#">
-                <img src="http://placehold.it/50x50">
-                <span class="block-list-label">Jarvis moved a file</span>
-              </a>
-            </li>
-            <li class="with-chevron">
-              <a href="#">
-                <img src="http://placehold.it/50x50">
-                <span class="block-list-label">Jarvis moved a file</span>
-              </a>
-            </li>
-          </ul>
-        </section>
-        </div>
-    </zf-panel>
     </div>
   </body>
 </html>

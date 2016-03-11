@@ -6520,11 +6520,20 @@ h1, h2, h3, h4, h5, h6 {
   color: #cccccc;
   margin-bottom: 0; }
 
+.login-header {
+  color: white;
+  text-align: center;
+  font-size: 2.125rem; }
+
 p {
   color: #666666; }
 
 .paragraph-normal {
   margin-bottom: 0; }
+
+.login-instructions {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3); }
 
 a {
   color: #29ACED; }
@@ -6641,6 +6650,16 @@ hr {
     .alert-box .close-button:hover {
       color: white; }
 
+.callout {
+  margin: 1rem 0;
+  padding: 1rem;
+  color: white;
+  border-radius: 0.1875rem; }
+  .callout.callout-error {
+    background: rgba(239, 83, 80, 0.4); }
+  .callout.callout-text.callout-text-error {
+    color: #EF5350; }
+
 .button {
   background: #1ABC9C; }
   .button:hover, .button:focus {
@@ -6654,6 +6673,10 @@ hr {
     .button.warning:hover, .button.warning:focus {
       background: #ffc544;
       color: white; }
+
+.button-block {
+  width: 100%;
+  margin-right: 0; }
 
 .start-project-button {
   display: none;
@@ -6701,6 +6724,11 @@ hr {
 
 .update-button {
   margin-top: 1rem; }
+
+@media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+  .header-search-icon .close-button {
+    top: 1.3rem;
+    font-size: 3rem; } }
 
 .projects-card-wrapper .card-column {
   -webkit-flex: 1 1 auto;
@@ -6833,6 +6861,18 @@ hr {
   .panel-bottom {
     height: 100vh; } }
 
+.login-wrapper {
+  background: #36374e; }
+
+@media only screen and (min-width: 40em) {
+  .login-panel {
+    margin-top: 25%; } }
+
+.login-panel svg {
+  width: 18.75rem;
+  margin: 0 auto;
+  display: block; }
+
 table {
   width: 100%;
   background: white; }
@@ -6960,17 +7000,29 @@ select {
       padding: 1rem; } }
 
 input[type="text"],
+input[type="email"],
+input[type="password"],
 textarea {
   font-weight: normal; }
   input[type="text"].ng-pristine.ng-invalid, input[type="text"].ng-pristine.ng-valid,
+  input[type="email"].ng-pristine.ng-invalid,
+  input[type="email"].ng-pristine.ng-valid,
+  input[type="password"].ng-pristine.ng-invalid,
+  input[type="password"].ng-pristine.ng-valid,
   textarea.ng-pristine.ng-invalid,
   textarea.ng-pristine.ng-valid {
     border: 1px solid #BBB; }
   input[type="text"].ng-invalid, input[type="text"].ng-touched.ng-invalid,
+  input[type="email"].ng-invalid,
+  input[type="email"].ng-touched.ng-invalid,
+  input[type="password"].ng-invalid,
+  input[type="password"].ng-touched.ng-invalid,
   textarea.ng-invalid,
   textarea.ng-touched.ng-invalid {
     border: 1px solid #EF5350; }
   input[type="text"].ng-valid,
+  input[type="email"].ng-valid,
+  input[type="password"].ng-valid,
   textarea.ng-valid {
     border: 1px solid #43AC6A; }
 
@@ -6994,17 +7046,53 @@ textarea {
 .add-note-form {
   width: 100%; }
 
-.header-search-bar {
-  display: none; }
-  @media only screen and (min-width: 40em) {
-    .header-search-bar {
-      display: inline-block;
-      width: 18.75rem;
-      margin-left: 2rem; } }
-  .header-search-bar label {
-    margin: 0; }
-  .header-search-bar label > input[type="text"] {
-    margin: 0; }
+@media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+  .header-search-bar {
+    display: inline-block;
+    width: 100%;
+    margin-left: 2rem; } }
+
+@media only screen and (min-width: 40em) {
+  .header-search-bar {
+    display: inline-block;
+    width: 18.75rem; } }
+
+.header-search-bar label {
+  margin: 0; }
+
+.header-search-bar label > input[type="text"] {
+  margin: 0; }
+
+@media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
+  .desktop-search {
+    display: none; } }
+
+@media only screen and (min-width: 40em) {
+  .desktop-search {
+    display: inline-block;
+    width: 21.875rem;
+    margin-left: 2rem;
+    margin-bottom: 0; }
+    .desktop-search input[type="text"] {
+      margin: 0; } }
+
+.login-form label {
+  width: 100%; }
+
+.login-form input[type="email"], .login-form input[type="password"] {
+  background: none;
+  color: #1ABC9C;
+  border-radius: 0.1875rem;
+  height: 2.75rem;
+  text-align: center;
+  transition: background 200ms linear;
+  font-weight: 400; }
+  .login-form input[type="email"]:focus, .login-form input[type="password"]:focus {
+    border: 1px solid #1ABC9C;
+    background: rgba(0, 0, 0, 0.1); }
+
+.login-form ::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.2); }
 
 label {
   font-weight: 700;
@@ -7070,12 +7158,10 @@ label {
   float: left;
   margin-top: 0.4375rem; }
 
-.avatar {
+.avatar img {
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 100rem;
-  background: url("../images/profile-avatar.png"), no-repeat;
-  background-size: cover; }
+  border-radius: 100rem; }
 
 .header-avatar {
   float: right;
@@ -7098,7 +7184,8 @@ label {
           flex-direction: row;
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
-          flex-wrap: wrap; }
+          flex-wrap: wrap;
+  transition: background-color 200ms linear; }
   .title-bar:before, .title-bar:after {
     content: " ";
     display: table; }
@@ -7107,6 +7194,8 @@ label {
   @media only screen and (min-width: 40em) {
     .title-bar {
       padding: 0.75rem 1.25rem; } }
+  .title-bar.mobile-active {
+    background-color: rgba(0, 0, 0, 0.1); }
 
 .title-bar .title {
   font-size: 1.25rem;
@@ -7115,10 +7204,13 @@ label {
   @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
     .title-bar .title {
       display: inline-block;
-      max-width: 18.75rem;
+      max-width: 21.875rem;
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis; } }
+      text-overflow: ellipsis; }
+      .title-bar .title.mobile-search {
+        width: 80%;
+        overflow: visible; } }
 
 .sidenav-user-box {
   background-color: #1ABC9C;
@@ -7313,7 +7405,7 @@ body {
   font-size: 1.25rem; }
   @media only screen and (min-width: 0em) and (max-width: 39.9375rem) {
     .notes-heading {
-      padding-left: 4.5rem; } }
+      padding-left: 1rem; } }
 
 .add-note-link {
   margin-top: 0.65rem;
@@ -7324,9 +7416,12 @@ body {
   margin-right: 0.5rem; }
 
 .note-text {
-  float: right;
-  width: calc(100% - 3rem);
+  width: 100%;
   padding: 0 0.5rem; }
+  @media only screen and (min-width: 40em) {
+    .note-text {
+      float: right;
+      width: calc(100% - 3rem); } }
 
 .note-author {
   font-weight: 700;

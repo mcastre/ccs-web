@@ -15,6 +15,10 @@
     }
   }
 }
+.button-block {
+  width: 100%;
+  margin-right: 0;
+}
 .start-project-button {
   display: none;
   @include breakpoint(large) {
@@ -64,4 +68,10 @@
 }
 .update-button {
   margin-top: 1rem;
+}
+.header-search-icon .close-button {
+  @include breakpoint(small only) {
+    top: 1.3rem;
+    font-size: 3rem;
+  }
 }

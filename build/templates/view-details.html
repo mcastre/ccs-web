@@ -9,7 +9,7 @@
     </ul>
   </aside>
   <section class="project-view-pane grid-block wrap">
-    <div class="medium-7 grid-block details-list">
+    <div class="small-12 medium-7 grid-block details-list">
       <dl class="dl-horizontal dt-right">
         <dt>Address</dt>
         <dd ng-if="!project.isEditModeAddress">
@@ -70,12 +70,12 @@
         </dd>
       </dl>
     </div>
-    <div class="medium-5 grid-block notes-section">
+    <div class="small-12 medium-5 grid-block notes-section">
       <h3 class="notes-heading">Notes</h3>
       <a href="" class="add-note-link" ng-click="toggleNoteForm = !toggleNoteForm">Add Note</a>
       <form name="newNote" class="add-note-form fadeIn fadeOut" ng-show="toggleNoteForm" ng-submit="project.addNewNote()">
         <div class="note-wrapper">
-          <div class="avatar note-avatar"></div>
+          <div class="avatar note-avatar hide-for-small-only"></div>
           <div class="note-text">
             <label> New Note
               <textarea name="note_body" id="note_body" ng-model="project.newNote.noteBody" placeholder="Enter a new Note"></textarea>
@@ -93,13 +93,5 @@
       </article>
     </div>
   </section>
-  <aside class="projects-sidebar show-for-small-only">
-    <h2 class="sidebar-title">Projects</h2>
-    <a href="" class="button sidebar-button">Add New Project</a>
-    <ul class="no-bullet sidebar-nav" role="menu">
-      <li ng-repeat="proj in project.allProjects">
-        <a href="" role="menuitem" ui-sref="project({id: proj.$id})">{{proj.name}}</a>
-      </li>
-    </ul>
-  </aside>
+  
 </div>

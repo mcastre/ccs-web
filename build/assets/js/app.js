@@ -18,7 +18,7 @@
   config.$inject = ['$urlRouterProvider', '$locationProvider', '$stateProvider'];
 
   function config($urlProvider, $locationProvider, $stateProvider) {
-    $urlProvider.otherwise('/');
+    $urlProvider.otherwise('/login');
 
     $locationProvider.html5Mode({
       enabled:false,
@@ -27,15 +27,35 @@
 
     $locationProvider.hashPrefix('!');
 
+    $stateProvider.state('login', {
+      url: '/login',
+      templateUrl: 'templates/login.html',
+      controller: 'LoginCtrl as login',
+      // resolve: {
+      //   "currentAuth": ["Auth", function(Auth) {
+      //     return Auth.$requireAuth();
+      //   }]
+      // },
+      animation: {
+        enter: 'fadeIn, fadeOut',
+        leave: 'fadeOut, fadeIn'
+      }
+    });
+
     $stateProvider.state('project', {
       url: '/project/:id',
       templateUrl: 'templates/project.html',
       controller: 'ProjectViewCtrl as project',
+      // resolve: {
+      //   "currentAuth": ["Auth", function(Auth) {
+      //     return Auth.$waitForAuth();
+      //   }]
+      // },
       animation: {
         enter: 'fadeIn, slideInUp',
         leave: 'fadeOut, slideOutBottom'
       }
-    })
+    });
   }
 
   function run() {
@@ -172,12 +192,35 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams) {
+  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', '$firebaseAuth', '$state', 'FoundationApi', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams, $firebaseAuth, $state, FoundationApi) {
 
     var home = this;
     var pathId = $stateParams.id;
+
+    var ref = new Firebase('https://ccs-web.firebaseio.com');
+    var auth = $firebaseAuth(ref);
+    home.isAdmin = false;
+    home.isUser = false;
+
+    home.authData = ref.getAuth();
+    home.authData.password.name = '';
+
+    home.getUserDetails = function() {
+      if (home.authData.password.email === "mcastre3@gmail.com") {
+        home.authData.password.name = 'Martín Castre';
+        home.isAdmin = true;
+      } else if (home.authData.password.email === "armando@castre.net") {
+        home.authData.password.name = 'Armando Castre';
+        home.isUser = true;
+      }
+    };
+    home.getUserDetails();
     home.search = {
       query: ''
+    };
+    home.mobileSearch = false;
+    home.toggleMobileSearch = function() {
+      home.mobileSearch = !home.mobileSearch;
     };
 
     //Get Projects
@@ -188,18 +231,17 @@
 
     home.headingText = 'Project Dashboard';
 
-    home.newProject = {
-      dateCreated: Firebase.ServerValue.TIMESTAMP,
-      name: 'Botanical Place',
-      address: '245 Botanical Place, Birmingham, AL 35210',
-      status: 'In Progress'
+    home.logout = function() {
+      console.log('logging out');
+      auth.$unauth();
+      FoundationApi.publish('main-notifications', {
+        autoclose: 8000,
+        content: 'You have been successfully logged out.',
+        color: 'success'
+      });
+      $state.go('login');
     };
-    home.anotherProject = {
-      dateCreated: Firebase.ServerValue.TIMESTAMP,
-      name: 'Vestavia 2224',
-      address: '1255 Vestavia Blvd, Vestavia, AL 35216',
-      status: 'Awaiting Client'
-    };
+
 
   }]);
 
@@ -243,6 +285,74 @@
       jobs.addSelected = !jobs.addSelected;
     };
 
+  }]);
+
+})();
+
+(function() {
+  'use strict';
+
+  var app = angular.module('application');
+  app.controller('LoginCtrl', ['$scope', '$firebaseAuth', 'FoundationApi', '$state', function(scope, $firebaseAuth, FoundationApi, $state) {
+
+    var login = this;
+    var ref = new Firebase('https://ccs-web.firebaseio.com');
+    var auth = $firebaseAuth(ref);
+    login.isAuthError = false;
+    login.theError = '';
+
+    login.authData = ref.getAuth();
+
+    login.authHandler = function(error, authData) {
+      if (error) {
+        login.isAuthError = true;
+        console.log('User ' + authData + " is logged in.");
+      } else {
+        console.log('User logged out.');
+      }
+    };
+
+    login.credentials = {
+      email: '',
+      password: ''
+    };
+
+
+    login.login = function(isValid) {
+      if (isValid) {
+        auth.$authWithPassword(login.credentials, login.authHandler).then(function(authData) {
+          if (authData.password.email === "mcastre3@gmail.com") {
+            authData.password.name = 'Martín Castre';
+          } else if (authData.password.email === "armando@castre.net") {
+            authData.password.name = 'Armando Castre';
+          }
+          FoundationApi.publish('main-notifications', {
+            autoclose: 8000,
+            content: 'Login successful. Welcome ' + authData.password.name + '!',
+            color: 'success'
+          });
+          $state.go('home');
+        }).catch(function(error) {
+          console.log(error);
+          login.isAuthError = true;
+          switch (error.code) {
+            case 'INVALID_PASSWORD':
+              login.theError = 'Uh oh. Looks like the password you entered is invalid.';
+              return;
+            case 'INVALID_EMAIL':
+              login.theError = 'Uh oh. Looks like the email you entered is invalid.';
+              return;
+            case 'INVALID_USER':
+              login.theError = 'Uh oh. Looks like the email you entered is invalid.';
+              return;
+            case 'UNKNOWN_ERROR':
+              login.theError = 'Something went wrong. Please try again later.';
+              return;
+            default:
+          }
+        });
+      }
+    }
   }]);
 
 })();

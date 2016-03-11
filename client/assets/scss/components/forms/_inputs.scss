@@ -8,6 +8,8 @@
 $default-border-color: #BBB;
 
 input[type="text"],
+input[type="email"],
+input[type="password"],
 textarea {
   &.ng-pristine.ng-invalid,
   &.ng-pristine.ng-valid {
@@ -41,16 +43,54 @@ textarea {
   width: 100%;
 }
 .header-search-bar {
-  display: none;
+  @include breakpoint(small only) {
+    display: inline-block;
+    width: 100%;
+    margin-left: 2rem;
+  }
   @include breakpoint(medium) {
     display: inline-block;
     width: rem-calc(300);
-    margin-left: 2rem;
   }
   label {
     margin: 0;
   }
   label > input[type="text"] {
     margin: 0;
+  }
+}
+.desktop-search {
+  @include breakpoint(small only) {
+    display: none;
+  }
+  @include breakpoint(medium) {
+    display: inline-block;
+    width: rem-calc(350);
+    margin-left: 2rem;
+    margin-bottom: 0;
+    input[type="text"] {
+      margin: 0;
+    }
+  }
+}
+.login-form {
+  label {
+    width: 100%;
+  }
+  input[type="email"], input[type="password"] {
+    background: none;
+    color: $primary-color;
+    border-radius: rem-calc(3);
+    height: rem-calc(44);
+    text-align: center;
+    @include transition(background, 200ms, linear);
+    font-weight: 400;
+    &:focus {
+      border: 1px solid $primary-color;
+      background: rgba(black,0.1);
+    }
+  }
+  ::-webkit-input-placeholder {
+     color: rgba(white, 0.2);
   }
 }

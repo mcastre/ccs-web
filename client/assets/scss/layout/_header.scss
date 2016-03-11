@@ -28,10 +28,8 @@
   float: left;
   margin-top: rem-calc(7);
 }
-.avatar {
+.avatar img {
   @include circle(rem-calc(40));
-  background: url('../images/profile-avatar.png'), no-repeat;
-  background-size: cover;
 }
 .header-avatar {
   float: right;

@@ -3,6 +3,19 @@
 }
 @include breakpoint(small only) {
   .panel-bottom {
-    height: 100vh;    
+    height: 100vh;
+  }
+}
+.login-wrapper {
+  background: #36374e;
+}
+.login-panel {
+  @include breakpoint(medium) {
+    margin-top: 25%;  
+  }
+  svg {
+    width: rem-calc(300);
+    margin: 0 auto;
+    display: block;
   }
 }

@@ -1,0 +1,31 @@
+<section class="login-wrapper grid-frame">
+  <div class="grid-block">
+    <div class="grid-container">
+      <div class="login-panel">
+        <div ng-include="'assets/images/ccs-circles-logomark.svg'"></div>
+        <div class="login-panel-section">
+          <h1 class="login-header">CCS Web</h1>
+          <p class="login-instructions">Please enter your user credentials to login.</p>
+          <form name="loginForm" ng-submit="login.login(loginForm.$valid)" class="login-form" novalidate>
+            <div class="grid-block">
+              <label>
+                <input type="email" name="login_email" placeholder="Email" class="login-form-control" ng-model="login.credentials.email" required autofocus>                
+              </label>
+            </div>
+            <div class="grid-block">
+              <label>
+                <input type="password" name="login_password" placeholder="Password" class="login-form-control" ng-model="login.credentials.password" required>
+              </label>
+            </div>
+            <div class="grid-block">
+              <div class="grid-container">
+                <button role="button" type="submit" class="button button-block" ng-disabled="loginForm.$invalid" ng-class="{'disabled': loginForm.$invalid}">Log In</button>
+              </div>
+            </div>
+          </form>
+          <p class="callout callout-error slideInUp fadeOut" ng-if="login.isAuthError">{{login.theError}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

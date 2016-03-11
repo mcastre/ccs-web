@@ -135,7 +135,7 @@ $sidebar-width-tablet: rem-calc(230px);
 .notes-heading {
   font-size: $headline-font-size;
   @include breakpoint(small only) {
-    padding-left: 4.5rem;
+    padding-left: 1rem;
   }
 }
 .add-note-link {
@@ -147,9 +147,12 @@ $sidebar-width-tablet: rem-calc(230px);
   margin-right: 0.5rem;
 }
 .note-text {
-  float: right;
-  width: calc(100% - 3rem); // 3rem width of avatar and margin-right
+  width: 100%;
   padding: 0 0.5rem;
+  @include breakpoint(medium) {
+    float: right;
+    width: calc(100% - 3rem); // 3rem width of avatar and margin-right
+  }
 }
 .note-author {
   font-weight: $heading-font-weight;
