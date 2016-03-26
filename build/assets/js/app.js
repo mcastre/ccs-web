@@ -192,17 +192,17 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', '$firebaseAuth', '$state', 'FoundationApi', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams, $firebaseAuth, $state, FoundationApi) {
+  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', '$state', 'AuthSvc', 'FoundationApi', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams, $state, AuthSvc, FoundationApi) {
 
     var home = this;
     var pathId = $stateParams.id;
 
     var ref = new Firebase('https://ccs-web.firebaseio.com');
-    var auth = $firebaseAuth(ref);
+    home.auth = AuthSvc;
     home.isAdmin = false;
     home.isUser = false;
 
-    home.authData = ref.getAuth();
+    home.authData = home.auth.$getAuth();
     home.authData.password.name = '';
 
     home.getUserDetails = function() {
@@ -451,7 +451,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc) {
+  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'AuthSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, AuthSvc) {
 
     var pathId = $stateParams.id;
 
@@ -462,7 +462,22 @@
     var firebaseURIProjects = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
     var projectRef = new Firebase(firebaseURIProjects);
 
+    project.auth = AuthSvc;
+    project.authData = project.auth.$getAuth();
 
+    project.isAdmin = false;
+    project.isUser = false;
+
+    project.getUserDetails = function() {
+      if (project.authData.password.email === "mcastre3@gmail.com") {
+        project.authData.password.name = 'Martín Castre';
+        project.isAdmin = true;
+      } else if (project.authData.password.email === "armando@castre.net") {
+        project.authData.password.name = 'Armando Castre';
+        project.isUser = true;
+      }
+    };
+    project.getUserDetails();
 
     project.allProjects = ProjectsSvc.getProjects();
 
@@ -581,6 +596,19 @@ app.directive('estimatesTable', ['RoomsSvc', function(RoomsSvc) {
     }
   }
 }]);
+
+(function() {
+  'use strict';
+
+  var app = angular.module('application');
+  app.factory('AuthSvc', ['$firebaseAuth', function AuthSvc($firebaseAuth) {
+
+    var ref = new Firebase('https://ccs-web.firebaseio.com');
+    return $firebaseAuth(ref);
+
+  }]);
+
+})();
 
 (function() {
   'use strict';

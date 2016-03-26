@@ -2,7 +2,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc) {
+  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'AuthSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, AuthSvc) {
 
     var pathId = $stateParams.id;
 
@@ -13,7 +13,22 @@
     var firebaseURIProjects = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
     var projectRef = new Firebase(firebaseURIProjects);
 
+    project.auth = AuthSvc;
+    project.authData = project.auth.$getAuth();
 
+    project.isAdmin = false;
+    project.isUser = false;
+
+    project.getUserDetails = function() {
+      if (project.authData.password.email === "mcastre3@gmail.com") {
+        project.authData.password.name = 'Martín Castre';
+        project.isAdmin = true;
+      } else if (project.authData.password.email === "armando@castre.net") {
+        project.authData.password.name = 'Armando Castre';
+        project.isUser = true;
+      }
+    };
+    project.getUserDetails();
 
     project.allProjects = ProjectsSvc.getProjects();
 

@@ -2,17 +2,17 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', '$firebaseAuth', '$state', 'FoundationApi', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams, $firebaseAuth, $state, FoundationApi) {
+  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', '$state', 'AuthSvc', 'FoundationApi', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams, $state, AuthSvc, FoundationApi) {
 
     var home = this;
     var pathId = $stateParams.id;
 
     var ref = new Firebase('https://ccs-web.firebaseio.com');
-    var auth = $firebaseAuth(ref);
+    home.auth = AuthSvc;
     home.isAdmin = false;
     home.isUser = false;
 
-    home.authData = ref.getAuth();
+    home.authData = home.auth.$getAuth();
     home.authData.password.name = '';
 
     home.getUserDetails = function() {
