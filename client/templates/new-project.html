@@ -18,10 +18,10 @@ animationOut: fadeOut, slideOutBottom
     <div class="header-logo">
       <div ng-include="'assets/images/ccs-logo-mock.svg'"></div>
     </div>
-    <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isAdmin">
-      <img src="" ng-src="{{home.authData.password.profileImageURL}}" alt="User profile avatar">
+    <div class="avatar header-avatar" title="Logged in as: {{wizard.authData.password.name}}" ng-if="wizard.isAdmin">
+      <img src="" ng-src="{{wizard.authData.password.profileImageURL}}" alt="User profile avatar">
     </div>
-    <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isUser">
+    <div class="avatar header-avatar" title="Logged in as: {{wizard.authData.password.name}}" ng-if="wizard.isUser">
       <img src="assets/images/profile-avatar.png" alt="User profile avatar">
     </div>
   </div>
@@ -37,3 +37,33 @@ animationOut: fadeOut, slideOutBottom
 <div class="grid-content" id="main_view">
   <div ng-include="wizard.currentTab.url" class="tab-container"></div>
 </div>
+<zf-panel id="nav_primary" position="left" zf-swipe-close="left">
+  <div class="sidenav-user-box">
+    <div class="sidenav-avatar-wrapper">
+      <div class="avatar header-avatar" title="Logged in as: {{wizard.authData.password.name}}" ng-if="wizard.isAdmin">
+        <img src="" ng-src="{{wizard.authData.password.profileImageURL}}" alt="User profile avatar">
+      </div>
+      <div class="avatar header-avatar" title="Logged in as: {{project.authData.password.name}}" ng-if="wizard.isUser">
+        <img src="assets/images/profile-avatar.png" alt="User profile avatar">
+      </div>
+      <a href="#" zf-close class="sidenav-close">
+        <div ng-include="'assets/images/icon-arrow-white.svg'"></div>
+      </a>
+    </div>
+    <p class="user-name">{{wizard.authData.password.name}}</p>
+    <p class="user-email">{{wizard.authData.password.email}}</p>
+  </div>
+  <nav class="sidenav-primary">
+    <ul class="no-bullet">
+      <li>
+        <a href="" ui-sref="home">Home</a>
+      </li>
+      <li>
+        <a href="" ui-sref="new-project">Start New Project</a>
+      </li>
+      <li>
+        <a href="" ng-click="wizard.logout()">Log Out</a>
+      </li>
+    </ul>
+  </nav>
+</zf-panel>

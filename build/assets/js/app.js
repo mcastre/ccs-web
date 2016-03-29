@@ -361,7 +361,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('NewProjectCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'VendorsSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, VendorsSvc) {
+  app.controller('NewProjectCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'VendorsSvc', 'AuthSvc', 'FoundationApi', '$state', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, VendorsSvc, AuthSvc, FoundationApi, $state) {
 
     var pathId = $stateParams.id;
 
@@ -374,6 +374,23 @@
     var wizard = this;
     var firebaseURIProjects = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
     var projectRef = new Firebase(firebaseURIProjects);
+
+    wizard.auth = AuthSvc;
+    wizard.authData = wizard.auth.$getAuth();
+
+    wizard.isAdmin = false;
+    wizard.isUser = false;
+
+    wizard.getUserDetails = function() {
+      if (wizard.authData.password.email === "mcastre3@gmail.com") {
+        wizard.authData.password.name = 'Martín Castre';
+        wizard.isAdmin = true;
+      } else if (wizard.authData.password.email === "armando@castre.net") {
+        wizard.authData.password.name = 'Armando Castre';
+        wizard.isUser = true;
+      }
+    };
+    wizard.getUserDetails();
 
 
     wizard.allProjects = ProjectsSvc.getProjects();
@@ -442,6 +459,15 @@
       }
     };
 
+    wizard.logout = function() {
+      wizard.auth.$unauth();
+      FoundationApi.publish('main-notifications', {
+        autoclose: 8000,
+        content: 'You have been successfully logged out.',
+        color: 'success'
+      });
+      $state.go('login');
+    };
 
   }]);
 
@@ -451,7 +477,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'AuthSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, AuthSvc) {
+  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'AuthSvc', 'FoundationApi', '$state', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, AuthSvc, FoundationApi, $state) {
 
     var pathId = $stateParams.id;
 
@@ -567,6 +593,29 @@
     };
 
     project.clients = ClientsSvc.getClients();
+
+    project.deleteProject = function(name) {
+      project.data.$remove().then(function(ref) {
+        FoundationApi.publish('main-notifications', {
+          autoclose: 6000,
+          content: 'Deleted ' + name,
+          color: 'success'
+        });
+        $state.go('home');
+      }, function(error) {
+        console.log(error);
+      })
+    };
+
+    project.logout = function() {
+      project.auth.$unauth();
+      FoundationApi.publish('main-notifications', {
+        autoclose: 8000,
+        content: 'You have been successfully logged out.',
+        color: 'success'
+      });
+      $state.go('login');
+    };
 
   }]);
 

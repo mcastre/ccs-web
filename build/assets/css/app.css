@@ -6673,6 +6673,11 @@ hr {
     .button.warning:hover, .button.warning:focus {
       background: #ffc544;
       color: white; }
+  .button.default {
+    background: #eeeeee;
+    color: #1ABC9C; }
+    .button.default:hover {
+      background: gainsboro; }
 
 .button-block {
   width: 100%;
@@ -6685,6 +6690,9 @@ hr {
   @media only screen and (min-width: 75em) {
     .start-project-button {
       display: inline-block; } }
+
+.delete-project-button {
+  margin-left: 160px; }
 
 .sidebar-button {
   width: 100%; }
@@ -6729,6 +6737,17 @@ hr {
   .header-search-icon .close-button {
     top: 1.3rem;
     font-size: 3rem; } }
+
+.button-bar {
+  margin-top: 1rem; }
+  .button-bar:before, .button-bar:after {
+    content: " ";
+    display: table; }
+  .button-bar:after {
+    clear: both; }
+  .button-bar .button {
+    float: left;
+    margin-bottom: 0; }
 
 .projects-card-wrapper .card-column {
   -webkit-flex: 1 1 auto;

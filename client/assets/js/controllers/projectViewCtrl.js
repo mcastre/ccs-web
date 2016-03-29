@@ -2,7 +2,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'AuthSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, AuthSvc) {
+  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'AuthSvc', 'FoundationApi', '$state', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, AuthSvc, FoundationApi, $state) {
 
     var pathId = $stateParams.id;
 
@@ -118,6 +118,29 @@
     };
 
     project.clients = ClientsSvc.getClients();
+
+    project.deleteProject = function(name) {
+      project.data.$remove().then(function(ref) {
+        FoundationApi.publish('main-notifications', {
+          autoclose: 6000,
+          content: 'Deleted ' + name,
+          color: 'success'
+        });
+        $state.go('home');
+      }, function(error) {
+        console.log(error);
+      })
+    };
+
+    project.logout = function() {
+      project.auth.$unauth();
+      FoundationApi.publish('main-notifications', {
+        autoclose: 8000,
+        content: 'You have been successfully logged out.',
+        color: 'success'
+      });
+      $state.go('login');
+    };
 
   }]);
 

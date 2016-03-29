@@ -9,7 +9,7 @@
     </ul>
   </aside>
   <section class="project-view-pane grid-block wrap">
-    <div class="small-12 medium-7 grid-block details-list">
+    <div class="small-12 medium-7 grid-content details-list">
       <dl class="dl-horizontal dt-right">
         <dt>Address</dt>
         <dd ng-if="!project.isEditModeAddress">
@@ -69,6 +69,9 @@
           </dl>
         </dd>
       </dl>
+      <div class="grid-content">
+        <button role="button" type="button" class="alert button delete-project-button" zf-open="delete_project_modal">Delete This Project</button>
+      </div>
     </div>
     <div class="small-12 medium-5 grid-block notes-section">
       <h3 class="notes-heading">Notes</h3>
@@ -93,5 +96,14 @@
       </article>
     </div>
   </section>
-  
+
+</div>
+<div zf-modal id="delete_project_modal" animation-in="slideInUp" animation-out="hingeOutFromMiddleY">
+  <a zf-close class="close-button">&times;</a>
+  <h2>Delete Project</h2>
+  <p>Are you sure you want to delete <b>{{project.data.name}}?</b></p>
+  <div class="button-bar">
+    <button role="button" type="button" class="alert button" ng-click="project.deleteProject(project.data.name)">Delete</button>
+    <button role="button" type="button" class="default button" zf-close>Cancel</button>
+  </div>
 </div>
