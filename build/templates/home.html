@@ -22,12 +22,7 @@
     <div class="header-logo">
       <div ng-include="'assets/images/ccs-logo-mock.svg'"></div>
     </div>
-    <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isAdmin">
-      <img src="" ng-src="{{home.authData.password.profileImageURL}}" alt="User profile avatar">
-    </div>
-    <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isUser">
-      <img src="assets/images/profile-avatar.png" alt="User profile avatar">
-    </div>
+    <profile-avatar user-auth="home.auth.password" avatar-class="header-avatar"></profile-avatar>
   </div>
   <div class="header-search-icon show-for-small-only">
     <a href="" ng-click="home.toggleMobileSearch()">
@@ -66,23 +61,18 @@
 <zf-panel id="nav_primary" position="left" zf-swipe-close="left">
   <div class="sidenav-user-box">
     <div class="sidenav-avatar-wrapper">
-      <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isAdmin">
-        <img src="" ng-src="{{home.authData.password.profileImageURL}}" alt="User profile avatar">
-      </div>
-      <div class="avatar header-avatar" title="Logged in as: {{home.authData.password.name}}" ng-if="home.isUser">
-        <img src="assets/images/profile-avatar.png" alt="User profile avatar">
-      </div>
+      <profile-avatar user-auth="home.auth.password" avatar-class="header-avatar"></profile-avatar>
       <a href="#" zf-close class="sidenav-close">
         <div ng-include="'assets/images/icon-arrow-white.svg'"></div>
       </a>
     </div>
-    <p class="user-name">{{home.authData.password.name}}</p>
-    <p class="user-email">{{home.authData.password.email}}</p>
+    <p class="user-name">{{home.userName}}</p>
+    <p class="user-email">{{home.auth.password.email}}</p>
   </div>
   <nav class="sidenav-primary">
     <ul class="no-bullet">
       <li>
-        <a href="/">Home</a>
+        <a href="" ui-sref="home">Home</a>
       </li>
       <li>
         <a href="" ui-sref="new-project">Start New Project</a>

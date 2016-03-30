@@ -8,23 +8,16 @@
     var pathId = $stateParams.id;
 
     var ref = new Firebase('https://ccs-web.firebaseio.com');
-    home.auth = AuthSvc;
-    home.isAdmin = false;
-    home.isUser = false;
 
-    home.authData = home.auth.$getAuth();
-    home.authData.password.name = '';
+    home.userName = '';
 
-    home.getUserDetails = function() {
-      if (home.authData.password.email === "mcastre3@gmail.com") {
-        home.authData.password.name = 'Martín Castre';
-        home.isAdmin = true;
-      } else if (home.authData.password.email === "armando@castre.net") {
-        home.authData.password.name = 'Armando Castre';
-        home.isUser = true;
-      }
-    };
-    home.getUserDetails();
+    home.auth = AuthSvc.$getAuth();
+
+    if (home.auth.password.email == 'mcastre3@gmail.com') {
+      home.userName = 'Martín Castre';
+    } else if (home.auth.password.email == 'armando@castre.net') {
+      home.userName = 'Armando Castre';
+    }
     home.search = {
       query: ''
     };

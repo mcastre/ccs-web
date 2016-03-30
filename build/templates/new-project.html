@@ -11,12 +11,7 @@
     <div class="header-logo">
       <div ng-include="'assets/images/ccs-logo-mock.svg'"></div>
     </div>
-    <div class="avatar header-avatar" title="Logged in as: {{wizard.authData.password.name}}" ng-if="wizard.isAdmin">
-      <img src="" ng-src="{{wizard.authData.password.profileImageURL}}" alt="User profile avatar">
-    </div>
-    <div class="avatar header-avatar" title="Logged in as: {{wizard.authData.password.name}}" ng-if="wizard.isUser">
-      <img src="assets/images/profile-avatar.png" alt="User profile avatar">
-    </div>
+    <profile-avatar user-auth="wizard.auth.password" avatar-class="header-avatar"></profile-avatar>
   </div>
   <div class="tabs-bar">
     <ul class="tabs-navigation">
@@ -33,18 +28,13 @@
 <zf-panel id="nav_primary" position="left" zf-swipe-close="left">
   <div class="sidenav-user-box">
     <div class="sidenav-avatar-wrapper">
-      <div class="avatar header-avatar" title="Logged in as: {{wizard.authData.password.name}}" ng-if="wizard.isAdmin">
-        <img src="" ng-src="{{wizard.authData.password.profileImageURL}}" alt="User profile avatar">
-      </div>
-      <div class="avatar header-avatar" title="Logged in as: {{project.authData.password.name}}" ng-if="wizard.isUser">
-        <img src="assets/images/profile-avatar.png" alt="User profile avatar">
-      </div>
+      <profile-avatar user-auth="wizard.auth.password" avatar-class="header-avatar"></profile-avatar>
       <a href="#" zf-close class="sidenav-close">
         <div ng-include="'assets/images/icon-arrow-white.svg'"></div>
       </a>
     </div>
-    <p class="user-name">{{wizard.authData.password.name}}</p>
-    <p class="user-email">{{wizard.authData.password.email}}</p>
+    <p class="user-name">{{wizard.userName}}</p>
+    <p class="user-email">{{wizard.auth.password.email}}</p>
   </div>
   <nav class="sidenav-primary">
     <ul class="no-bullet">

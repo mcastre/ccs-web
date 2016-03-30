@@ -198,23 +198,16 @@
     var pathId = $stateParams.id;
 
     var ref = new Firebase('https://ccs-web.firebaseio.com');
-    home.auth = AuthSvc;
-    home.isAdmin = false;
-    home.isUser = false;
 
-    home.authData = home.auth.$getAuth();
-    home.authData.password.name = '';
+    home.userName = '';
 
-    home.getUserDetails = function() {
-      if (home.authData.password.email === "mcastre3@gmail.com") {
-        home.authData.password.name = 'Martín Castre';
-        home.isAdmin = true;
-      } else if (home.authData.password.email === "armando@castre.net") {
-        home.authData.password.name = 'Armando Castre';
-        home.isUser = true;
-      }
-    };
-    home.getUserDetails();
+    home.auth = AuthSvc.$getAuth();
+
+    if (home.auth.password.email == 'mcastre3@gmail.com') {
+      home.userName = 'Martín Castre';
+    } else if (home.auth.password.email == 'armando@castre.net') {
+      home.userName = 'Armando Castre';
+    }
     home.search = {
       query: ''
     };
@@ -371,22 +364,15 @@
     var firebaseURIProjects = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
     var projectRef = new Firebase(firebaseURIProjects);
 
-    wizard.auth = AuthSvc;
-    wizard.authData = wizard.auth.$getAuth();
+    wizard.userName = '';
 
-    wizard.isAdmin = false;
-    wizard.isUser = false;
+    wizard.auth = AuthSvc.$getAuth();
 
-    wizard.getUserDetails = function() {
-      if (wizard.authData.password.email === "mcastre3@gmail.com") {
-        wizard.authData.password.name = 'Martín Castre';
-        wizard.isAdmin = true;
-      } else if (wizard.authData.password.email === "armando@castre.net") {
-        wizard.authData.password.name = 'Armando Castre';
-        wizard.isUser = true;
-      }
-    };
-    wizard.getUserDetails();
+    if (wizard.auth.password.email == 'mcastre3@gmail.com') {
+      wizard.userName = 'Martín Castre';
+    } else if (wizard.auth.password.email == 'armando@castre.net') {
+      wizard.userName = 'Armando Castre';
+    }
 
 
     wizard.allProjects = ProjectsSvc.getProjects();
