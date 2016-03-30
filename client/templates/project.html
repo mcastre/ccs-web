@@ -11,12 +11,7 @@
     <div class="header-logo">
       <div ng-include="'assets/images/ccs-logo-mock.svg'"></div>
     </div>
-    <div class="avatar header-avatar" title="Logged in as: Martín Castre" ng-if="project.isAdmin">
-      <img src="" ng-src="{{project.authData.password.profileImageURL}}" alt="User profile avatar">
-    </div>
-    <div class="avatar header-avatar" title="Logged in as: Armando Castre" ng-if="project.isUser">
-      <img src="assets/images/profile-avatar.png" alt="User profile avatar">
-    </div>
+    <profile-avatar user-auth="project.auth.password" avatar-class="header-avatar"></profile-avatar>
   </div>
   <div class="tabs-bar">
     <ul class="tabs-navigation">
