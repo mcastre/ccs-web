@@ -33,18 +33,13 @@
 <zf-panel id="nav_primary" position="left" zf-swipe-close="left">
   <div class="sidenav-user-box">
     <div class="sidenav-avatar-wrapper">
-      <div class="avatar header-avatar" title="Logged in as: {{project.authData.password.name}}" ng-if="project.isAdmin">
-        <img src="" ng-src="{{project.authData.password.profileImageURL}}" alt="User profile avatar">
-      </div>
-      <div class="avatar header-avatar" title="Logged in as: {{project.authData.password.name}}" ng-if="project.isUser">
-        <img src="assets/images/profile-avatar.png" alt="User profile avatar">
-      </div>
+      <profile-avatar user-auth="project.auth.password" avatar-class="header-avatar"></profile-avatar>
       <a href="#" zf-close class="sidenav-close">
         <div ng-include="'assets/images/icon-arrow-white.svg'"></div>
       </a>
     </div>
-    <p class="user-name">{{project.authData.password.name}}</p>
-    <p class="user-email">{{project.authData.password.email}}</p>
+    <p class="user-name">{{project.userName}}</p>
+    <p class="user-email">{{project.auth.password.email}}</p>
   </div>
   <nav class="sidenav-primary">
     <ul class="no-bullet">

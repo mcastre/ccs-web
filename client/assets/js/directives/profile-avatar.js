@@ -7,8 +7,7 @@ app.directive('profileAvatar', function() {
       avatarClass: '@'
     },
     templateUrl: 'templates/profile-avatar.html',
-    link: function(scope, element, attrs) {
-      console.log(scope.userAuth);
+    link: function(scope, element, attrs) {      
       scope.isAdmin = false;
       scope.isUser = false;
 

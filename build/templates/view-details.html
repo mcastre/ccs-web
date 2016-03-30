@@ -90,7 +90,7 @@
       <article class="note-wrapper" ng-repeat="note in project.notes">
         <profile-avatar user-auth="note.userAuth" avatar-class="note-avatar"></profile-avatar>
         <div class="note-text">
-          <span class="note-author">{{note.userAuth.email}} </span><small class="note-date">{{note.dateCreated | date:"MM/dd/yyyy 'at' h:mm a"}}</small>
+          <span class="note-author">{{note.userName}} </span><small class="note-date">{{note.dateCreated | date:"MM/dd/yyyy 'at' h:mm a"}}</small>
           <p class="note-body">{{note.noteBody}}</p>
         </div>
       </article>

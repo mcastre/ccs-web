@@ -13,7 +13,15 @@
     var firebaseURIProjects = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
     var projectRef = new Firebase(firebaseURIProjects);
 
+    project.userName = '';
+
     project.auth = AuthSvc.$getAuth();
+
+    if (project.auth.password.email == 'mcastre3@gmail.com') {
+      project.userName = 'Martín Castre';
+    } else if (project.auth.password.email == 'armando@castre.net') {
+      project.userName = 'Armando Castre';
+    }
 
     project.allProjects = ProjectsSvc.getProjects();
 
@@ -96,7 +104,8 @@
 
     project.newNote = {
       dateCreated: Date.now(),
-      userAuth: project.auth.password
+      userAuth: project.auth.password,
+      userName: project.userName
     };
     project.addNewNote = function() {
       ProjectsSvc.addNote(angular.copy(project.newNote), pathId);
