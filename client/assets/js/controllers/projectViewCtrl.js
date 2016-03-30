@@ -2,7 +2,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'AuthSvc', 'FoundationApi', '$state', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, AuthSvc, FoundationApi, $state) {
+  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'FoundationApi', '$state', 'LoginSvc', 'AuthSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, FoundationApi, $state, LoginSvc, AuthSvc) {
 
     var pathId = $stateParams.id;
 
@@ -13,22 +13,7 @@
     var firebaseURIProjects = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
     var projectRef = new Firebase(firebaseURIProjects);
 
-    project.auth = AuthSvc;
-    project.authData = project.auth.$getAuth();
-
-    project.isAdmin = false;
-    project.isUser = false;
-
-    project.getUserDetails = function() {
-      if (project.authData.password.email === "mcastre3@gmail.com") {
-        project.authData.password.name = 'Martín Castre';
-        project.isAdmin = true;
-      } else if (project.authData.password.email === "armando@castre.net") {
-        project.authData.password.name = 'Armando Castre';
-        project.isUser = true;
-      }
-    };
-    project.getUserDetails();
+    project.auth = AuthSvc.$getAuth();
 
     project.allProjects = ProjectsSvc.getProjects();
 
@@ -110,7 +95,8 @@
     });
 
     project.newNote = {
-      dateCreated: Date.now()
+      dateCreated: Date.now(),
+      userAuth: project.auth.password
     };
     project.addNewNote = function() {
       ProjectsSvc.addNote(angular.copy(project.newNote), pathId);
@@ -133,13 +119,7 @@
     };
 
     project.logout = function() {
-      project.auth.$unauth();
-      FoundationApi.publish('main-notifications', {
-        autoclose: 8000,
-        content: 'You have been successfully logged out.',
-        color: 'success'
-      });
-      $state.go('login');
+      return LoginSvc.logout();
     };
 
   }]);

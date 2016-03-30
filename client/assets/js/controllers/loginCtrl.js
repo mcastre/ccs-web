@@ -2,7 +2,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('LoginCtrl', ['$scope', '$firebaseAuth', 'FoundationApi', '$state', function(scope, $firebaseAuth, FoundationApi, $state) {
+  app.controller('LoginCtrl', ['$scope', '$firebaseAuth', 'FoundationApi', '$state', 'LoginSvc', function(scope, $firebaseAuth, FoundationApi, $state, LoginSvc) {
 
     var login = this;
     var ref = new Firebase('https://ccs-web.firebaseio.com');
@@ -10,16 +10,12 @@
     login.isAuthError = false;
     login.theError = '';
 
-    login.authData = ref.getAuth();
-
-    login.authHandler = function(error, authData) {
-      if (error) {
-        login.isAuthError = true;
-        console.log('User ' + authData + " is logged in.");
-      } else {
-        console.log('User logged out.');
+    auth.$onAuth(function(authData) {
+      if (authData) {
+        LoginSvc.setUser(authData);
+        $state.go('home');
       }
-    };
+    });
 
     login.credentials = {
       email: '',
@@ -28,16 +24,23 @@
 
 
     login.login = function(isValid) {
+      var username = login.credentials.email;
+      var password = login.credentials.password;
+
       if (isValid) {
-        auth.$authWithPassword(login.credentials, login.authHandler).then(function(authData) {
-          if (authData.password.email === "mcastre3@gmail.com") {
-            authData.password.name = 'Martín Castre';
-          } else if (authData.password.email === "armando@castre.net") {
-            authData.password.name = 'Armando Castre';
+        auth.$authWithPassword({
+          email: username,
+          password: password
+        }).then(function(user) {
+          if (username === "mcastre3@gmail.com") {
+            user.password.name = 'Martín Castre';
+          } else if (username === "armando@castre.net") {
+            user.password.name = 'Armando Castre';
           }
+          LoginSvc.setUser(user);
           FoundationApi.publish('main-notifications', {
             autoclose: 8000,
-            content: 'Login successful. Welcome ' + authData.password.name + '!',
+            content: 'Login successful. Welcome ' + user.password.name + '!',
             color: 'success'
           });
           $state.go('home');

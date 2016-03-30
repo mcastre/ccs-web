@@ -2,7 +2,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', '$state', 'AuthSvc', 'FoundationApi', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams, $state, AuthSvc, FoundationApi) {
+  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', '$state', 'AuthSvc', 'FoundationApi', 'LoginSvc', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams, $state, AuthSvc, FoundationApi, LoginSvc) {
 
     var home = this;
     var pathId = $stateParams.id;
@@ -42,14 +42,7 @@
     home.headingText = 'Project Dashboard';
 
     home.logout = function() {
-      console.log('logging out');
-      auth.$unauth();
-      FoundationApi.publish('main-notifications', {
-        autoclose: 8000,
-        content: 'You have been successfully logged out.',
-        color: 'success'
-      });
-      $state.go('login');
+      return LoginSvc.logout();
     };
 
 

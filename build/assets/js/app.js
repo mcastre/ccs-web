@@ -192,7 +192,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', '$state', 'AuthSvc', 'FoundationApi', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams, $state, AuthSvc, FoundationApi) {
+  app.controller('HomeCtrl', ['$scope', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', '$stateParams', '$state', 'AuthSvc', 'FoundationApi', 'LoginSvc', function(scope, ProjectsSvc, JobsSvc, ClientsSvc, $stateParams, $state, AuthSvc, FoundationApi, LoginSvc) {
 
     var home = this;
     var pathId = $stateParams.id;
@@ -232,14 +232,7 @@
     home.headingText = 'Project Dashboard';
 
     home.logout = function() {
-      console.log('logging out');
-      auth.$unauth();
-      FoundationApi.publish('main-notifications', {
-        autoclose: 8000,
-        content: 'You have been successfully logged out.',
-        color: 'success'
-      });
-      $state.go('login');
+      return LoginSvc.logout();
     };
 
 
@@ -293,7 +286,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('LoginCtrl', ['$scope', '$firebaseAuth', 'FoundationApi', '$state', function(scope, $firebaseAuth, FoundationApi, $state) {
+  app.controller('LoginCtrl', ['$scope', '$firebaseAuth', 'FoundationApi', '$state', 'LoginSvc', function(scope, $firebaseAuth, FoundationApi, $state, LoginSvc) {
 
     var login = this;
     var ref = new Firebase('https://ccs-web.firebaseio.com');
@@ -301,16 +294,12 @@
     login.isAuthError = false;
     login.theError = '';
 
-    login.authData = ref.getAuth();
-
-    login.authHandler = function(error, authData) {
-      if (error) {
-        login.isAuthError = true;
-        console.log('User ' + authData + " is logged in.");
-      } else {
-        console.log('User logged out.');
+    auth.$onAuth(function(authData) {
+      if (authData) {
+        LoginSvc.setUser(authData);
+        $state.go('home');
       }
-    };
+    });
 
     login.credentials = {
       email: '',
@@ -319,16 +308,23 @@
 
 
     login.login = function(isValid) {
+      var username = login.credentials.email;
+      var password = login.credentials.password;
+
       if (isValid) {
-        auth.$authWithPassword(login.credentials, login.authHandler).then(function(authData) {
-          if (authData.password.email === "mcastre3@gmail.com") {
-            authData.password.name = 'Martín Castre';
-          } else if (authData.password.email === "armando@castre.net") {
-            authData.password.name = 'Armando Castre';
+        auth.$authWithPassword({
+          email: username,
+          password: password
+        }).then(function(user) {
+          if (username === "mcastre3@gmail.com") {
+            user.password.name = 'Martín Castre';
+          } else if (username === "armando@castre.net") {
+            user.password.name = 'Armando Castre';
           }
+          LoginSvc.setUser(user);
           FoundationApi.publish('main-notifications', {
             autoclose: 8000,
-            content: 'Login successful. Welcome ' + authData.password.name + '!',
+            content: 'Login successful. Welcome ' + user.password.name + '!',
             color: 'success'
           });
           $state.go('home');
@@ -477,7 +473,7 @@
   'use strict';
 
   var app = angular.module('application');
-  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'AuthSvc', 'FoundationApi', '$state', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, AuthSvc, FoundationApi, $state) {
+  app.controller('ProjectViewCtrl', ['$scope', '$stateParams', '$firebaseObject', 'ProjectsSvc', 'JobsSvc', 'ClientsSvc', 'FoundationApi', '$state', 'LoginSvc', 'AuthSvc', function(scope, $stateParams, $firebaseObject, ProjectsSvc, JobsSvc, ClientsSvc, FoundationApi, $state, LoginSvc, AuthSvc) {
 
     var pathId = $stateParams.id;
 
@@ -488,22 +484,7 @@
     var firebaseURIProjects = 'https://ccs-web.firebaseio.com/Projects/' + pathId;
     var projectRef = new Firebase(firebaseURIProjects);
 
-    project.auth = AuthSvc;
-    project.authData = project.auth.$getAuth();
-
-    project.isAdmin = false;
-    project.isUser = false;
-
-    project.getUserDetails = function() {
-      if (project.authData.password.email === "mcastre3@gmail.com") {
-        project.authData.password.name = 'Martín Castre';
-        project.isAdmin = true;
-      } else if (project.authData.password.email === "armando@castre.net") {
-        project.authData.password.name = 'Armando Castre';
-        project.isUser = true;
-      }
-    };
-    project.getUserDetails();
+    project.auth = AuthSvc.$getAuth();
 
     project.allProjects = ProjectsSvc.getProjects();
 
@@ -585,7 +566,8 @@
     });
 
     project.newNote = {
-      dateCreated: Date.now()
+      dateCreated: Date.now(),
+      userAuth: project.auth.password
     };
     project.addNewNote = function() {
       ProjectsSvc.addNote(angular.copy(project.newNote), pathId);
@@ -608,13 +590,7 @@
     };
 
     project.logout = function() {
-      project.auth.$unauth();
-      FoundationApi.publish('main-notifications', {
-        autoclose: 8000,
-        content: 'You have been successfully logged out.',
-        color: 'success'
-      });
-      $state.go('login');
+      return LoginSvc.logout();
     };
 
   }]);
@@ -645,6 +621,32 @@ app.directive('estimatesTable', ['RoomsSvc', function(RoomsSvc) {
     }
   }
 }]);
+
+var app = angular.module('application');
+app.directive('profileAvatar', function() {
+  return {
+    restrict: 'E',
+    scope: {
+      userAuth: '=',
+      avatarClass: '@'
+    },
+    templateUrl: 'templates/profile-avatar.html',
+    link: function(scope, element, attrs) {
+      console.log(scope.userAuth);
+      scope.isAdmin = false;
+      scope.isUser = false;
+
+      if (scope.userAuth.email == 'mcastre3@gmail.com') {
+        scope.isAdmin = true;
+        scope.userName = 'Martín Castre';
+      } else if (scope.userAuth.email == 'armando@castre.net') {
+        scope.isUser = true;
+        scope.userName = 'Armando Castre';
+      }
+
+    }
+  }
+});
 
 (function() {
   'use strict';
@@ -762,6 +764,50 @@ app.directive('estimatesTable', ['RoomsSvc', function(RoomsSvc) {
       getJobs: getJobs,
       addJob: addJob
     }
+  }]);
+
+})();
+
+(function() {
+  'use strict';
+
+  var app = angular.module('application');
+  app.factory('LoginSvc', ['$firebaseAuth', '$state', function LoginSvc($firebaseAuth, $state) {
+
+    var user = {};
+    var root = new Firebase('https://ccs-web.firebaseio.com');
+    var ref = $firebaseAuth(root); // create new array
+
+    var getUser = function() {
+      if (user == {}) {
+        user = localStorage.getItem('userEmail');        
+
+        if (user.password.email === "mcastre3@gmail.com") {
+          return 'Martín Castre';
+        } else if (user.password.email === "armando@castre.net") {
+          return 'Armando Castre';
+        }
+
+      }
+      return user;
+    };
+    var setUser = function(value) {
+      localStorage.setItem('userEmail', value);
+      user = value;
+    };
+    var logout = function() {
+      ref.$unauth();
+      user = {};
+      localStorage.removeItem('userEmail');
+      console.log('Log out successful');
+      $state.go('login');
+    };
+
+    return {
+      getUser: getUser,
+      setUser: setUser,
+      logout: logout
+    };
   }]);
 
 })();
