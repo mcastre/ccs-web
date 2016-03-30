@@ -44,7 +44,7 @@ animationOut: fadeOut
       <article class="card">
         <div class="card-divider">
           <h3 class="card-title"><a href="#" ui-sref="project({id: project.$id})">{{project.name}}</a></h3>
-          <a href="#" role="button" class="badge" title="Status: {{project.status}}" ng-class="{'': project.status === 'In Progress', 'alert': project.status === 'Awaiting Client'}">
+          <a href="#" role="button" class="badge" title="Status: {{project.status}}" ng-class="{'': project.status === 'In Progress', 'alert': project.status === 'Awaiting Client', 'success': project.status === 'Completed'}">
           </a>
         </div>
         <div class="card-section">

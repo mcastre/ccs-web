@@ -34,6 +34,7 @@
           <div class="small-12 medium-8 large-9 grid-content">
             <input type="radio" name="project_status1" value="In Progress" id="project_status1" ng-model="wizard.build.status"><label for="project_status1" class="label-soft">In Progress</label>
             <input type="radio" name="project_status2" value="Awaiting Client" id="project_status2" ng-model="wizard.build.status"><label for="project_status2" class="label-soft">Awaiting Client</label>
+            <input type="radio" name="project_status3" value="Completed" id="project_status3" ng-model="wizard.build.status"><label for="project_status3" class="label-soft">Completed</label>
           </div>
         </div><!-- /.grid-block -->
         <div class="grid-block form-section">
@@ -99,7 +100,7 @@
         <div class="grid-block form-section">
           <button role="button" type="button" class="button build-form-submit" ng-class="{'disabled': buildProject.$invalid}" ng-click="wizard.buildProjectDetails(buildProject.$valid)">Submit</button><span class="form-cancel"><a href="">Cancel </a></span>
         </div>
-      </form>      
+      </form>
     </div>
   </section>
 </div>

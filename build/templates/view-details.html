@@ -45,13 +45,14 @@
         <dt>Date Created</dt>
         <dd>{{project.data.dateCreated | date:"MM/dd/yyyy 'at' h:mm a"}}</dd>
         <dt>Status</dt>
-        <dd ng-if="!project.isEditModeStatus">{{project.data.status}} <span class="badge" ng-class="{'': project.data.status === 'In Progress', 'alert': project.data.status === 'Awaiting Client'}"></span>
+        <dd ng-if="!project.isEditModeStatus">{{project.data.status}} <span class="badge" ng-class="{'': project.data.status === 'In Progress', 'alert': project.data.status === 'Awaiting Client', 'success': project.data.status === 'Completed'}"></span>
           <a href="" ng-click="project.toggleEditStatus()" class="edit-toggle-btn"><span ng-include="'assets/images/icon-edit.svg'" class="edit-icon"></span> Edit</a>
         </dd>
         <dd ng-if="project.isEditModeStatus">
           <ng-form>
             <input type="radio" name="project_status1" value="In Progress" id="project_status1" ng-model="project.data.status"><label for="project_status1" class="label-soft">In Progress</label>
             <input type="radio" name="project_status2" value="Awaiting Client" id="project_status2" ng-model="project.data.status"><label for="project_status2" class="label-soft">Awaiting Client</label>
+            <input type="radio" name="project_status3" value="Completed" id="project_status3" ng-model="project.data.status"><label for="project_status3" class="label-soft">Completed</label>
             <div class="grid-block">
               <div class="large-8 grid-content">
                 <button role="button" type="button" class="button update-button" ng-click="project.updateStatus(project.data.status, 'status')">Update Status</button>
@@ -69,7 +70,7 @@
           </dl>
         </dd>
       </dl>
-      <div class="grid-content">
+      <div class="grid-content hide-for-small-only">
         <button role="button" type="button" class="alert button delete-project-button" zf-open="delete_project_modal">Delete This Project</button>
       </div>
     </div>
@@ -94,6 +95,9 @@
           <p class="note-body">{{note.noteBody}}</p>
         </div>
       </article>
+    </div>
+    <div class="small-12 grid-content show-for-small-only">
+      <button role="button" type="button" class="alert button button-block delete-project-button" zf-open="delete_project_modal">Delete This Project</button>
     </div>
   </section>
 

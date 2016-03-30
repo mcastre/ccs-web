@@ -35,7 +35,9 @@
   margin-left: 2rem;
 }
 .delete-project-button {
-  margin-left: 160px; // Aligns with <dd> element
+  @include breakpoint(medium) {
+    margin-left: 160px; // Aligns with <dd> element  
+  }
 }
 .sidebar-button {
   width: 100%;
