@@ -23,7 +23,7 @@
   <tfoot>
     <tr>
       <td>
-        <a href="" ng-click="addRoomToggle()">Add Room</a>
+        <a href="" role="button" ng-click="addRoomToggle()">Add Room</a>
       </td>
     </tr>
   </tfoot>
@@ -47,13 +47,14 @@
   <span ng-if="!toggleEditEstimates">Edit Estimate</span>
   <span ng-if="toggleEditEstimates">Finished Editing</span>
 </button>
+<button class="button" ng-click="saveEstimate(selectedElements)">Save Estimate</button>
 </div>
 <div class="show-for-small-only">
   <zf-accordion>
-    <zf-accordion-item title="{{col}}" ng-repeat="col in columns">
+    <zf-accordion-item title="{{row}}" ng-repeat="row in rows">
       <ul class="touch-switch-list">
-        <li ng-repeat="row in rows" class="switch-list-row">
-          <span class="switch-title">{{row.name}}</span>
+        <li ng-repeat="col in cols" class="switch-list-row">
+          <span class="switch-title">{{col.name}}</span>
           <span class="switch-wrapper">
             <div class="switch tiny">
               <input class="switch-input" id="switch_{{row.name}}_{{$index + 1}}_{{$index + 1}}" type="checkbox" name="switch_{{row.name}}_{{$index + 1}}_{{$index + 1}}" ng-model="selectedElements[row.name][col.name]">

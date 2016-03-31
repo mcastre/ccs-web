@@ -111,15 +111,16 @@
     // ==================
 
     var pathId = $stateParams.id;
-
-    var projectRef = new Firebase('https://ccs-web.firebaseio.com/Projects/' + pathId + '/Jobs');
-    var jobsRef = new Firebase('https://ccs-web.firebaseio.com/Jobs');
+    var root = new Firebase('https://ccs-web.firebaseio.com');
+    var projectRef = root.child('Projects').child(pathId).child('Jobs');
+    var jobsRef = root.child('Jobs');
 
     estimates.allJobs = {};
     projectRef.on('child_added', function(snap) {
       var jobId = snap.key();
       jobsRef.child(jobId).on('value', function(snap) {
         estimates.allJobs[jobId] = snap.val();
+        estimates.accordionEstimateData = estimates.allJobs[jobId];
       })
     });
 
@@ -164,15 +165,20 @@
 
     estimates.getId = function(id) {
       estimates.jobIdForEstimate = id;
-      var estimateRef = jobsRef.child(id).child('Estimate');
+      var estimateRef = jobsRef.child(estimates.jobIdForEstimate).child('Estimate');
       estimates.getEstimate = $firebaseObject(estimateRef);
     };
 
     estimates.addEstimate = function(name) {
       jobsRef.child(name).child('Estimate').set(estimates.project, function() {
-        console.log('Set.');
+        FoundationApi.publish('main-notifications', {
+          autoclose: 8000,
+          content: 'Estimate has been added.',
+          color: 'success'
+        });
       });
     };
+
     estimates.saveEstimate = function() {
       estimates.getEstimate.$save().then(function() {
         FoundationApi.publish('main-notifications', {
@@ -593,24 +599,42 @@
 })();
 
 var app = angular.module('application');
-app.directive('estimatesTable', ['RoomsSvc', function(RoomsSvc) {
+app.directive('estimatesTable', ['RoomsSvc', '$firebaseArray', function(RoomsSvc, $firebaseArray) {
   return {
     restrict: 'E',
     scope: {
       rows: '=',
       columns: '=',
       selectedElements: '=',
-      tableTitle: '='
+      tableTitle: '=',
+      accordionData: '='
     },
     templateUrl: 'templates/estimates-table.html',
     link: function(scope, elem, attrs) {
+      var roomsRef = new Firebase('https://ccs-web.firebaseio.com/Rooms');
+      var rooms = $firebaseArray(roomsRef);
+      
+      console.log(scope.accordionData);
+
+      scope.saveEstimate = function(val) {
+        scope.accordionData.$save(val).then(function() {
+          console.log('saved estimate', scope.accordionData);
+        });
+      };
+
       RoomsSvc.buildRooms(scope.rows, scope.columns);
       scope.roomToggle = false;
       scope.addRoomToggle = function() {
         scope.roomToggle = !scope.roomToggle;
       };
       scope.addRoom = function(room) {
-        scope.rows.push({ 'name': room.name, 'id': scope.rows.length});
+        rooms.$add({
+          'id': scope.rows.length,
+          'name': room.name,
+          'isSelected': false
+        }).then(function(ref) {
+          var roomId = ref.key();
+        });
         RoomsSvc.buildRooms(scope.rows, scope.columns);
       };
     }
@@ -875,112 +899,84 @@ app.directive('profileAvatar', function() {
   'use strict';
 
   var app = angular.module('application');
-  app.factory('RoomsSvc', function RoomsSvc() {
+  app.factory('RoomsSvc', ['$firebaseArray', function RoomsSvc($firebaseArray) {
 
-  function buildRooms(rows, cols) {    
-    angular.forEach(rows, function(row) {
-      row.elements = [];
-      angular.forEach(cols, function(col) {
-        row.elements.push({name: col, isSelected: false});
+    var roomsRef = new Firebase('https://ccs-web.firebaseio.com/Rooms');
+    var rows = $firebaseArray(roomsRef);
+
+    function buildRooms(rows, cols) {
+      angular.forEach(rows, function(row) {
+        row.elements = [];
+        angular.forEach(cols, function(col) {
+          row.elements.push({name: col, isSelected: false});
+        });
       });
-    });
-  };
-  var cols = [
-   "Walls",
-   "Ceiling",
-   "Doors",
-   "Crown",
-   "Windows",
-   "Cabinets",
-   "Other"
- ];
- var rows = [
-    {
-      "id": 0,
-      "name": "Foyer",
-      "isSelected": false
-    },
-    {
-      "id": 1,
-      "name": "Living",
-      "isSelected": false
-    },
-    {
-      "id": 2,
-      "name": "Dining",
-      "isSelected": false
-    },
-    {
-      "id": 3,
-      "name": "Hallway",
-      "isSelected": false
-    },
-    {
-      "id": 4,
-      "name": "Bedroom",
-      "isSelected": false
-    },
-    {
-      "id": 5,
-      "name": "Bathroom",
-      "isSelected": false
-    }
-  ];
-  var exteriorSides = [
-    "Side 1",
-    "Side 2",
-    "Side 3",
-    "Side 4",
-    "Other"
-  ];
-  var exteriorSections = [
-    {
-      "id": 6,
-      "name": "Siding",
-      "isSelected": false
-    },
-    {
-      "id": 7,
-      "name": "Windows",
-      "isSelected": false
-    },
-    {
-      "id": 8,
-      "name": "Trim",
-      "isSelected": false
-    },
-    {
-      "id": 9,
-      "name": "Doors",
-      "isSelected": false
-    },
-    {
-      "id": 10,
-      "name": "Other",
-      "isSelected": false
-    }
- ];
+    };
+    var cols = [
+     "Walls",
+     "Ceiling",
+     "Doors",
+     "Crown",
+     "Windows",
+     "Cabinets",
+     "Other"
+   ];
 
-  var getColumns = function() {
-    return cols;
-  };
-  var getRows = function() {
-    return rows;
-  };
-  var getExteriorSides = function() {
-    return exteriorSides;
-  };
-  var getExteriorSections = function() {
-    return exteriorSections;
-  };
-  return {
-    getColumns: getColumns,
-    getRows: getRows,
-    getExteriorSides: getExteriorSides,
-    getExteriorSections: getExteriorSections,
-    buildRooms: buildRooms
-  }
-  });
+    var exteriorSides = [
+      "Side 1",
+      "Side 2",
+      "Side 3",
+      "Side 4",
+      "Other"
+    ];
+    var exteriorSections = [
+      {
+        "id": 6,
+        "name": "Siding",
+        "isSelected": false
+      },
+      {
+        "id": 7,
+        "name": "Windows",
+        "isSelected": false
+      },
+      {
+        "id": 8,
+        "name": "Trim",
+        "isSelected": false
+      },
+      {
+        "id": 9,
+        "name": "Doors",
+        "isSelected": false
+      },
+      {
+        "id": 10,
+        "name": "Other",
+        "isSelected": false
+      }
+   ];
+
+    var getColumns = function() {
+      return cols;
+    };
+    var getRows = function() {
+      return rows;
+    };
+    var getExteriorSides = function() {
+      return exteriorSides;
+    };
+    var getExteriorSections = function() {
+      return exteriorSections;
+    };
+    return {
+      getColumns: getColumns,
+      getRows: getRows,
+      getExteriorSides: getExteriorSides,
+      getExteriorSections: getExteriorSections,
+      buildRooms: buildRooms
+    }
+  }]);
 
 })();
 
