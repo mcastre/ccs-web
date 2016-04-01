@@ -7,20 +7,13 @@ app.directive('estimatesTable', ['RoomsSvc', '$firebaseArray', function(RoomsSvc
       columns: '=',
       selectedElements: '=',
       tableTitle: '=',
-      accordionData: '='
+      accordionData: '=',
+      isExteriorTable: '@'
     },
     templateUrl: 'templates/estimates-table.html',
     link: function(scope, elem, attrs) {
       var roomsRef = new Firebase('https://ccs-web.firebaseio.com/Rooms');
       var rooms = $firebaseArray(roomsRef);
-      
-      console.log(scope.accordionData);
-
-      scope.saveEstimate = function(val) {
-        scope.accordionData.$save(val).then(function() {
-          console.log('saved estimate', scope.accordionData);
-        });
-      };
 
       RoomsSvc.buildRooms(scope.rows, scope.columns);
       scope.roomToggle = false;

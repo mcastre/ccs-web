@@ -6911,7 +6911,8 @@ thead th {
   font-size: 0.875rem; }
 
 thead th:first-child {
-  text-align: left; }
+  text-align: left;
+  min-width: 7rem; }
 
 tbody tr {
   border-top: 1px solid #f0f0f0;
@@ -7113,6 +7114,15 @@ textarea {
 
 .login-form ::-webkit-input-placeholder {
   color: rgba(255, 255, 255, 0.2); }
+
+.table-input-field {
+  text-align: right; }
+  .table-input-field > input {
+    margin-bottom: 0;
+    max-width: 4rem;
+    float: right; }
+  .table-input-field label {
+    margin: 0; }
 
 label {
   font-weight: 700;

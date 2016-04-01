@@ -169,7 +169,7 @@
       estimates.getEstimate = $firebaseObject(estimateRef);
     };
 
-    estimates.addEstimate = function(name) {
+    estimates.addEstimate = function(name) {      
       jobsRef.child(name).child('Estimate').set(estimates.project, function() {
         FoundationApi.publish('main-notifications', {
           autoclose: 8000,
@@ -607,20 +607,13 @@ app.directive('estimatesTable', ['RoomsSvc', '$firebaseArray', function(RoomsSvc
       columns: '=',
       selectedElements: '=',
       tableTitle: '=',
-      accordionData: '='
+      accordionData: '=',
+      isExteriorTable: '@'
     },
     templateUrl: 'templates/estimates-table.html',
     link: function(scope, elem, attrs) {
       var roomsRef = new Firebase('https://ccs-web.firebaseio.com/Rooms');
       var rooms = $firebaseArray(roomsRef);
-      
-      console.log(scope.accordionData);
-
-      scope.saveEstimate = function(val) {
-        scope.accordionData.$save(val).then(function() {
-          console.log('saved estimate', scope.accordionData);
-        });
-      };
 
       RoomsSvc.buildRooms(scope.rows, scope.columns);
       scope.roomToggle = false;
@@ -923,36 +916,49 @@ app.directive('profileAvatar', function() {
    ];
 
     var exteriorSides = [
-      "Side 1",
-      "Side 2",
-      "Side 3",
-      "Side 4",
-      "Other"
+      "Doors (no)",
+      "Windows (no)",
+      "Shutters (no)",
+      "Siding (ft)",
+      "Brick (ft)",
+      "Railing (ft)",
+      "Deck (ft)",
+      "Extra"
     ];
     var exteriorSections = [
       {
         "id": 6,
-        "name": "Siding",
+        "name": "Front",
         "isSelected": false
       },
       {
         "id": 7,
-        "name": "Windows",
+        "name": "Side 1",
         "isSelected": false
       },
       {
         "id": 8,
-        "name": "Trim",
+        "name": "Side 2",
         "isSelected": false
       },
       {
         "id": 9,
-        "name": "Doors",
+        "name": "Side 3",
         "isSelected": false
       },
       {
         "id": 10,
-        "name": "Other",
+        "name": "Side 4",
+        "isSelected": false
+      },
+      {
+        "id": 11,
+        "name": "Side",
+        "isSelected": false
+      },
+      {
+        "id": 12,
+        "name": "Side",
         "isSelected": false
       }
    ];

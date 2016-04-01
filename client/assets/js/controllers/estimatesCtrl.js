@@ -68,7 +68,7 @@
       estimates.getEstimate = $firebaseObject(estimateRef);
     };
 
-    estimates.addEstimate = function(name) {
+    estimates.addEstimate = function(name) {      
       jobsRef.child(name).child('Estimate').set(estimates.project, function() {
         FoundationApi.publish('main-notifications', {
           autoclose: 8000,

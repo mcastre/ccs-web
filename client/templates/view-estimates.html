@@ -22,8 +22,8 @@
       </div>
       <div class="large-12 grid-block" ng-if="estimates.jobDetails">
         <div ng-include="estimates.currentTab" class="expand-element"></div>
-        <!-- <button class="button" ng-click="estimates.addEstimate(estimates.jobIdForEstimate)" ng-if="!estimates.getEstimate.Interior || !estimates.getEstimate.Exterior">Add Estimate</button> -->
-        <!-- <button class="button" ng-click="estimates.saveEstimate()" ng-if="estimates.getEstimate.Interior || estimates.getEstimate.Exterior">Save Estimate</button> -->
+        <button class="button" ng-click="estimates.addEstimate(estimates.jobIdForEstimate)" ng-if="!estimates.getEstimate.Interior || !estimates.getEstimate.Exterior">Add Estimate</button>
+        <button class="button" ng-click="estimates.saveEstimate()" ng-if="estimates.getEstimate.Interior || estimates.getEstimate.Exterior">Save Estimate</button>
       </div>
     </div>
   </section>
@@ -53,6 +53,7 @@
     selected-elements="estimates.project.Exterior"
     table-title="estimates.jobDetails.name"
     accordion-data="estimates.getEstimate"
+    is-exterior-table="true"
     ng-if="!estimates.getEstimate.Exterior">
   </estimates-table>
   <estimates-table
@@ -61,6 +62,7 @@
     selected-elements="estimates.getEstimate.Exterior"
     table-title="estimates.jobDetails.name"
     accordion-data="estimates.getEstimate"
+    is-exterior-table="true"
     ng-if="estimates.getEstimate.Exterior">
   </estimates-table>
 </script>

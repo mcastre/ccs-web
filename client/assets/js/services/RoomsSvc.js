@@ -26,36 +26,49 @@
    ];
 
     var exteriorSides = [
-      "Side 1",
-      "Side 2",
-      "Side 3",
-      "Side 4",
-      "Other"
+      "Doors (no)",
+      "Windows (no)",
+      "Shutters (no)",
+      "Siding (ft)",
+      "Brick (ft)",
+      "Railing (ft)",
+      "Deck (ft)",
+      "Extra"
     ];
     var exteriorSections = [
       {
         "id": 6,
-        "name": "Siding",
+        "name": "Front",
         "isSelected": false
       },
       {
         "id": 7,
-        "name": "Windows",
+        "name": "Side 1",
         "isSelected": false
       },
       {
         "id": 8,
-        "name": "Trim",
+        "name": "Side 2",
         "isSelected": false
       },
       {
         "id": 9,
-        "name": "Doors",
+        "name": "Side 3",
         "isSelected": false
       },
       {
         "id": 10,
-        "name": "Other",
+        "name": "Side 4",
+        "isSelected": false
+      },
+      {
+        "id": 11,
+        "name": "Side",
+        "isSelected": false
+      },
+      {
+        "id": 12,
+        "name": "Side",
         "isSelected": false
       }
    ];
