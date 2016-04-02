@@ -205,6 +205,15 @@
 
     var ref = new Firebase('https://ccs-web.firebaseio.com');
 
+    AuthSvc.$onAuth(function(authData) {
+      if (authData) {
+        console.log('Logged in', authData);
+      } else {
+        console.log('Logged out');
+        $state.go('login');
+      }
+    });
+
     home.userName = '';
 
     home.auth = AuthSvc.$getAuth();
