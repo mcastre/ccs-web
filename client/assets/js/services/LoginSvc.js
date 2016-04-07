@@ -10,7 +10,14 @@
 
     var getUser = function() {
       if (user == {}) {
-        user = localStorage.getItem('userEmail');        
+        if (typeof localStorage === 'object') {
+          try {
+            user = localStorage.getItem('userEmail');
+          } catch(e) {
+            Storage.prototype._setItem = Storage.prototype.setItem;
+            Storage.prototype.setItem = function() {};
+          }
+        }
 
         if (user.password.email === "mcastre3@gmail.com") {
           return 'Martín Castre';
@@ -22,14 +29,27 @@
       return user;
     };
     var setUser = function(value) {
-      localStorage.setItem('userEmail', value);
+      if (typeof localStorage === 'object') {
+        try {
+          localStorage.setItem('userEmail', value);
+        } catch(e) {
+          Storage.prototype._setItem = Storage.prototype.setItem;
+          Storage.prototype.setItem = function() {};
+        }
+      }
       user = value;
     };
     var logout = function() {
       ref.$unauth();
       user = {};
-      localStorage.removeItem('userEmail');
-      console.log('Log out successful');
+      if (typeof localStorage === 'object') {
+        try {
+          localStorage.removeItem('userEmail');
+        } catch(e) {
+          Storage.prototype._setItem = Storage.prototype.setItem;
+          Storage.prototype.setItem = function() {};
+        }
+      }
       $state.go('login');
     };
 
