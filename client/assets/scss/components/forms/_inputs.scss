@@ -94,3 +94,14 @@ textarea {
      color: rgba(white, 0.2);
   }
 }
+.table-input-field {
+  text-align: right;
+  > input {
+    margin-bottom: 0;
+    max-width: 4rem;
+    float: right;
+  }
+  label {
+    margin: 0;
+  }
+}

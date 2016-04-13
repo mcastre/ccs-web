@@ -1,22 +1,33 @@
 var app = angular.module('application');
-app.directive('estimatesTable', ['RoomsSvc', function(RoomsSvc) {
+app.directive('estimatesTable', ['RoomsSvc', '$firebaseArray', function(RoomsSvc, $firebaseArray) {
   return {
     restrict: 'E',
     scope: {
       rows: '=',
       columns: '=',
       selectedElements: '=',
-      tableTitle: '='
+      tableTitle: '=',
+      accordionData: '=',
+      isExteriorTable: '@'
     },
     templateUrl: 'templates/estimates-table.html',
     link: function(scope, elem, attrs) {
+      var roomsRef = new Firebase('https://ccs-web.firebaseio.com/Rooms');
+      var rooms = $firebaseArray(roomsRef);
+
       RoomsSvc.buildRooms(scope.rows, scope.columns);
       scope.roomToggle = false;
       scope.addRoomToggle = function() {
         scope.roomToggle = !scope.roomToggle;
       };
       scope.addRoom = function(room) {
-        scope.rows.push({ 'name': room.name, 'id': scope.rows.length});
+        rooms.$add({
+          'id': scope.rows.length,
+          'name': room.name,
+          'isSelected': false
+        }).then(function(ref) {
+          var roomId = ref.key();
+        });
         RoomsSvc.buildRooms(scope.rows, scope.columns);
       };
     }

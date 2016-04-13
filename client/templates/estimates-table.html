@@ -11,19 +11,26 @@
     <tr ng-repeat="row in rows">
       <td>{{row.name}}</td>
       <td ng-repeat="element in row.elements">
-        <div class="switch tiny">
+        <div class="switch tiny" ng-if="!isExteriorTable">
           <input class="switch-input" id="switch_{{row.name}}_{{$index + 1}}" type="checkbox" name="switch_{{row.name}}_{{$index + 1}}" ng-model="selectedElements[row.name][element.name]">
           <label class="switch-paddle" for="switch_{{row.name}}_{{$index + 1}}">
             <span class="show-for-sr">Check {{key.name}}</span>
           </label>
         </div>
+        <div class="table-input-field" ng-if="isExteriorTable && toggleEditEstimates">
+          <input type="number" id="number_{{row.name}}_{{$index + 1}}" name="number_{{row.name}}_{{$index + 1}}" ng-model="selectedElements[row.name][element.name]">
+          <label>
+            <span class="show-for-sr">Enter number</span>
+          </label>
+        </div>
+        <div class="table-input-field" ng-if="isExteriorTable && !toggleEditEstimates">{{selectedElements[row.name][element.name]}}</div>
       </td>
     </tr>
   </tbody>
   <tfoot>
-    <tr>
+    <tr ng-hide="isExteriorTable">
       <td>
-        <a href="" ng-click="addRoomToggle()">Add Room</a>
+        <a href="" role="button" ng-click="addRoomToggle()">Add Room</a>
       </td>
     </tr>
   </tfoot>
@@ -49,12 +56,12 @@
 </button>
 </div>
 <div class="show-for-small-only">
-  <zf-accordion>
-    <zf-accordion-item title="{{col}}" ng-repeat="col in columns">
+  <zf-accordion ng-if="!isExteriorTable">
+    <zf-accordion-item title="{{val.name}}" ng-repeat="(key, val) in rows">
       <ul class="touch-switch-list">
-        <li ng-repeat="row in rows" class="switch-list-row">
-          <span class="switch-title">{{row.name}}</span>
-          <span class="switch-wrapper">
+        <li ng-repeat="area in val.elements" class="switch-list-row">
+          <span class="switch-title">{{area.name}}</span>
+          <span class="switch-wrapper">            
             <div class="switch tiny">
               <input class="switch-input" id="switch_{{row.name}}_{{$index + 1}}_{{$index + 1}}" type="checkbox" name="switch_{{row.name}}_{{$index + 1}}_{{$index + 1}}" ng-model="selectedElements[row.name][col.name]">
               <label class="switch-paddle" for="switch_{{row.name}}_{{$index + 1}}_{{$index + 1}}">
